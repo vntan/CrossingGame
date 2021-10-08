@@ -13,7 +13,4 @@ int main() {
 		while (!_kbhit()) {}
 		cout << ConsoleHelper::getConsoleUtilities()->getKey() << endl;
 	}
-	
-	
-
 }
