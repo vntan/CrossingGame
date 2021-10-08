@@ -6,19 +6,17 @@
 class ConsoleHelper
 {
 private:
-	static ConsoleHelper* console;
+	static ConsoleHelper* consoleUtilities;
 
 	const int maxScreenX = 130;
 	const int maxScreenY = 29;
 
 private:
 	ConsoleHelper() {};
-	~ConsoleHelper() { 
-		delete console;
-		console = nullptr;
-	};
+	~ConsoleHelper();
+
 public:
-	static ConsoleHelper* getConsole();
+	static ConsoleHelper* getConsoleUtilities();
 
 	int getKey();
 

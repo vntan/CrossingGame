@@ -1,10 +1,15 @@
 #include "ConsoleHelper.h"
 
-ConsoleHelper* ConsoleHelper::console = nullptr;
+ConsoleHelper* ConsoleHelper::consoleUtilities = nullptr;
 
-ConsoleHelper* ConsoleHelper::getConsole() {
-	if (console == nullptr) console = new ConsoleHelper();
-	return console;
+ConsoleHelper* ConsoleHelper::getConsoleUtilities() {
+	if (consoleUtilities == nullptr) consoleUtilities = new ConsoleHelper();
+	return consoleUtilities;
+}
+
+ConsoleHelper::~ConsoleHelper() {
+	delete consoleUtilities;
+	consoleUtilities = nullptr;
 }
 
 int ConsoleHelper::getKey()
