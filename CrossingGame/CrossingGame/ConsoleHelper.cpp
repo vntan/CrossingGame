@@ -7,6 +7,10 @@ ConsoleHelper* ConsoleHelper::getConsoleUtilities() {
 	return consoleUtilities;
 }
 
+ConsoleHelper::ConsoleHelper() {
+	fixConsoleWindow();
+}
+
 ConsoleHelper::~ConsoleHelper() {
 	delete consoleUtilities;
 	consoleUtilities = nullptr;
@@ -73,6 +77,10 @@ int ConsoleHelper::getCursorX()
 	return -1;
 }
 
+//screen: get max [x]
+int ConsoleHelper::getMaxX() {
+	return maxScreenX;
+}
 
 //screen: get [y]
 int ConsoleHelper::getCursorY()
@@ -83,6 +91,10 @@ int ConsoleHelper::getCursorY()
 	return -1;
 }
 
+//screen: get max [y]
+int ConsoleHelper::getMaxY() {
+	return maxScreenY;
+}
 
 void ConsoleHelper::setTextColor(int color)
 {
@@ -121,10 +133,13 @@ void ConsoleHelper::fixConsoleWindow() {
 
 	RECT ConsoleRect;
 	GetWindowRect(consoleWindow, &ConsoleRect);
-	MoveWindow(consoleWindow, ConsoleRect.left, ConsoleRect.top, 1130, 520, TRUE);
+	MoveWindow(consoleWindow, ConsoleRect.left, ConsoleRect.top, 1130, 540, TRUE);
 
 	//remove ScrollBar
 	removeScrollbar();
+
+	//Set Background
+	system("color F0");
 
 	//force mouse click to console
 	DWORD prev_mode;

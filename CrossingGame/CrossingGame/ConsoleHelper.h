@@ -8,11 +8,11 @@ class ConsoleHelper
 private:
 	static ConsoleHelper* consoleUtilities;
 
-	const int maxScreenX = 130;
-	const int maxScreenY = 29;
+	const int maxScreenX = 136;
+	const int maxScreenY = 30;
 
 private:
-	ConsoleHelper() {};
+	ConsoleHelper();
 	~ConsoleHelper();
 
 public:
@@ -28,8 +28,15 @@ public:
 
 	//screen: get [x]
 	int getCursorX();
+
+	//screen: get max [x]
+	int getMaxX();
+
 	//screen: get [y]
 	int getCursorY();
+
+	//screen: get max [y]
+	int getMaxY();
 
 	void setTextColor(int color);
 
@@ -42,22 +49,22 @@ public:
 	void removeScrollbar();
 	
 	enum Colors {
-		ColorCode_DarkBlue = 1,
-		ColorCode_DarkGreen = 2,
-		ColorCode_DarkCyan = 3,
-		ColorCode_DarkRed = 4,
-		ColorCode_DarkPink = 5,
-		ColorCode_DarkYellow = 6,
-		ColorCode_DarkWhite = 7,
-		ColorCode_Grey = 8,
-		ColorCode_Blue = 9,
-		ColorCode_Green = 10,
-		ColorCode_Cyan = 11,
-		ColorCode_Red = 12,
-		ColorCode_Pink = 13,
-		ColorCode_Yellow = 14,
-		ColorCode_White = 15,
-		default_ColorCode = 15,
+		ColorCode_White = 240,
+		ColorCode_DarkBlue = 241,
+		ColorCode_DarkGreen = 242,
+		ColorCode_DarkCyan = 243,
+		ColorCode_DarkRed = 244,
+		ColorCode_DarkPink = 245,
+		ColorCode_DarkYellow = 246,
+		ColorCode_DarkWhite = 247,
+		ColorCode_Grey = 248,
+		ColorCode_Blue = 249,
+		ColorCode_Green = 250,
+		ColorCode_Cyan = 251,
+		ColorCode_Red = 252,
+		ColorCode_Pink = 253,
+		ColorCode_Yellow = 254,
+		default_ColorCode = 240,
 	};
 
 	enum ArrowKey {
