@@ -15,6 +15,8 @@ private:
 	ConsoleHelper();
 	~ConsoleHelper();
 
+	void fixConsoleWindow();
+	void removeScrollbar();
 public:
 	static ConsoleHelper* getConsoleUtilities();
 
@@ -38,16 +40,15 @@ public:
 	//screen: get max [y]
 	int getMaxY();
 
+	//Change Text Color
 	void setTextColor(int color);
 
+	//Get All Text Color
 	void getAllTextColor();
 
-	void fixConsoleWindow();
-
+	// Show console's cursor
 	void showConsoleCursor(bool showFlag);
 
-	void removeScrollbar();
-	
 	enum Colors {
 		ColorCode_White = 240,
 		ColorCode_DarkBlue = 241,

@@ -16,6 +16,27 @@
     <Filter Include="Utilities">
       <UniqueIdentifier>{a73f6ba3-7a36-496e-964c-ee2fd4d25940}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{c8056110-6211-4b12-aaca-61932d16346f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\MainMenu">
+      <UniqueIdentifier>{dc47eb01-07af-4ae1-90b1-253c91cb83f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\HighScore">
+      <UniqueIdentifier>{f5d5c38f-263f-4833-9f2f-09e4d3b5df30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\About">
+      <UniqueIdentifier>{3f0989fc-1d09-4279-b6c2-44f442ca5722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame">
+      <UniqueIdentifier>{9cd5c738-63a9-4c8f-9c5c-3c5e20115d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\NewGame">
+      <UniqueIdentifier>{4a8615bd-f641-4829-be45-22d2bd4f1c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\LoadGame">
+      <UniqueIdentifier>{ae2781e8-dd23-4438-ba34-8b08c1c24081}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossingGame.cpp">

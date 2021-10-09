@@ -66,10 +66,6 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 	}
 }
 
-void UIHelper::drawRectangle(int startX, int startY, int width, int height) {
-	drawRectangle(startX, startY, width, height, 0);
-}
-
 void UIHelper::drawRectangle(int startX, int startY, int width, int height, int optionStyleRec) {
 	consoleHelper->gotoXY(startX, startY);
 	vector<int> recStyle = styleRectangle[optionStyleRec% styleRectangle.size()];

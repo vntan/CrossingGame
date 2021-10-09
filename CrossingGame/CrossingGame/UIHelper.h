@@ -28,9 +28,25 @@ private:
 public:
 	static UIHelper* getUIHelper();
 
-	int createMenu(int startX, int startY, vector<string> listNameSelection, int defaultChoice);
-	void drawRectangle(int startX, int startY, int width, int height);
-	void drawRectangle(int startX, int startY, int width, int height, int optionStyleRec);
+	/// <summary>
+	/// Tạo một menu
+	/// </summary>
+	/// <param name="startX">Vị trí theo chiều ngang</param>
+	/// <param name="startY">Vị trí theo chiều dọc</param>
+	/// <param name="listNameSelection">Tên các lựa chọn trong Menu</param>
+	/// <param name="defaultChoice">Lựa chọn mặc định</param>
+	/// <returns></returns>
+	int createMenu(int startX, int startY, vector<string> listNameSelection, int defaultChoice = 0);
+	
+	/// <summary>
+	/// Vẽ Hình Chữ Nhật
+	/// </summary>
+	/// <param name="startX">Vị trí theo chiều ngang</param>
+	/// <param name="startY">Vị trí theo chiều dọc</param>
+	/// <param name="width">Chiều dài</param>
+	/// <param name="height">Chiều rộng</param>
+	/// <param name="optionStyleRec">Kiểu Hình Chữ Nhật</param>
+	void drawRectangle(int startX, int startY, int width, int height, int optionStyleRec = 0);
 	
 };
 
