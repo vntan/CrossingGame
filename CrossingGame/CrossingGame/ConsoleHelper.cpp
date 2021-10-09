@@ -8,7 +8,7 @@ ConsoleHelper* ConsoleHelper::getConsoleUtilities() {
 }
 
 ConsoleHelper::ConsoleHelper() {
-	//fixConsoleWindow();
+	fixConsoleWindow();
 }
 
 ConsoleHelper::~ConsoleHelper() {
