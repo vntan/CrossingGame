@@ -24,9 +24,15 @@
     <ClCompile Include="ConsoleHelper.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="UIHelper.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHelper.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelper.h">
       <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>

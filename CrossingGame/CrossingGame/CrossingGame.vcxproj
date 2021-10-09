@@ -141,9 +141,11 @@
   <ItemGroup>
     <ClCompile Include="ConsoleHelper.cpp" />
     <ClCompile Include="CrossingGame.cpp" />
+    <ClCompile Include="UIHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHelper.h" />
+    <ClInclude Include="UIHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
