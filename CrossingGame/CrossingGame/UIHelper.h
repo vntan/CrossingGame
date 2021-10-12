@@ -47,6 +47,9 @@ public:
 	/// <param name="height">Chiều rộng</param>
 	/// <param name="optionStyleRec">Kiểu Hình Chữ Nhật</param>
 	void drawRectangle(int startX, int startY, int width, int height, int optionStyleRec = 0);
-	
+
+	void drawRectangleWithAnimate(int startX, int startY, int width, int height, int optionStyleRec = 0);
+
+	void drawHeaderText();
 };
 

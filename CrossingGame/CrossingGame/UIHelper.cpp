@@ -46,6 +46,7 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 
 			int key = consoleHelper->getKey();
 			if (key == 13) {
+				consoleHelper->setTextColor(consoleHelper->default_ColorCode);
 				return choice;
 			}
 			
@@ -73,19 +74,70 @@ void UIHelper::drawRectangle(int startX, int startY, int width, int height, int 
 
 	cout << (char)recStyle[0];
 	for (int i = 0; i < width * 2 - 2; i++) cout << (char)recStyle[4];
-	cout << (char)recStyle[1] << endl;
+	cout << (char)recStyle[1];
+	consoleHelper->gotoXY(startX, ++startY);
 
 	for (int i = 0; i < height - 2; i++) {
-		
-
 		for (int j = 0; j < recStyle[recStyle.size()-1]; j++) cout << (char)recStyle[5];
-		
 		for (int j = 0; j < (width - recStyle[recStyle.size() - 1]) * 2; j++) cout << " ";
 		for (int j = 0; j < recStyle[recStyle.size() - 1]; j++) cout << (char)recStyle[5];
-		cout << endl;
+		consoleHelper->gotoXY(startX, ++startY);
 	}
 
 	cout << (char)recStyle[2];
 	for (int i = 0; i < width * 2 - 2; i++) cout << (char)recStyle[4];
 	cout << (char)recStyle[3] << endl;
+}
+
+void UIHelper::drawRectangleWithAnimate(int startX, int startY, int width, int height, int optionStyleRec) {
+	width = width * 2;
+	consoleHelper->gotoXY(startX, startY);
+
+	vector<int> recStyle = styleRectangle[optionStyleRec % styleRectangle.size()];
+	
+	cout << (char)recStyle[0];
+	for (int i = 0; i < width - 2; i++) {
+		cout << (char)recStyle[4];
+		Sleep(10);
+	}
+	cout << (char)recStyle[1];
+	Sleep(25);
+	
+	for (int i = 1; i < height - 1; i++) {
+		consoleHelper->gotoXY(startX + width - recStyle[recStyle.size() - 1], startY + i);
+		for (int j = 0; j < recStyle[recStyle.size() - 1]; j++) cout << (char)recStyle[5];
+		Sleep(10);
+	}
+
+	consoleHelper->gotoXY(startX + width - 1, startY + height - 1);
+	cout << (char)recStyle[3];
+	Sleep(25);
+	
+	for (int i = 2; i < width; i++) {
+		consoleHelper->gotoXY(startX + width - i, startY + height - 1);
+		cout << (char)recStyle[4];
+		Sleep(10);
+	}
+
+	consoleHelper->gotoXY(startX, startY + height - 1);
+	cout << (char)recStyle[2];
+	Sleep(25);
+
+	for (int i = 1; i < height - 1; i++) {
+		consoleHelper->gotoXY(startX, startY + height - 1 - i);
+		for (int j = 0; j < recStyle[recStyle.size() - 1]; j++) cout << (char)recStyle[5];
+		Sleep(10);
+	}
+
+	consoleHelper->gotoXY(startX, startY);
+
+}
+
+void UIHelper::drawHeaderText() {
+	cout << "     ______ .______        ______        _______.     _______. __  .__   __.   _______      _______      ___      .___  ___.  _______ " << endl;
+	cout << "    /      ||   _  \\      /  __  \\      /       |    /       ||  | |  \\ |  |  /  _____|    /  _____|    /   \\     |   \\/   | |   ____|" << endl;
+	cout << "   |  ,----'|  |_)  |    |  |  |  |    |   (----`   |   (----`|  | |   \\|  | |  |  __     |  |  __     /  ^  \\    |  \\  /  | |  |__   " << endl;
+	cout << "   |  |     |      /     |  |  |  |     \\   \\        \\   \\    |  | |  . `  | |  | |_ |    |  | |_ |   /  /_\\  \\   |  |\\/|  | |   __|" << endl;
+	cout << "   |  `----.|  |\\  \\----.|  `--'  | .----)   |   .----)   |   |  | |  |\\   | |  |__| |    |  |__| |  /  _____  \\  |  |  |  | |  |____ " << endl;
+	cout << "    \\______|| _| `._____| \\______/  |_______/    |_______/    |__| |__| \\__|  \\______|     \\______| /__/     \\__\\ |__|  |__| |_______|" << endl;
 }
