@@ -2,12 +2,16 @@
 #include <windows.h>
 #include <stdio.h>
 #include <conio.h>
+#include <string>
+
+using namespace std;
 
 class ConsoleHelper
 {
 private:
 	static ConsoleHelper* consoleUtilities;
-
+	string filePath = "";
+	
 	const int maxScreenX = 136;
 	const int maxScreenY = 30;
 
@@ -20,6 +24,11 @@ private:
 public:
 	static ConsoleHelper* getConsoleUtilities();
 
+	string getFilePath();
+
+	void setFilePath(char* path);
+
+	//--------------------Get key on click
 	int getKey();
 
 	//-------------------------Screen-------------------------

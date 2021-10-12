@@ -48,6 +48,15 @@
     <ClCompile Include="UIHelper.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="About.cpp">
+      <Filter>Windows\About</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScore.cpp">
+      <Filter>Windows\HighScore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHelper.h">
@@ -55,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="UIHelper.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="About.h">
+      <Filter>Windows\About</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScore.h">
+      <Filter>Windows\HighScore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

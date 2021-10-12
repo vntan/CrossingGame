@@ -16,6 +16,20 @@ ConsoleHelper::~ConsoleHelper() {
 	consoleUtilities = nullptr;
 }
 
+
+
+//--------------------Get filePath-------------------------
+string ConsoleHelper::getFilePath() {
+	return filePath;
+}
+
+void ConsoleHelper::setFilePath(char* path) {
+	string temp(path);
+	int pos = temp.find_last_of('\\');
+	filePath = temp.substr(0, pos + 1);
+}
+
+//--------------------Get key on click-------------------------
 int ConsoleHelper::getKey()
 {
 	if (_kbhit())
@@ -39,7 +53,6 @@ int ConsoleHelper::getKey()
 	else return -1;
 }
 
-
 //-------------------------Screen-------------------------
 void ConsoleHelper::clrscr()
 {
@@ -51,6 +64,7 @@ void ConsoleHelper::clrscr()
 	hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	GetConsoleScreenBufferInfo(hConsoleOut, &csbiInfo);
 
+	system("F0");
 	FillConsoleOutputCharacter(hConsoleOut, ' ', csbiInfo.dwSize.X * csbiInfo.dwSize.Y, Home, &dummy);
 	csbiInfo.dwCursorPosition.X = 0;
 	csbiInfo.dwCursorPosition.Y = 0;

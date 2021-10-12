@@ -139,12 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="About.cpp" />
     <ClCompile Include="ConsoleHelper.cpp" />
     <ClCompile Include="CrossingGame.cpp" />
+    <ClCompile Include="HighScore.cpp" />
+    <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="UIHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="About.h" />
     <ClInclude Include="ConsoleHelper.h" />
+    <ClInclude Include="HighScore.h" />
+    <ClInclude Include="MainGame.h" />
     <ClInclude Include="UIHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
