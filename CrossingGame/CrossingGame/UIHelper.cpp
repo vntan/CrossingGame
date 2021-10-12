@@ -22,6 +22,7 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 	while (true) {
 		//draw Menu
 		x = startX; y = startY;
+		consoleHelper->showConsoleCursor(false);
 		consoleHelper->gotoXY(x, y);
 
 		for (int i = 0; i < listNameSelection.size(); i++) {
@@ -35,7 +36,7 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 			}
 			consoleHelper->gotoXY(x, ++y);
 		}
-
+		consoleHelper->showConsoleCursor(true);
 		consoleHelper->gotoXY(startX, startY+choice);
 
 		//Handle when select or choose menu 
@@ -59,7 +60,7 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 			}
 
 			if (isdigit(key)) {
-				if (key - '0' < listNameSelection.size()) choice = key - '0';
+				if (key - '0' <= listNameSelection.size() && key - '0' > 0) choice = key - '0' - 1;
 				break;
 			}
 		}
