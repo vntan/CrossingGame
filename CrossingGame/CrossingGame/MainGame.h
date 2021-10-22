@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include <stdlib.h>
 #include <direct.h> 
 #include <fstream>

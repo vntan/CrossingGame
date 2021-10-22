@@ -28,13 +28,17 @@ void HighScore::drawUI() {
 		for (int i = 0; i <= 5; i++) dataHighScore.push_back(make_pair("-", 0));
 	}
 	else {
-		while (!f.eof() && dataHighScore.size() < 5) {
+		while (!f.eof()) {
 			string name, t; int mark;
 			getline(f, name);
 			f >> mark; 
 			dataHighScore.push_back(make_pair(name, mark));
 			getline(f, name);
 		}
+
+		sort(dataHighScore.begin(), dataHighScore.end(), [](pair<string, int> a, pair<string, int> b) {
+			return a.second > b.second;
+			});
 
 		while (dataHighScore.size() < 5) dataHighScore.push_back(make_pair("-", 0));
 	}
