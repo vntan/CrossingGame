@@ -6,7 +6,8 @@ UIHelper::UIHelper() {
 }
 
 UIHelper::~UIHelper() {
-
+	delete uiHelper;
+	uiHelper = nullptr;
 }
 
 UIHelper* UIHelper::uiHelper = nullptr;

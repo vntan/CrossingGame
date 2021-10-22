@@ -19,38 +19,27 @@ void HighScore::drawUI() {
 	console->gotoXY(x + 8, y + 2);
 	cout << "============ High Score ============" << endl;
 	
-	string add = console->getFilePath() + "HighScore.txt";
+	vector<User> userScore = Account::getInstance()->getListAccount();
 
-	fstream f(add, ios::in);
-
-	vector<pair<string, int>> dataHighScore;
-	if (f.fail()) {
-		for (int i = 0; i <= 5; i++) dataHighScore.push_back(make_pair("-", 0));
-	}
-	else {
-		while (!f.eof()) {
-			string name, t; int mark;
-			getline(f, name);
-			f >> mark; 
-			dataHighScore.push_back(make_pair(name, mark));
-			getline(f, name);
-		}
-
-		sort(dataHighScore.begin(), dataHighScore.end(), [](pair<string, int> a, pair<string, int> b) {
-			return a.second > b.second;
+	sort(userScore.begin(), userScore.end(), [](User a, User b) {
+			return a.getScore() > b.getScore();
 			});
-
-		while (dataHighScore.size() < 5) dataHighScore.push_back(make_pair("-", 0));
-	}
+	
 
 	y = y + 4;
 	console->gotoXY(x + 5, y + 2); y = y + 2;
 	cout << left << setw(5) << " Top " << left << setw(20) << "\t Name" << left << setw(8) << " Scores " << endl;
 
-	for (int i = 0; i < dataHighScore.size(); i++) {
-		y += 2; console->gotoXY(x + 5, y); 
-		cout << left << "  " << setw(5) << i + 1 << left << " " << setw(20) << dataHighScore[i].first << left << "    " << setw(8) << dataHighScore[i].second << endl;
+
+	for (int i = 0; i < 5; i++) {
+		y += 2; console->gotoXY(x + 5, y);
+		if (i<userScore.size())
+			cout << left << "  " << setw(5) << i + 1 << left << " " << setw(20) << userScore[i].getName() << left << "    " << setw(8) << userScore[i].getScore() << endl;
+		else 
+			cout << left << "  " << setw(5) << i + 1 << left << " " << setw(20) << " - " << left << "    " << setw(8) << "0" << endl;
 	}
+	
+
 	
 
 	while (true) {

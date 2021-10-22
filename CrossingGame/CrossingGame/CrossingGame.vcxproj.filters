@@ -25,17 +25,17 @@
     <Filter Include="Windows\HighScore">
       <UniqueIdentifier>{f5d5c38f-263f-4833-9f2f-09e4d3b5df30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\About">
-      <UniqueIdentifier>{3f0989fc-1d09-4279-b6c2-44f442ca5722}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Windows\PlayGame">
       <UniqueIdentifier>{9cd5c738-63a9-4c8f-9c5c-3c5e20115d7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\PlayGame\NewGame">
-      <UniqueIdentifier>{4a8615bd-f641-4829-be45-22d2bd4f1c3d}</UniqueIdentifier>
+    <Filter Include="Windows\PlayGame\ModelCar">
+      <UniqueIdentifier>{2dcc5430-bf81-4543-9e30-8c10bd850c1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\PlayGame\LoadGame">
-      <UniqueIdentifier>{ae2781e8-dd23-4438-ba34-8b08c1c24081}</UniqueIdentifier>
+    <Filter Include="Windows\User">
+      <UniqueIdentifier>{c7e67713-7d66-4b2b-843d-f24c8193f6d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\About">
+      <UniqueIdentifier>{3f0989fc-1d09-4279-b6c2-44f442ca5722}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +57,15 @@
     <ClCompile Include="HighScore.cpp">
       <Filter>Windows\HighScore</Filter>
     </ClCompile>
+    <ClCompile Include="PlayGame.cpp">
+      <Filter>Windows\PlayGame</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Windows\User</Filter>
+    </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>Windows\User</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHelper.h">
@@ -73,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="HighScore.h">
       <Filter>Windows\HighScore</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayGame.h">
+      <Filter>Windows\PlayGame</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Windows\User</Filter>
+    </ClInclude>
+    <ClInclude Include="Account.h">
+      <Filter>Windows\User</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

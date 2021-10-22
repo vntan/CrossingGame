@@ -30,7 +30,9 @@ void MainGame::mainMenu() {
 		break;
 	case 4:
 		//Quit Game
+		Account::getInstance()->saveAccountToFile();
 		ConsoleHelper::getConsoleUtilities()->clrscr();
+		system("F0");
 		exit(0);
 		break;
 	default:

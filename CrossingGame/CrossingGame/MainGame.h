@@ -6,6 +6,8 @@
 #include <direct.h> 
 #include <fstream>
 #include "UIHelper.h"
+#include "ConsoleHelper.h"
+#include "Account.h"
 #include "About.h"
 #include "HighScore.h"
 
