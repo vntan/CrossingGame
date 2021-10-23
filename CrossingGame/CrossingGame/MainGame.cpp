@@ -12,9 +12,15 @@ void MainGame::mainMenu() {
 	{
 	case 0:
 		//New Game
+                ConsoleHelper::getConsoleUtilities()->clrscr();
+		PlayGame playGame(0);
+		mainMenu();
 		break;
 	case 1:
 		//Load Game
+                ConsoleHelper::getConsoleUtilities()->clrscr();
+		PlayGame playGame(1);
+                mainMenu();
 		break;
 	case 2:
 		//High Score
