@@ -1,12 +1,12 @@
 #pragma once
 #include "MainGame.h"
+#include "User.h"
 
 class PlayGame
 {
 private:
+	int accountPos = -1;
 	int gameMode;
-	Account* account;
-	int accountPosition = -1;
 	User player;
 private:
 	void addNewPlayer(string name, int score);
@@ -18,7 +18,6 @@ private:
 	//void processGame();
 
 public:
-	PlayGame(int gameMode);
 	void drawPlayGame(int gameMode);
 };
 

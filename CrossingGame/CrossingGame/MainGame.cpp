@@ -7,25 +7,26 @@ void MainGame::mainMenu() {
 	vector<string> menuNames{ "New game", "Load game", "High Score", "About", "Quit Game" };
 
 	int choice = UIHelper::getUIHelper()->createMenu(maxX/2 - 6, maxY/2, menuNames);
-
+	PlayGame playGame; 
+	
 	switch (choice)
 	{
 	case 0:
 		//New Game
-                ConsoleHelper::getConsoleUtilities()->clrscr();
-		PlayGame playGame(0);
+        ConsoleHelper::getConsoleUtilities()->clrscr();
+		playGame.drawPlayGame(0);
 		mainMenu();
 		break;
 	case 1:
 		//Load Game
-                ConsoleHelper::getConsoleUtilities()->clrscr();
-		PlayGame playGame(1);
-                mainMenu();
+		ConsoleHelper::getConsoleUtilities()->clrscr();
+		playGame.drawPlayGame(1);
+		mainMenu();
 		break;
 	case 2:
 		//High Score
 		ConsoleHelper::getConsoleUtilities()->clrscr();
-		HighScore highScore; highScore.drawUI();
+		//HighScore highScore; highScore.drawUI();
 		mainMenu();
 		break;
 	case 3:
