@@ -6,7 +6,7 @@ class Account
 {
 private:
 	static Account* instance;
-	const string accountPath = ConsoleHelper::getConsoleUtilities()->getFilePath() + "Account.txt";
+	const string accountPath = UIHelper::getUIHelper()->getFilePath() + "Account.txt";
 	vector<User> data;
 	Account();
 	~Account();

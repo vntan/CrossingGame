@@ -10,7 +10,13 @@ User::User(string name, int score, int level) {
 User::User(string name, int score) {
 	this->name = name;
 	this->score = score;
-	this->level = level;
+	this->level = 1;
+}
+
+User::User(const User& user2) {
+	this->name = user2.name;
+	this->score = user2.score;
+	this->level = user2.level;
 }
 
 string User::getName() {

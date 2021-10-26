@@ -1,12 +1,12 @@
 #include "HighScore.h"
 
 void HighScore::drawUI() {
-	UIHelper::getUIHelper()->drawHeaderText();
 
-	ConsoleHelper* console = ConsoleHelper::getConsoleUtilities();
+	UIHelper* console = UIHelper::getUIHelper();
+	console->drawHeaderText();
 
 	int x = 41, y = 8, width = 25, height = 19;
-	UIHelper::getUIHelper()->drawRectangleWithAnimate(x, y, width, height, 3);
+	console->drawRectangleWithAnimate(x, y, width, height, 3);
 
 	console->gotoXY(x, y + 4);
 	Sleep(25);

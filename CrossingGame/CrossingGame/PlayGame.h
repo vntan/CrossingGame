@@ -10,7 +10,7 @@ private:
 	int gameMode;
 	User player;
 private:
-	void addNewPlayer(string name, int score);
+	bool addNewPlayer(string name, int score = 0);
 	bool getPlayer(string name);
 	void trafficColor(int lane, int color = 0); // lane = {1, 2, 3, 4, 5}; 0 = deep green, others = red;
 	void drawInformation();
@@ -19,6 +19,7 @@ private:
 	//void processGame();
 
 public:
+	PlayGame();
 	void drawPlayGame(int gameMode);
 };
 

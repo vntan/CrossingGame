@@ -1,22 +1,8 @@
 #include "ConsoleHelper.h"
 
-ConsoleHelper* ConsoleHelper::consoleUtilities = nullptr;
-
-ConsoleHelper* ConsoleHelper::getConsoleUtilities() {
-	if (consoleUtilities == nullptr) consoleUtilities = new ConsoleHelper();
-	return consoleUtilities;
-}
-
 ConsoleHelper::ConsoleHelper() {
 	fixConsoleWindow();
 }
-
-ConsoleHelper::~ConsoleHelper() {
-	delete consoleUtilities;
-	consoleUtilities = nullptr;
-}
-
-
 
 //--------------------Get filePath-------------------------
 string ConsoleHelper::getFilePath() {

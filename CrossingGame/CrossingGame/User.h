@@ -14,6 +14,7 @@ public:
 	User();
 	User(string name, int score, int level);
 	User(string name, int score);
+	User(const User& user2);
 
 	string getName();
 

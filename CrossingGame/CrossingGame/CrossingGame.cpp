@@ -1,21 +1,16 @@
 ﻿#include "MainGame.h"
 
 int main(int argc, char* argv[]) {
-	ConsoleHelper::getConsoleUtilities();
-	UIHelper::getUIHelper();
-
-	ConsoleHelper::getConsoleUtilities()->setFilePath(argv[0]);
+	
+	UIHelper::getUIHelper()->setFilePath(argv[0]);
 	Account::getInstance();
 
 	//Open the main menu.
-	//MainGame main;
-	//main.mainMenu();
+	MainGame main;
+	main.mainMenu();
 
-	PlayGame playgame;
-	playgame.drawPlayGame(1);
-
-
-	cin.get();
+	/*PlayGame playgame;
+	playgame.drawPlayGame(1);*/
 
 	return 0;
 }

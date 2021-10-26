@@ -2,7 +2,7 @@
 #include <ctype.h>
 
 UIHelper::UIHelper() {
-	consoleHelper = ConsoleHelper::getConsoleUtilities();
+
 }
 
 UIHelper::~UIHelper() {
@@ -23,40 +23,40 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 	while (true) {
 		//draw Menu
 		x = startX; y = startY;
-		consoleHelper->showConsoleCursor(false);
-		consoleHelper->gotoXY(x, y);
+		showConsoleCursor(false);
+		gotoXY(x, y);
 
 		for (int i = 0; i < listNameSelection.size(); i++) {
 			if (i == choice) {
-				consoleHelper->setTextColor(selectionColor);
+				setTextColor(selectionColor);
 				cout << (char)16 << " " << listNameSelection[i] << endl;
 			}
 			else {
-				consoleHelper->setTextColor(consoleHelper->default_ColorCode);
+				setTextColor(default_ColorCode);
 				cout << listNameSelection[i] << "  " << endl;
 			}
-			consoleHelper->gotoXY(x, ++y);
+			gotoXY(x, ++y);
 		}
-		consoleHelper->showConsoleCursor(true);
-		consoleHelper->gotoXY(startX, startY+choice);
+		showConsoleCursor(true);
+		gotoXY(startX, startY+choice);
 
 		//Handle when select or choose menu 
 		bool isChange = false;
 		while (true) {
 			while (!_kbhit()) {}
 
-			int key = consoleHelper->getKey();
+			int key = getKey();
 			if (key == 13) {
-				consoleHelper->setTextColor(consoleHelper->default_ColorCode);
+				setTextColor(default_ColorCode);
 				return choice;
 			}
 			
-			if (key == consoleHelper->ArrowKey_DOWN) {
+			if (key == ArrowKey_DOWN) {
 				if (choice + 1 >= listNameSelection.size()) choice = 0; else choice = choice + 1; 
 				break;
 			}
 
-			if (key == consoleHelper->ArrowKey_UP) {
+			if (key == ArrowKey_UP) {
 				if (choice - 1 < 0) choice = listNameSelection.size() - 1; else choice = choice - 1;
 				break;
 			}
@@ -70,19 +70,20 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 }
 
 void UIHelper::drawRectangle(int startX, int startY, int width, int height, int optionStyleRec) {
-	consoleHelper->gotoXY(startX, startY);
+	showConsoleCursor(false);
+	gotoXY(startX, startY);
 	vector<int> recStyle = styleRectangle[optionStyleRec% styleRectangle.size()];
 
 	cout << (char)recStyle[0];
 	for (int i = 0; i < width * 2 - 2; i++) cout << (char)recStyle[4];
 	cout << (char)recStyle[1];
-	consoleHelper->gotoXY(startX, ++startY);
+	gotoXY(startX, ++startY);
 
 	for (int i = 0; i < height - 2; i++) {
 		for (int j = 0; j < recStyle[recStyle.size()-1]; j++) cout << (char)recStyle[5];
 		for (int j = 0; j < (width - recStyle[recStyle.size() - 1]) * 2; j++) cout << " ";
 		for (int j = 0; j < recStyle[recStyle.size() - 1]; j++) cout << (char)recStyle[5];
-		consoleHelper->gotoXY(startX, ++startY);
+		gotoXY(startX, ++startY);
 	}
 
 	cout << (char)recStyle[2];
@@ -92,7 +93,7 @@ void UIHelper::drawRectangle(int startX, int startY, int width, int height, int 
 
 void UIHelper::drawRectangleWithAnimate(int startX, int startY, int width, int height, int optionStyleRec) {
 	width = width * 2;
-	consoleHelper->gotoXY(startX, startY);
+	gotoXY(startX, startY);
 
 	vector<int> recStyle = styleRectangle[optionStyleRec % styleRectangle.size()];
 	
@@ -105,32 +106,32 @@ void UIHelper::drawRectangleWithAnimate(int startX, int startY, int width, int h
 	Sleep(25);
 	
 	for (int i = 1; i < height - 1; i++) {
-		consoleHelper->gotoXY(startX + width - recStyle[recStyle.size() - 1], startY + i);
+		gotoXY(startX + width - recStyle[recStyle.size() - 1], startY + i);
 		for (int j = 0; j < recStyle[recStyle.size() - 1]; j++) cout << (char)recStyle[5];
 		Sleep(10);
 	}
 
-	consoleHelper->gotoXY(startX + width - 1, startY + height - 1);
+	gotoXY(startX + width - 1, startY + height - 1);
 	cout << (char)recStyle[3];
 	Sleep(25);
 	
 	for (int i = 2; i < width; i++) {
-		consoleHelper->gotoXY(startX + width - i, startY + height - 1);
+		gotoXY(startX + width - i, startY + height - 1);
 		cout << (char)recStyle[4];
 		Sleep(10);
 	}
 
-	consoleHelper->gotoXY(startX, startY + height - 1);
+	gotoXY(startX, startY + height - 1);
 	cout << (char)recStyle[2];
 	Sleep(25);
 
 	for (int i = 1; i < height - 1; i++) {
-		consoleHelper->gotoXY(startX, startY + height - 1 - i);
+		gotoXY(startX, startY + height - 1 - i);
 		for (int j = 0; j < recStyle[recStyle.size() - 1]; j++) cout << (char)recStyle[5];
 		Sleep(10);
 	}
 
-	consoleHelper->gotoXY(startX, startY);
+	gotoXY(startX, startY);
 
 }
 

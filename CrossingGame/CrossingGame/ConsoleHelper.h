@@ -9,24 +9,18 @@ using namespace std;
 class ConsoleHelper
 {
 private:
-	static ConsoleHelper* consoleUtilities;
 	string filePath = "";
 	
 	const int maxScreenX = 136;
 	const int maxScreenY = 30;
 
 private:
-	ConsoleHelper();
-	~ConsoleHelper();
-
+	
 	void fixConsoleWindow();
 	void removeScrollbar();
+
 public:
-	static ConsoleHelper* getConsoleUtilities();
-
-	string getFilePath();
-
-	void setFilePath(char* path);
+	ConsoleHelper();
 
 	//--------------------Get key on click
 	int getKey();
@@ -57,6 +51,10 @@ public:
 
 	// Show console's cursor
 	void showConsoleCursor(bool showFlag);
+
+
+	string getFilePath();
+	void setFilePath(char* path);
 
 	enum Colors {
 		ColorCode_White = 240,

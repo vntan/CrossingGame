@@ -6,10 +6,9 @@
 
 using namespace std;
 
-class UIHelper
+class UIHelper: public ConsoleHelper
 {
 private:
-	ConsoleHelper* consoleHelper;
 	static UIHelper* uiHelper;
 
 	int selectionColor = 189;
