@@ -12,11 +12,10 @@ private:
 private:
 	void addNewPlayer(string name, int score);
 	bool getPlayer(string name);
-
+	void trafficColor(int lane, int color = 0); // lane = {1, 2, 3, 4, 5}; 0 = deep green, others = red;
 	void drawInformation();
 	void drawInputName(int gameMode);
 	void drawTableGame();
-	void drawFrame();
 	//void processGame();
 
 public:
