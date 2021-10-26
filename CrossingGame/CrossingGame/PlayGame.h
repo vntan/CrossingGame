@@ -1,6 +1,7 @@
 #pragma once
 #include "MainGame.h"
 #include "User.h"
+#include "ConsoleHelper.h"
 
 class PlayGame
 {
@@ -15,6 +16,7 @@ private:
 	void drawInformation();
 	void drawInputName(int gameMode);
 	void drawTableGame();
+	void drawFrame();
 	//void processGame();
 
 public:
