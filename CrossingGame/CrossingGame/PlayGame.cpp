@@ -13,23 +13,13 @@ void PlayGame::drawPlayGame(int gameMode) {
 	drawInformation();
 	drawTableGame();
 
-	//traffic light
-	trafficColor(1);
-	trafficColor(2, 1);
-	trafficColor(3, 1);
-	trafficColor(4);
-	trafficColor(5, 1);
-	
-	while (true);
-
-	
-	
+	processGame();
 }
 
 bool PlayGame::addNewPlayer(string name, int score) {
 	Account* account = Account::getInstance();
 	if (account->findUser(name) == -1) {
-		account->addAccount(name, score);
+		account->addAccount(name, score, 1);
 		accountPos = account->getListAccount().size() - 1;
 		player = account->getInstance()->getAccount(accountPos);
 		return true;
@@ -90,7 +80,7 @@ void PlayGame::drawInformation() {
 	console->gotoXY(109, 7); // level spot
 	cout << "Level:";
 	console->gotoXY(117, 5); // score spot
-	if (player.getScore() > 0) cout << player.getScore(); else cout << "?";
+	if (player.getScore() >= 0) cout << player.getScore(); else cout << "?";
 	console->gotoXY(117, 7); // level spot
 	if (player.getLevel() > 0) cout << player.getLevel(); else cout << "?";
 
@@ -114,6 +104,8 @@ void PlayGame::drawInformation() {
 	cout << "resume.";
 	console->gotoXY(108, 18);
 	cout << (char)248 << " Press r to play again ";
+	console->gotoXY(108, 19);
+	cout << (char)248 << " Press Esc to exit ";
 }
 
 void PlayGame::drawInputName(int gameMode) {
@@ -203,3 +195,12 @@ void PlayGame::trafficColor(int lane, int color) {
 		console->setTextColor(244); // set red 
 	cout << (char)219 << (char)219;
 }
+
+void PlayGame::processGame() {
+	thread traffic([](User user, int pos) {
+		Traffic traffic(user, pos);
+		traffic.startTraffic();
+	}, player, accountPos);
+	traffic.join();
+}
+

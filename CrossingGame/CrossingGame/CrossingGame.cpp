@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	main.mainMenu();
 
 	/*PlayGame playgame;
-	playgame.drawPlayGame(1);*/
+	playgame.drawPlayGame(0);*/
 
 	return 0;
 }

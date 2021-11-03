@@ -61,7 +61,7 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 				break;
 			}
 
-			if (isdigit(key)) {
+			if (key>=1 && key <= 255 && isdigit(key)) {
 				if (key - '0' <= listNameSelection.size() && key - '0' > 0) choice = key - '0' - 1;
 				break;
 			}

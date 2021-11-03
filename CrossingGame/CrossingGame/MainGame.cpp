@@ -2,7 +2,7 @@
 
 void MainGame::mainMenu() {
 	UIHelper* console = UIHelper::getUIHelper();
-
+	console->clrscr();
 	console->drawHeaderText();
 	int maxX = console->getMaxX();
 	int maxY = console->getMaxY();
@@ -41,7 +41,7 @@ void MainGame::mainMenu() {
 		//Quit Game
 		Account::getInstance()->saveAccountToFile();
 		console->clrscr();
-		system("F0");
+		system("color F0");
 		exit(0);
 		break;
 	default:
