@@ -1,4 +1,4 @@
-#include "Traffic.h"
+﻿#include "Traffic.h"
 
 Traffic::Traffic(User user, int pos) {
 	isStop = new bool;
@@ -26,7 +26,8 @@ void Traffic::carInLane(int lane) {
 	}
 
 	int y1 = 23, x1 = 92; bool isPlus1 = false;
-	while (!*isExit) {
+
+	while (true) {
 		if (*isStop) continue;
 		m.lock();
 		if (isPlus) helper->gotoXY(x - 1, y);
@@ -69,9 +70,10 @@ void Traffic::startTraffic() {
 	thread l2(&Traffic::carInLane, this, 2);
 
 
-	l1.join();
-	l2.join();
 	control.join();
+	/*l1.join();
+	l2.join();*/
+	
 }
 
 void Traffic::stopTraffic() {

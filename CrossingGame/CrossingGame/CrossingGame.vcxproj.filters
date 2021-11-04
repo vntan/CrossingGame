@@ -49,6 +49,12 @@
     <Filter Include="Windows\PlayGame\Car Structure\RecCar">
       <UniqueIdentifier>{a1a42823-0d44-422d-ace8-0d402f31974c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\PlayGame\Car Structure\RoyalCar">
+      <UniqueIdentifier>{370f83b2-c939-4be2-b48b-aba4e3787805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\ListRoyalCar">
+      <UniqueIdentifier>{45e5579f-0fb6-4bc1-b2f0-fa207b9f37e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossingGame.cpp">
