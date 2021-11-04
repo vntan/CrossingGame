@@ -13,49 +13,18 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	UIHelper* helper = UIHelper::getUIHelper();
-	int minX = 4, maxX = 92, y = 23, x = 4; bool isPlus = true;
-
-	if (lane == 1) {
-		x = 4;
-		y = 23;
-	}
-	else {
-		x = 4;
-		y = 19;
-	}
-
-	int y1 = 23, x1 = 92; bool isPlus1 = false;
-
+	//Khởi tạo ListCar ListRoyalCar t;
 	while (true) {
-		if (*isStop) continue;
 		m.lock();
-		if (isPlus) helper->gotoXY(x - 1, y);
-		else helper->gotoXY(x + 1, y);
 
-		if (lane > 1) {
-			if (isPlus) helper->gotoXY(x - 1, y);
-			else helper->gotoXY(x + 1, y);
-		}
-
-		cout << " ";
+		//t.updateListCar(); -> xóa tất cả xe trên làn, vẽ ra xe trên làn theo vị trí mới
 
 
-		if (isPlus) helper->gotoXY(x++, y);
-		else helper->gotoXY(x--, y);
-
-		if (lane > 1) {
-			if (isPlus) helper->gotoXY(x++, y);
-			else helper->gotoXY(x--, y);
-		}
-
-		cout << "=";
-
-		if (x <= minX) isPlus = true;
-		else  if (x >= maxX) isPlus = false;
 		m.unlock();
-		Sleep(100 * lane);
+		Sleep(1000);
 	}
+	
+	//Sleep(1000);
 }
 
 void Traffic::startTraffic() {
@@ -70,10 +39,9 @@ void Traffic::startTraffic() {
 	thread l2(&Traffic::carInLane, this, 2);
 
 
+	l1.join();
+	l2.join();
 	control.join();
-	/*l1.join();
-	l2.join();*/
-	
 }
 
 void Traffic::stopTraffic() {
