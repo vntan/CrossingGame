@@ -1,8 +1,10 @@
 #pragma once
 #include "Character.h"
 #include "Account.h"
+#include "Truck.h"
 #include <thread> 
 #include <mutex>
+#include "ListTrucks.h"
 
 class Traffic
 {

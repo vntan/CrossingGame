@@ -13,18 +13,46 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	//Khởi tạo ListCar ListRoyalCar t;
-	while (true) {
+	UIHelper* helper = UIHelper::getUIHelper();
+	int minX = 4, maxX = 86, y = 22, x = 4;
+
+	if (lane == 1) {
+		x = 4;
+		y = 22;
+	}
+	else {
+		x = 4;
+		y = 18;
+	}
+
+	ListTrucks listCars(lane, 1, 2, x, y);
+	listCars.addTrucks();
+	
+
+	while (!*isExit) {
+		if (*isStop) continue;
 		m.lock();
 
-		//t.updateListCar(); -> xóa tất cả xe trên làn, vẽ ra xe trên làn theo vị trí mới
+		listCars.deleteListCar();
 
 
+		listCars.drawListCar();
+
+		
+
+		if (listCars.isCollision(character)) {
+
+			*isStop = true;
+		}
+
+		listCars.updateListCar();
+		
 		m.unlock();
-		Sleep(1000);
+		Sleep(100 * lane);
 	}
+		
 	
-	//Sleep(1000);
+
 }
 
 void Traffic::startTraffic() {
