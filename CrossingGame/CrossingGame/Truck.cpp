@@ -50,6 +50,36 @@ Truck::Truck() {
 	car[2][7] = char(217);
 }
 
+Truck::Truck(int x, int y) {
+	this->x = x;
+	this->y = y;
+	this->car = new char* [3];
+	for (int i = 0; i < 3; ++i) {
+		car[i] = new char[8];
+	}
+	// Row 1
+	car[0][0] = char(218);
+	for (int i = 1; i < 7; ++i)
+		car[0][i] = char(196);
+	car[0][7] = char(191);
+	// Row 2
+	car[1][0] = char(179);
+	for (int i = 1; i < 8; ++i) {
+		if (i == 6) car[1][i] = char(254);
+		else if (i == 7) car[1][i] = char(179);
+		else
+			car[1][i] = ' ';
+	}
+	// Row 3
+	car[2][0] = char(192);
+	for (int i = 1; i < 7; ++i) {
+		if (i == 1 || i == 6) car[2][i] = 'O';
+		else
+			car[2][i] = char(196);
+	}
+	car[2][7] = char(217);
+}
+
 
 void Truck::drawCar(int x, int y) {
 	UIHelper* helper = UIHelper::getUIHelper();
@@ -73,8 +103,7 @@ void Truck::deleteCar(int x, int y) {
 	UIHelper* helper = UIHelper::getUIHelper();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 8; ++j) {
-			helper->gotoXY(x - j, y + i);
-			if (helper->getCursorX() == 2) continue;
+			helper->gotoXY(x, y + i);
 			cout << " ";
 		}
 		cout << endl;

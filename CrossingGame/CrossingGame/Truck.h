@@ -6,6 +6,7 @@ private:
 	int x, y;
 public:
 	Truck();
+	Truck(int x, int y);
 	void setCarWidth(int width);
 	void drawCar(int x, int y);
 	void deleteCar(int x, int y);

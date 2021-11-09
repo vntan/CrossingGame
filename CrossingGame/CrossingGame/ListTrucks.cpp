@@ -6,22 +6,43 @@ ListTrucks::ListTrucks() {
 	this->x = 4;
 	this->y = 22;
 	this->maxX = 86;
+	this->direction = rand() % 2;
 }
 
-ListTrucks::ListTrucks(int lane, int level, int speed, int x, int y) {
+ListTrucks::ListTrucks(int lane, int level, int speed, int y) {
+	srand(time(NULL));
 	this->lane = lane;
 	this->level = level;
 	this->speed = speed;
-	this->x = x;
+	this->direction = rand() % 2;
+	if (direction == 0) {
+		this->x = 4;
+	}
+	else {
+		this->x = 86;
+	}
 	this->y = y;
-	this->maxX = 86;
+	if (direction == 0) {
+		this->maxX = 86;
+	}
+	else {
+		this->maxX = 4;
+
+	}
 }
 
 void ListTrucks::addTrucks() {
-	for (int i = 0; i < level + 3; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		Truck newTruck;
+		if (direction == 0) {
+			newTruck.setX(x + 20 * i);
+			newTruck.setY(y);
+		}
+		else {
+			newTruck.setX(x - 20 * i);
+			newTruck.setY(y);
+		}
 		newTruck.setCarWidth(8);
-		newTruck.setX(newTruck.getX() + 20*i);
 		this->listTrucks.push_back(newTruck);
 	}
 }
@@ -35,11 +56,42 @@ void ListTrucks::setLevel(int level) {
 	this->level = level;
 }
 
+void ListTrucks::setDirection(bool direction) {
+	this->direction = direction;
+}
+
+int ListTrucks::getLane() {
+	return this->lane;
+}
+
+int ListTrucks::getLevel() {
+	return this->level;
+}
+
+int ListTrucks::getSpeed() {
+	return this->speed;
+}
+
+
+
+bool ListTrucks::getDirection() {
+	return this->direction;
+}
+
+
+
+
 void ListTrucks::drawListCar() {
 	UIHelper* helper = UIHelper::getUIHelper();
 
 	for (int i = 0; i < listTrucks.size(); ++i) {
-		int newX = listTrucks[i].getX() + 1;
+		int newX;
+		if (direction == 0) {
+			newX = listTrucks[i].getX() + 1;
+		}
+		else {
+			newX = listTrucks[i].getX() - 1;
+		}
 		listTrucks[i].drawCar(newX,y);
 
 	}
@@ -57,13 +109,34 @@ void ListTrucks::deleteListCar() {
 
 void ListTrucks::updateListCar() {
 	for (int i = 0; i < listTrucks.size(); ++i) {
-		if (listTrucks[i].getX() >= this->maxX) {
-			listTrucks[i].deleteCar(listTrucks[i].getX() - 1 + 8, y);
-			listTrucks[i].freeMemory();
-			listTrucks.erase(listTrucks.begin() + i);
-			Truck newTruck;
-			newTruck.setCarWidth(8);
-			listTrucks.push_back(newTruck);
+		if (direction == 0) {
+			if (listTrucks[i].getX() > this->maxX || listTrucks[i].getX() < x) {
+				for (int h = 0; h < 8; ++h) {
+					listTrucks[i].deleteCar(listTrucks[i].getX() + h, y);
+				}
+		
+				listTrucks[i].freeMemory();
+				listTrucks.erase(listTrucks.begin() + i);
+				Truck newTruck;
+				newTruck.setCarWidth(8);
+				listTrucks.push_back(newTruck);
+			}
+		}
+		else {
+			if (listTrucks[i].getX() < this->maxX) {
+			/*	for (int h = 0; h < 8; ++h) {
+					listTrucks[i].deleteCar(listTrucks[i].getX() - h, y);
+				}*/
+
+				listTrucks[i].freeMemory();
+				listTrucks.erase(listTrucks.begin() + i);
+				Truck newTruck;
+				newTruck.setCarWidth(8);
+				newTruck.setX(x);
+				newTruck.setY(y);
+
+				listTrucks.push_back(newTruck);
+			}
 		}
 	}
 
@@ -78,3 +151,5 @@ bool ListTrucks::isCollision(Character* character) {
 	}
 	return false;
 }
+
+

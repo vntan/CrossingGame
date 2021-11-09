@@ -16,29 +16,43 @@ void Traffic::carInLane(int lane) {
 	UIHelper* helper = UIHelper::getUIHelper();
 	int minX = 4, maxX = 86, y = 22, x = 4;
 
-	if (lane == 1) {
-		x = 4;
+	switch (lane) {
+	case 1: {
+		y = 22;
+		break;
+	}
+	case 2: {
+		y = 18;
+		break;
+	}
+	case 3: {
+		y = 14;
+		break;
+	}
+	case 4: {
+		y = 10;
+		break;
+	}
+	case 5: {
+		y = 6;
+		break;
+	}
+	default:
 		y = 22;
 	}
-	else {
-		x = 4;
-		y = 18;
-	}
 
-	ListTrucks listCars(lane, 1, 2, x, y);
+
+	ListTrucks listCars(lane, 1, 2, y);
 	listCars.addTrucks();
-	
 
+	
 	while (!*isExit) {
 		if (*isStop) continue;
 		m.lock();
 
 		listCars.deleteListCar();
 
-
 		listCars.drawListCar();
-
-		
 
 		if (listCars.isCollision(character)) {
 
@@ -64,11 +78,16 @@ void Traffic::startTraffic() {
 
 	thread control(&Traffic::processCharacter, this);
 	thread l1(&Traffic::carInLane, this, 1);
-	thread l2(&Traffic::carInLane, this, 2);
-
+	//thread l2(&Traffic::carInLane, this, 2);
+	//thread l3(&Traffic::carInLane, this, 3);
+	//thread l4(&Traffic::carInLane, this, 4);
+	//thread l5(&Traffic::carInLane, this, 5);
 
 	l1.join();
-	l2.join();
+	//l2.join();
+	//l3.join();
+	//l4.join();
+	//l5.join();
 	control.join();
 }
 
