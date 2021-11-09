@@ -1,5 +1,6 @@
 #include"ListTrucks.h"
 ListTrucks::ListTrucks() {
+	srand(time(NULL));
 	this->level = 1;
 	this->lane = 1;
 	this->speed = level * 2;
@@ -41,8 +42,11 @@ void ListTrucks::addTrucks() {
 		else {
 			newTruck.setX(x - 20 * i);
 			newTruck.setY(y);
+			newTruck.reverseShapeCar();
+
 		}
 		newTruck.setCarWidth(8);
+		newTruck.setDirection(direction);
 		this->listTrucks.push_back(newTruck);
 	}
 }
@@ -56,9 +60,6 @@ void ListTrucks::setLevel(int level) {
 	this->level = level;
 }
 
-void ListTrucks::setDirection(bool direction) {
-	this->direction = direction;
-}
 
 int ListTrucks::getLane() {
 	return this->lane;
@@ -124,16 +125,15 @@ void ListTrucks::updateListCar() {
 		}
 		else {
 			if (listTrucks[i].getX() < this->maxX) {
-			/*	for (int h = 0; h < 8; ++h) {
+				for (int h = 0; h < 8; ++h) {
 					listTrucks[i].deleteCar(listTrucks[i].getX() - h, y);
-				}*/
+				}
 
 				listTrucks[i].freeMemory();
 				listTrucks.erase(listTrucks.begin() + i);
-				Truck newTruck;
+				Truck newTruck(x, y, direction);
 				newTruck.setCarWidth(8);
-				newTruck.setX(x);
-				newTruck.setY(y);
+				newTruck.reverseShapeCar();
 
 				listTrucks.push_back(newTruck);
 			}

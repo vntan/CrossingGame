@@ -19,9 +19,15 @@ void Truck::setY(int y) {
 	this->y = y;
 }
 
+void Truck::setDirection(bool direction) {
+	this->direction = direction;
+}
+
+
 Truck::Truck() {
 	this->x = 4;
 	this->y = 0;
+	this->direction = 0;
 
 	this->car = new char* [3];
 	for (int i = 0; i < 3; ++i) {
@@ -50,9 +56,10 @@ Truck::Truck() {
 	car[2][7] = char(217);
 }
 
-Truck::Truck(int x, int y) {
+Truck::Truck(int x, int y, bool direction) {
 	this->x = x;
 	this->y = y;
+	this->direction = direction;
 	this->car = new char* [3];
 	for (int i = 0; i < 3; ++i) {
 		car[i] = new char[8];
@@ -103,7 +110,12 @@ void Truck::deleteCar(int x, int y) {
 	UIHelper* helper = UIHelper::getUIHelper();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 8; ++j) {
-			helper->gotoXY(x, y + i);
+			if (direction == 0) {
+				helper->gotoXY(x, y + i);
+			}
+			else {
+				helper->gotoXY(x + 7, y + i);
+			}
 			cout << " ";
 		}
 		cout << endl;

@@ -19,7 +19,6 @@ public:
 	void addTrucks();
 	void setLane(int lane);
 	void setLevel(int level);
-	void setDirection(bool direction);
 	bool getDirection();
 	int getLane();
 	int getLevel();

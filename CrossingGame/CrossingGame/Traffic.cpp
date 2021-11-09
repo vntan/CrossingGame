@@ -78,16 +78,16 @@ void Traffic::startTraffic() {
 
 	thread control(&Traffic::processCharacter, this);
 	thread l1(&Traffic::carInLane, this, 1);
-	//thread l2(&Traffic::carInLane, this, 2);
-	//thread l3(&Traffic::carInLane, this, 3);
-	//thread l4(&Traffic::carInLane, this, 4);
-	//thread l5(&Traffic::carInLane, this, 5);
+	thread l2(&Traffic::carInLane, this, 2);
+	thread l3(&Traffic::carInLane, this, 3);
+	thread l4(&Traffic::carInLane, this, 4);
+	thread l5(&Traffic::carInLane, this, 5);
 
 	l1.join();
-	//l2.join();
-	//l3.join();
-	//l4.join();
-	//l5.join();
+	l2.join();
+	l3.join();
+	l4.join();
+	l5.join();
 	control.join();
 }
 
