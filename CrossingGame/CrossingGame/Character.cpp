@@ -67,8 +67,9 @@ void Character::drawCharacter() {
 	helper->setTextColor(helper->ColorCode_DarkRed);
 	helper->gotoXY(x, y);
 	cout << (char)219 << (char)219 << (char)219;
-	helper->gotoXY(x, y - 1);
-	cout << " " << (char)2;
+	helper->gotoXY(x + 1, y - 1);
+	cout << (char)2;
+
 }
 
 void Character::deleteCharacter() {
