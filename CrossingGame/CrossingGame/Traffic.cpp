@@ -42,7 +42,8 @@ void Traffic::carInLane(int lane) {
 	}
 
 
-	ListTrucks listCars(lane, 1, y);
+	ListTrucks listCars(lane, 1,y,4);
+	listCars.setDirection(0);
 	listCars.addTrucks();
 
 	

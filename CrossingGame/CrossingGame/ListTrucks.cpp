@@ -7,13 +7,15 @@ ListTrucks::ListTrucks() {
 	this->x = 4;
 	this->y = 22;
 	this->maxX = 86;
+	this->numberOfCars = 4;
 	this->direction = rand() % 2;
 }
 
-ListTrucks::ListTrucks(int lane, int level, int y) {
+ListTrucks::ListTrucks(int lane, int level, int y, int numberOfCars) {
 	srand(time(NULL));
 	this->lane = lane;
 	this->level = level;
+	this->numberOfCars = numberOfCars;
 	this->speed = level * 100;
 	this->direction = rand() % 2;
 	if (direction == 0) {
@@ -32,15 +34,58 @@ ListTrucks::ListTrucks(int lane, int level, int y) {
 	}
 }
 
+ListTrucks::ListTrucks(int lane, int level, bool direction, int numberOfCars ,int y) {
+	this->lane = lane;
+	this->numberOfCars = numberOfCars;
+	this->level = level;
+	this->speed = level * 100;
+	this->direction = direction;
+	if (direction == 0) {
+		this->x = 4;
+	}
+	else {
+		this->x = 86;
+	}
+	this->y = y;
+	if (direction == 0) {
+		this->maxX = 86;
+	}
+	else {
+		this->maxX = 4;
+	}
+}
+
+
+
 void ListTrucks::addTrucks() {
-	for (int i = 0; i < 4; ++i) {
+	int start;
+	for (int i = 0; i < numberOfCars; ++i) {
 		Truck newTruck;
+		switch (i) {
+		case 1:
+			start = 20;
+			break;
+		case 2:
+			start = 22;
+			break;
+
+		case 3:
+			start = 24;
+			break;
+		case 4:
+			start = 21;
+			break;
+		default:
+			start = 20;
+			break;
+		}
+
 		if (direction == 0) {
-			newTruck.setX(x + 20 * i);
+			newTruck.setX(x + start * i);
 			newTruck.setY(y);
 		}
 		else {
-			newTruck.setX(x - 20 * i);
+			newTruck.setX(x - start * i);
 			newTruck.setY(y);
 			newTruck.reverseShapeCar();
 
@@ -59,6 +104,34 @@ void ListTrucks::setLane(int lane) {
 void ListTrucks::setLevel(int level) {
 	this->level = level;
 }
+
+void ListTrucks::setDirection(bool direction) {
+	this->direction = direction;
+	if (direction == 0) {
+		this->x = 4;
+	}
+	else {
+		this->x = 86;
+	}
+	if (direction == 0) {
+		this->maxX = 86;
+	}
+	else {
+		this->maxX = 4;
+
+	}
+}
+
+void ListTrucks::setNumberOfCars(int numberOfCars) {
+	this->numberOfCars = numberOfCars;
+}
+
+int ListTrucks::getNumberOfCars() {
+	return numberOfCars;
+}
+
+
+
 
 
 int ListTrucks::getLane() {
