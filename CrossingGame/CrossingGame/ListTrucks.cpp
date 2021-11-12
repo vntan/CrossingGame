@@ -3,18 +3,18 @@ ListTrucks::ListTrucks() {
 	srand(time(NULL));
 	this->level = 1;
 	this->lane = 1;
-	this->speed = level * 2;
+	this->speed = level * 100;
 	this->x = 4;
 	this->y = 22;
 	this->maxX = 86;
 	this->direction = rand() % 2;
 }
 
-ListTrucks::ListTrucks(int lane, int level, int speed, int y) {
+ListTrucks::ListTrucks(int lane, int level, int y) {
 	srand(time(NULL));
 	this->lane = lane;
 	this->level = level;
-	this->speed = speed;
+	this->speed = level * 100;
 	this->direction = rand() % 2;
 	if (direction == 0) {
 		this->x = 4;
