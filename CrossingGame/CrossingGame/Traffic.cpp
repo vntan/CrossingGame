@@ -42,18 +42,38 @@ void Traffic::carInLane(int lane) {
 	}
 
 
-	ListTrucks listCars(lane, 1,y,4);
-	listCars.setDirection(0);
-	listCars.addTrucks();
-
-	
+	ListTrucks listCars(lane, 1,y);
+	listCars.setDirection(1);
+	m.lock();
+	listCars.trafficColor();
+	m.unlock();
+	listCars.addTrucks(4,6); // Random: 4 -> 6
+	int count = 0;
 	while (!*isExit) {
 		if (*isStop) continue;
 		m.lock();
 
-		listCars.deleteListCar();
+		if (count == 40) {
+			if (listCars.getRedLight()) {
+				listCars.setRedLight(0);
+				listCars.trafficColor();
+				count = 0;
+			}
+			else {
+				listCars.setRedLight(1);
+				listCars.trafficColor();
+				count = 0;
 
-		listCars.drawListCar();
+			}
+		}
+		++count;
+
+		
+		if (listCars.getRedLight() == 0) {
+			listCars.deleteListCar();
+			listCars.drawListCar();
+		}
+
 
 		if (listCars.isCollision(character)) {
 

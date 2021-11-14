@@ -6,16 +6,28 @@ ListTrucks::ListTrucks() {
 	this->speed = level * 100;
 	this->x = 4;
 	this->y = 22;
+	this->redLight = 0;
 	this->maxX = 86;
 	this->numberOfCars = 4;
 	this->direction = rand() % 2;
 }
 
-ListTrucks::ListTrucks(int lane, int level, int y, int numberOfCars) {
+ListTrucks::~ListTrucks() {
+	deleteListCar();
+	for (int i = 0; i < listTrucks.size(); ++i) {
+		listTrucks[i].freeMemory();
+	}
+	listTrucks.resize(0);
+}
+
+
+ListTrucks::ListTrucks(int lane, int level, int y) {
 	srand(time(NULL));
 	this->lane = lane;
+	this->redLight = 0;
+
 	this->level = level;
-	this->numberOfCars = numberOfCars;
+	this->numberOfCars = 0;
 	this->speed = level * 100;
 	this->direction = rand() % 2;
 	if (direction == 0) {
@@ -34,10 +46,12 @@ ListTrucks::ListTrucks(int lane, int level, int y, int numberOfCars) {
 	}
 }
 
-ListTrucks::ListTrucks(int lane, int level, bool direction, int numberOfCars ,int y) {
+ListTrucks::ListTrucks(int lane, int level, bool direction, int y) {
 	this->lane = lane;
-	this->numberOfCars = numberOfCars;
+	this->numberOfCars = 0;
 	this->level = level;
+	this->redLight = 0;
+
 	this->speed = level * 100;
 	this->direction = direction;
 	if (direction == 0) {
@@ -57,35 +71,27 @@ ListTrucks::ListTrucks(int lane, int level, bool direction, int numberOfCars ,in
 
 
 
-void ListTrucks::addTrucks() {
-	int start;
+void ListTrucks::addTrucks(int numberOfCars, int start) {
 	for (int i = 0; i < numberOfCars; ++i) {
 		Truck newTruck;
-		switch (i) {
-		case 1:
-			start = 20;
-			break;
-		case 2:
-			start = 22;
-			break;
-
-		case 3:
-			start = 24;
-			break;
-		case 4:
-			start = 21;
-			break;
-		default:
-			start = 20;
-			break;
-		}
-
+	
 		if (direction == 0) {
-			newTruck.setX(x + start * i);
+			if (i % 2 == 0) {
+				newTruck.setX(x + ((start + 1) * 3) * i);
+			}
+			else {
+				newTruck.setX(x + ((start + 2) * 3) * i);
+			}
 			newTruck.setY(y);
 		}
 		else {
-			newTruck.setX(x - start * i);
+			if (i % 2 == 0) {
+				newTruck.setX(x - ((start + 1) * 3) * i);
+			}
+			else {
+				newTruck.setX(x - ((start + 2) * 3) * i);
+
+			}
 			newTruck.setY(y);
 			newTruck.reverseShapeCar();
 
@@ -126,13 +132,18 @@ void ListTrucks::setNumberOfCars(int numberOfCars) {
 	this->numberOfCars = numberOfCars;
 }
 
+void ListTrucks::setRedLight(bool redlight) {
+	this->redLight = redlight;
+}
+
+
 int ListTrucks::getNumberOfCars() {
 	return numberOfCars;
 }
 
-
-
-
+bool ListTrucks::getRedLight() {
+	return this->redLight;
+}
 
 int ListTrucks::getLane() {
 	return this->lane;
@@ -191,7 +202,7 @@ void ListTrucks::updateListCar() {
 		
 				listTrucks[i].freeMemory();
 				listTrucks.erase(listTrucks.begin() + i);
-				Truck newTruck;
+				Truck newTruck(x,y,direction);
 				newTruck.setCarWidth(8);
 				listTrucks.push_back(newTruck);
 			}
@@ -225,4 +236,24 @@ bool ListTrucks::isCollision(Character* character) {
 	return false;
 }
 
+void ListTrucks::trafficColor() {
+	UIHelper* helper = UIHelper::getUIHelper();
+
+
+	if (redLight == 0) {
+		helper->setTextColor(250);
+	}
+	else {
+		helper->setTextColor(252);
+
+	}
+	if (direction == 0) {
+		helper->gotoXY(maxX + 10, y);
+	}
+	else {
+		helper->gotoXY(maxX - 3, y);
+	}
+	cout << (char)254;
+	helper->setTextColor(244);
+}
 

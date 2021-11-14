@@ -13,25 +13,29 @@ private:
 	int x, y;
 	int maxX;
 	int numberOfCars; // <= 4 
-
+	bool redLight; // 0: green, 1: red
 public:
 	ListTrucks();
-	ListTrucks(int lane, int level, int y, int numberOfCars = 4);
-	ListTrucks(int lane, int level,bool direction, int numberOfCars, int y);
-	void addTrucks();
+	~ListTrucks();
+	ListTrucks(int lane, int level, int y);
+	ListTrucks(int lane, int level,bool direction, int y);
+	void addTrucks(int numberOfCars, int start);
 	void setLane(int lane);
 	void setLevel(int level);
 	void setDirection(bool direction);
 	void setNumberOfCars(int numberOfCars);
+	void setRedLight(bool redlight);
+
 	bool getDirection();
 	int getLane();
 	int getLevel();
+	bool getRedLight();
 	int getNumberOfCars();
 	int getSpeed();
 	void drawListCar();
 	void updateListCar();
 	void deleteListCar();
-	//void trafficColor();
+	void trafficColor();
 	bool isCollision(Character* character);
 
 

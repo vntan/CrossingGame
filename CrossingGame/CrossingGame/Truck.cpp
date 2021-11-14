@@ -109,7 +109,6 @@ void Truck::deleteCar(int x, int y) {
 
 	UIHelper* helper = UIHelper::getUIHelper();
 	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 8; ++j) {
 			if (direction == 0) {
 				helper->gotoXY(x, y + i);
 			}
@@ -117,8 +116,6 @@ void Truck::deleteCar(int x, int y) {
 				helper->gotoXY(x + 7, y + i);
 			}
 			cout << " ";
-		}
-		cout << endl;
 	}
 }
 
