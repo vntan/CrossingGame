@@ -14,6 +14,7 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	ListFastAFCars fastAF;
+	fastAF.addCars(3);
 	fastAF.setLane(lane);
 	while (true) {
 		m.lock();
@@ -25,7 +26,7 @@ void Traffic::carInLane(int lane) {
 
 
 		m.unlock();
-		Sleep(fastAF.getSleepTime()/10);
+		Sleep(fastAF.getSleepTime());
 	}
 	
 	//Sleep(1000);
