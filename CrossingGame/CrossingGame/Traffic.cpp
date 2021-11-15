@@ -13,18 +13,54 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	//Khởi tạo ListCar ListRoyalCar t;
-	while (true) {
+	UIHelper* helper = UIHelper::getUIHelper();
+
+	ListTrucks listCars(lane, 1);
+	listCars.setDirection(0);
+	m.lock();
+	listCars.trafficColor();
+	m.unlock();
+	listCars.addTrucks(3,6); // Random: 4 -> 6
+	int count = 0;
+	while (!*isExit) {
+		if (*isStop) continue;
 		m.lock();
 
-		//t.updateListCar(); -> xóa tất cả xe trên làn, vẽ ra xe trên làn theo vị trí mới
+		if (count == 40) {
+			if (listCars.getRedLight()) {
+				listCars.setRedLight(0);
+				listCars.trafficColor();
+				count = 0;
+			}
+			else {
+				listCars.setRedLight(1);
+				listCars.trafficColor();
+				count = 0;
+
+			}
+		}
+		++count;
+
+		
+		if (listCars.getRedLight() == 0) {
+			listCars.deleteListCar();
+			listCars.drawListCar();
+		}
 
 
+		if (listCars.isCollision(character)) {
+
+			*isStop = true;
+		}
+
+		listCars.updateListCar();
+		
 		m.unlock();
-		Sleep(1000);
+		Sleep(100 * lane);
 	}
+		
 	
-	//Sleep(1000);
+
 }
 
 void Traffic::startTraffic() {
@@ -37,10 +73,15 @@ void Traffic::startTraffic() {
 	thread control(&Traffic::processCharacter, this);
 	thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);
-
+	thread l3(&Traffic::carInLane, this, 3);
+	thread l4(&Traffic::carInLane, this, 4);
+	thread l5(&Traffic::carInLane, this, 5);
 
 	l1.join();
 	l2.join();
+	l3.join();
+	l4.join();
+	l5.join();
 	control.join();
 }
 
