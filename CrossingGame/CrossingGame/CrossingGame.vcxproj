@@ -144,8 +144,10 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ConsoleHelper.cpp" />
     <ClCompile Include="CrossingGame.cpp" />
+    <ClCompile Include="FastAFCar.cpp" />
     <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="ListCars.cpp" />
+    <ClCompile Include="ListFastAFCars.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="PlayGame.cpp" />
     <ClCompile Include="RedCar.cpp" />
@@ -159,8 +161,10 @@
     <ClInclude Include="CarStructure.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ConsoleHelper.h" />
+    <ClInclude Include="FastAFCar.h" />
     <ClInclude Include="HighScore.h" />
     <ClInclude Include="ListCars.h" />
+    <ClInclude Include="ListFastAFCars.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="PlayGame.h" />
     <ClInclude Include="RedCar.h" />

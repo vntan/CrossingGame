@@ -13,15 +13,19 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	//Khởi tạo ListCar ListRoyalCar t;
+	ListFastAFCars fastAF;
+	fastAF.setLane(lane);
 	while (true) {
 		m.lock();
 
-		//t.updateListCar(); -> xóa tất cả xe trên làn, vẽ ra xe trên làn theo vị trí mới
+		fastAF.trafficColor();
+		fastAF.updateListCar();
+		if (fastAF.isCollision(character))
+			exit(0);
 
 
 		m.unlock();
-		Sleep(1000);
+		Sleep(fastAF.getSleepTime()/10);
 	}
 	
 	//Sleep(1000);

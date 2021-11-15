@@ -1,8 +1,11 @@
 #pragma once
 #include "Character.h"
 #include "Account.h"
+#include "ListFastAFCars.h"
 #include <thread> 
 #include <mutex>
+#include <time.h>
+
 
 class Traffic
 {
