@@ -15,58 +15,55 @@ Traffic::Traffic(User user, int pos) {
 void Traffic::carInLane(int lane) {
 	UIHelper* helper = UIHelper::getUIHelper();
 
-	ListTrucks listCars(lane, 1);
-	listCars.setDirection(0);
+	truckCarProcess(lane);
+}
+
+void Traffic::truckCarProcess(int lane) {
+
+	ListTrucks listTrucks(lane, 0, 4, 5);
+
+	//Draw Traffic Color
 	m.lock();
-	listCars.trafficColor();
+	listTrucks.trafficColor();
+	
 	m.unlock();
-	listCars.addTrucks(3,6); // Random: 4 -> 6
-	int count = 0;
+
+	int count = 1;
 	while (!*isExit) {
 		if (*isStop) continue;
 		m.lock();
+		
+		if (!listTrucks.getRedLight()) {
+			listTrucks.deleteListCar();
+			listTrucks.drawListCar();
+		}
 
-		if (count == 40) {
-			if (listCars.getRedLight()) {
-				listCars.setRedLight(0);
-				listCars.trafficColor();
-				count = 0;
-			}
-			else {
-				listCars.setRedLight(1);
-				listCars.trafficColor();
-				count = 0;
-
-			}
+		if (count % 20 == 0) {
+			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
+			else listTrucks.setRedLight(1);
+		
+			listTrucks.trafficColor();
+			count = 1;
 		}
 		++count;
 
-		
-		if (listCars.getRedLight() == 0) {
-			listCars.deleteListCar();
-			listCars.drawListCar();
-		}
-
-
-		if (listCars.isCollision(character)) {
+		if (listTrucks.isCollision(character)) {
 
 			*isStop = true;
 		}
 
-		listCars.updateListCar();
-		
-		m.unlock();
-		Sleep(100 * lane);
-	}
-		
-	
+		listTrucks.updateListCar();
 
+		m.unlock();
+		Sleep(100 * user.getLevel());
+	}
 }
 
 void Traffic::startTraffic() {
 	*isStop = false;
 	*isExit = false;
 
+	srand(time(NULL));
 	(*character).deleteCharacter();
 	(*character).resetCharater(true);
 
