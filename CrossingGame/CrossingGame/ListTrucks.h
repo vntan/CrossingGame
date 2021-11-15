@@ -17,7 +17,7 @@ private:
 public:
 	ListTrucks();
 	~ListTrucks();
-	ListTrucks(int lane, int level, int y);
+	ListTrucks(int lane, int level);
 	ListTrucks(int lane, int level,bool direction, int y);
 	void addTrucks(int numberOfCars, int start);
 	void setLane(int lane);

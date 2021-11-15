@@ -14,40 +14,13 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	UIHelper* helper = UIHelper::getUIHelper();
-	int minX = 4, maxX = 86, y = 22, x = 4;
 
-	switch (lane) {
-	case 1: {
-		y = 22;
-		break;
-	}
-	case 2: {
-		y = 18;
-		break;
-	}
-	case 3: {
-		y = 14;
-		break;
-	}
-	case 4: {
-		y = 10;
-		break;
-	}
-	case 5: {
-		y = 6;
-		break;
-	}
-	default:
-		y = 22;
-	}
-
-
-	ListTrucks listCars(lane, 1,y);
-	listCars.setDirection(1);
+	ListTrucks listCars(lane, 1);
+	listCars.setDirection(0);
 	m.lock();
 	listCars.trafficColor();
 	m.unlock();
-	listCars.addTrucks(4,6); // Random: 4 -> 6
+	listCars.addTrucks(3,6); // Random: 4 -> 6
 	int count = 0;
 	while (!*isExit) {
 		if (*isStop) continue;

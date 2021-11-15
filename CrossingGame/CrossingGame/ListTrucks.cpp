@@ -21,7 +21,7 @@ ListTrucks::~ListTrucks() {
 }
 
 
-ListTrucks::ListTrucks(int lane, int level, int y) {
+ListTrucks::ListTrucks(int lane, int level) {
 	srand(time(NULL));
 	this->lane = lane;
 	this->redLight = 0;
@@ -36,7 +36,31 @@ ListTrucks::ListTrucks(int lane, int level, int y) {
 	else {
 		this->x = 86;
 	}
-	this->y = y;
+
+	switch (lane) {
+	case 1: {
+		y = 22;
+		break;
+	}
+	case 2: {
+		y = 18;
+		break;
+	}
+	case 3: {
+		y = 14;
+		break;
+	}
+	case 4: {
+		y = 10;
+		break;
+	}
+	case 5: {
+		y = 6;
+		break;
+	}
+	default:
+		y = 22;
+	}
 	if (direction == 0) {
 		this->maxX = 86;
 	}
@@ -72,6 +96,7 @@ ListTrucks::ListTrucks(int lane, int level, bool direction, int y) {
 
 
 void ListTrucks::addTrucks(int numberOfCars, int start) {
+	this->numberOfCars = numberOfCars;
 	for (int i = 0; i < numberOfCars; ++i) {
 		Truck newTruck;
 	
