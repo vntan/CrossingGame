@@ -15,12 +15,34 @@ Traffic::Traffic(User user, int pos) {
 void Traffic::carInLane(int lane) {
 	ListRedCar l;
 	l.setLane(lane);
-	l.setLevel(1);
+	l.setLevel(4);
+
+	m.lock();
+	l.trafficColor();
+	m.unlock();
 	
+	int count = 0;
 	while (true) {
 		m.lock();
+
+		if (count == l.getTimeRedLight()) {
+			if (l.getRedLight()) {
+				l.setRedLight(0);
+				l.trafficColor();
+				count = 0;
+			}
+			else {
+				l.setRedLight(1);
+				l.trafficColor();
+				count = 0;
+			}
+		}
+		++count;
+
+		if (l.getRedLight() == 0) {
+			l.updateListCar();
+		}
 		
-		l.updateListCar();
 		if (l.isCollision(character) == true)
 			exit(0);
 		

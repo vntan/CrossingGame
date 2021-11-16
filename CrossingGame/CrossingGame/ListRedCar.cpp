@@ -26,18 +26,29 @@ void ListRedCar::setLane(int lane) {
 		x = 3;
 		y = 0;
 	}
-	for (int i = 0; i < 6; i++) {
-		r[i].carX = x;
-		r[i].carY = y;
-	}
 
 	count = 0;
 	numberOfCar = 0;
 	flag = false;
+	this->redLight = 0;
 }
 
 void ListRedCar::setLevel(int level) {
 	this->level = level;
+	if (level == 1 || level == 2 || level == 3) {
+		maxCar = 5;
+		timeRedLight = 60;
+	}
+	else if (level >= 4) {
+		maxCar = 6;
+		timeRedLight = 40;
+	}
+	r = new RedCar[maxCar];
+
+	for (int i = 0; i < maxCar; i++) {
+		r[i].carX = x;
+		r[i].carY = y;
+	}
 }
 
 int ListRedCar::getSleep() {
@@ -52,12 +63,12 @@ int ListRedCar::getSleep() {
 	else if (level == 5)
 		return 100;
 	else if (level > 5)
-		return 150 - 70 * (level - 5);
+		return 150 - 50 * (level - 5);
 }
 
 void ListRedCar::drawListCar() {
 	for (int i = 0; i < numberOfCar + 1; i++) {
-		if (numberOfCar < 5) {
+		if (numberOfCar < maxCar - 1) {
 			if (count > 6) {
 				numberOfCar++;
 				count = 0;
@@ -96,9 +107,29 @@ void ListRedCar::deleteListCar() {
 			flag = true;
 	}
 }
+void ListRedCar::setRedLight(bool redLight) {
+	this->redLight = redLight;
+}
+
+bool ListRedCar::getRedLight() {
+	return redLight;
+}
+
+int ListRedCar::getTimeRedLight() {
+	return timeRedLight;
+}
 
 void ListRedCar::trafficColor() {
+	UIHelper* helper = UIHelper::getUIHelper();
 
+
+	if (redLight == 0) helper->setTextColor(250);
+	else helper->setTextColor(252);
+
+	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
+	cout << (char)219 << (char)219;
+
+	helper->setTextColor(244);
 }
 
 bool ListRedCar::isCollision(Character* character) {
