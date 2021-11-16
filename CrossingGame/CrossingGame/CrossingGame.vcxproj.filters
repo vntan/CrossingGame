@@ -13,129 +13,96 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Utilities">
-      <UniqueIdentifier>{a73f6ba3-7a36-496e-964c-ee2fd4d25940}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows">
-      <UniqueIdentifier>{c8056110-6211-4b12-aaca-61932d16346f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\MainMenu">
-      <UniqueIdentifier>{dc47eb01-07af-4ae1-90b1-253c91cb83f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\HighScore">
-      <UniqueIdentifier>{f5d5c38f-263f-4833-9f2f-09e4d3b5df30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame">
-      <UniqueIdentifier>{9cd5c738-63a9-4c8f-9c5c-3c5e20115d7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\User">
-      <UniqueIdentifier>{c7e67713-7d66-4b2b-843d-f24c8193f6d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\About">
-      <UniqueIdentifier>{3f0989fc-1d09-4279-b6c2-44f442ca5722}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\Character">
-      <UniqueIdentifier>{26840a04-b157-424f-8a25-a43b3bb534c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\Traffic">
-      <UniqueIdentifier>{c696ab74-6aff-47be-b9f4-0bde3ad4ca0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\ListCars">
-      <UniqueIdentifier>{febf52dd-4709-4e3e-b915-7692262482b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\Car Structure">
-      <UniqueIdentifier>{2dcc5430-bf81-4543-9e30-8c10bd850c1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\Car Structure\RecCar">
-      <UniqueIdentifier>{a1a42823-0d44-422d-ace8-0d402f31974c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\Car Structure\RoyalCar">
-      <UniqueIdentifier>{370f83b2-c939-4be2-b48b-aba4e3787805}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\PlayGame\ListCars\ListRoyalCar">
-      <UniqueIdentifier>{45e5579f-0fb6-4bc1-b2f0-fa207b9f37e8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CrossingGame.cpp">
+    <ClCompile Include="About.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CarStructure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleHelper.cpp">
-      <Filter>Utilities</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UIHelper.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="MainGame.cpp">
-      <Filter>Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="About.cpp">
-      <Filter>Windows\About</Filter>
-    </ClCompile>
-    <ClCompile Include="HighScore.cpp">
-      <Filter>Windows\HighScore</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayGame.cpp">
-      <Filter>Windows\PlayGame</Filter>
-    </ClCompile>
-    <ClCompile Include="User.cpp">
-      <Filter>Windows\User</Filter>
-    </ClCompile>
-    <ClCompile Include="Account.cpp">
-      <Filter>Windows\User</Filter>
-    </ClCompile>
-    <ClCompile Include="RedCar.cpp">
-      <Filter>Windows\PlayGame\Car Structure\RecCar</Filter>
+    <ClCompile Include="CrossingGame.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>Windows\PlayGame\Character</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Traffic.cpp">
-      <Filter>Windows\PlayGame\Traffic</Filter>
+    <ClCompile Include="HighScore.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ListCars.cpp">
-      <Filter>Windows\PlayGame\ListCars</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedCar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traffic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ListRedCar.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleHelper.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="UIHelper.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="MainGame.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
     <ClInclude Include="About.h">
-      <Filter>Windows\About</Filter>
-    </ClInclude>
-    <ClInclude Include="HighScore.h">
-      <Filter>Windows\HighScore</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayGame.h">
-      <Filter>Windows\PlayGame</Filter>
-    </ClInclude>
-    <ClInclude Include="User.h">
-      <Filter>Windows\User</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Account.h">
-      <Filter>Windows\User</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CarStructure.h">
-      <Filter>Windows\PlayGame\Car Structure</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RedCar.h">
-      <Filter>Windows\PlayGame\Car Structure\RecCar</Filter>
+    <ClInclude Include="ConsoleHelper.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Windows\PlayGame\Character</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Traffic.h">
-      <Filter>Windows\PlayGame\Traffic</Filter>
+    <ClInclude Include="HighScore.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListCars.h">
-      <Filter>Windows\PlayGame\ListCars</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RedCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Traffic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListRedCar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

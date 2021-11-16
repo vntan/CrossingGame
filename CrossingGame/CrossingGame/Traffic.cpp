@@ -14,17 +14,20 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	//Khởi tạo ListCar ListRoyalCar t;
+	ListRedCar l;
+	l.setLane(3);
+	l.setLevel(5);
+	
 	while (true) {
 		m.lock();
-
-		//t.updateListCar(); -> xóa tất cả xe trên làn, vẽ ra xe trên làn theo vị trí mới
-
-
+		
+		l.updateListCar();
+		if (l.isCollision(character) == true)
+			exit(0);
+		
 		m.unlock();
-		Sleep(1000);
+		Sleep(l.getSleep());
 	}
-	
-	//Sleep(1000);
 }
 
 void Traffic::startTraffic() {

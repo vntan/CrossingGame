@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Character.h"
+#include "RedCar.h"
 
 class ListCars
 {
