@@ -13,10 +13,9 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	//Khởi tạo ListCar ListRoyalCar t;
 	ListRedCar l;
-	l.setLane(3);
-	l.setLevel(5);
+	l.setLane(lane);
+	l.setLevel(1);
 	
 	while (true) {
 		m.lock();

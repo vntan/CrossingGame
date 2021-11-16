@@ -68,16 +68,6 @@ void ListRedCar::drawListCar() {
 			count++;
 		}
 	}
-	//r.drawCar(r.carX, r.carY);
-	/*for (int i = 0; i < 2; i++) {
-		if (i == 0)
-			r[i].drawCar(r[i].carX, r[i].carY);
-		else {
-			if (r[i].carX + 7 < r[i - 1].carX || r[i].carX - 7 < r[i - 1].carX)
-				r[i].drawCar(r[i].carX, r[i].carY);
-		}
-	}*/
-
 }
 
 void ListRedCar::updateListCar() {
@@ -105,20 +95,6 @@ void ListRedCar::deleteListCar() {
 		else
 			flag = true;
 	}
-	/*r.deleteCar(r.carX, r.carY);
-	if (lane == 2 || lane == 4 || lane == 6) {
-		if (r.carX + 2 <= 88)
-			r.carX += 2;
-		else
-			r.carX = 3;
-	}
-	else if (lane == 1 || lane == 3 || lane == 5) {
-		if (r.carX - 2 >= 0)
-			r.carX -= 2;
-		else
-			r.carX = 88;
-	}*/
-	
 }
 
 void ListRedCar::trafficColor() {
@@ -127,11 +103,6 @@ void ListRedCar::trafficColor() {
 
 bool ListRedCar::isCollision(Character* character) {
 	for (int i = 0; i < numberOfCar + 1; i++) {
-		/*if (((character->getX() >= r[i].carX && character->getX() <= r[i].carX + 7)
-			|| (character->getX() + 2 >= r[i].carX && character->getX() <= r[i].carX + 7))
-			&& ((character->getY() >= r[i].carY && character->getY() <= r[i].carY + 2)
-				|| (character->getY() - 1 >= r[i].carY && character->getY() - 1 <= r[i].carY + 2)))
-			return true;*/
 		if (((character->getX() >= r[i].carX && character->getX() <= r[i].carX + 7)
 			|| (character->getX() + 2 >= r[i].carX && character->getX() <= r[i].carX + 7))
 			&& ((character->getY() - 1 >= y + 2 && character->getY() - 1 <= y + 4)
