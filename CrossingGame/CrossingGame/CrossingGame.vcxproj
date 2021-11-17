@@ -148,10 +148,12 @@
     <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="ListCars.cpp" />
     <ClCompile Include="ListFastAFCars.cpp" />
+    <ClCompile Include="ListTrucks.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="PlayGame.cpp" />
     <ClCompile Include="RedCar.cpp" />
     <ClCompile Include="Traffic.cpp" />
+    <ClCompile Include="Truck.cpp" />
     <ClCompile Include="UIHelper.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -165,10 +167,12 @@
     <ClInclude Include="HighScore.h" />
     <ClInclude Include="ListCars.h" />
     <ClInclude Include="ListFastAFCars.h" />
+    <ClInclude Include="ListTrucks.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="PlayGame.h" />
     <ClInclude Include="RedCar.h" />
     <ClInclude Include="Traffic.h" />
+    <ClInclude Include="Truck.h" />
     <ClInclude Include="UIHelper.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

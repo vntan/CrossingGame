@@ -19,43 +19,85 @@ void Traffic::carInLane(int lane) {
 	int count = 1;
 	fastAF.trafficColor();
 	while (true) {
-		if (*isStop)
-			continue;
-		m.lock();
-
-		if (count % 100 == 0) {
+		if (*isStop) continue;
+    
+    if (count % 100 == 0) {
 			fastAF.setTraffic(!fastAF.getTraffic());
 			fastAF.trafficColor();
 		}
-
-
-		fastAF.updateListCar();
+    fastAF.updateListCar();
 		if (fastAF.isCollision(character)) {
 			fastAF.saveCar();
 			exit(0);
 		}
 		count++;
 		m.unlock();
-		Sleep(fastAF.getSleepTime());
-	}
+    Sleep(fastAF.getSleepTime());
+  }
+	UIHelper* helper = UIHelper::getUIHelper();
+
+	truckCarProcess(lane);
+}
+
+void Traffic::truckCarProcess(int lane) {
+
+	ListTrucks listTrucks(lane, 0, 4, 5);
+
+	//Draw Traffic Color
+	m.lock();
+	listTrucks.trafficColor();
 	
-	//Sleep(1000);
+	m.unlock();
+
+	int count = 1;
+	while (!*isExit) {
+		if (*isStop) continue;
+		m.lock();
+		
+		if (!listTrucks.getRedLight()) {
+			listTrucks.deleteListCar();
+			listTrucks.drawListCar();
+		}
+	
+		if (count % 20 == 0) {
+			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
+			else listTrucks.setRedLight(1);
+		
+			listTrucks.trafficColor();
+			count = 1;
+		}
+		++count;
+
+		if (listTrucks.isCollision(character)) {
+
+			*isStop = true;
+		}
+
+		listTrucks.updateListCar();
+		Sleep(100 * user.getLevel());
+	}
 }
 
 void Traffic::startTraffic() {
 	*isStop = false;
 	*isExit = false;
 
+	srand(time(NULL));
 	(*character).deleteCharacter();
 	(*character).resetCharater(true);
 
 	thread control(&Traffic::processCharacter, this);
-	//thread l1(&Traffic::carInLane, this, 1);
+	thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);
+	thread l3(&Traffic::carInLane, this, 3);
+	thread l4(&Traffic::carInLane, this, 4);
+	thread l5(&Traffic::carInLane, this, 5);
 
-
-	//l1.join();
+	l1.join();
 	l2.join();
+	l3.join();
+	l4.join();
+	l5.join();
 	control.join();
 }
 
