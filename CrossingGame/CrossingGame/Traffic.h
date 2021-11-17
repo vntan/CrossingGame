@@ -4,7 +4,12 @@
 #include "ListFastAFCars.h"
 #include <thread> 
 #include <mutex>
-#include <time.h>
+#include "Truck.h"
+#include <thread> 
+#include <mutex>
+#include "ListTrucks.h"
+
+#include <stdlib.h>     /* srand, rand */
 
 
 class Traffic
@@ -17,6 +22,7 @@ class Traffic
 
 	mutex m;
 	void carInLane(int lane);
+	void truckCarProcess(int lane);
 public:
 
 	Traffic(User user, int pos);
