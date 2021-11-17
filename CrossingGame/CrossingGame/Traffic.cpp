@@ -13,25 +13,10 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
+	//UIHelper* helper = UIHelper::getUIHelper();
 
-	ListFastAFCars fastAF;
-	fastAF.setLane(lane);
-	fastAF.setLevel(5);
-	int count = 1;
-	fastAF.trafficColor();
-	while (true) {
-		if (*isStop)
-			continue;
-    if (count % 100 == 0) {
-			fastAF.setTraffic(!fastAF.getTraffic());
-			fastAF.trafficColor();
-		}
-    Sleep(fastAF.getSleepTime());
-  }
-
-	UIHelper* helper = UIHelper::getUIHelper();
-
-	truckCarProcess(lane);
+	if (lane % 2 == 0) fastAFCarProcess(lane);
+	else truckCarProcess(lane);
 }
 
 void Traffic::truckCarProcess(int lane) {
@@ -71,15 +56,41 @@ void Traffic::truckCarProcess(int lane) {
 
 		listTrucks.updateListCar();
 
+		
+		m.unlock();
+
+		Sleep(100 * user.getLevel());
+	}
+}
+
+void Traffic::fastAFCarProcess(int lane) {
+	ListFastAFCars fastAF;
+	fastAF.setLane(lane);
+	fastAF.setLevel(4);
+	int count = 1;
+
+	m.lock();
+	fastAF.trafficColor();
+	m.unlock();
+
+	while (true) {
+		if (*isStop) continue;
+
+		m.lock();
+		if (count % 20 == 0) {
+			fastAF.setTraffic(!fastAF.getTraffic());
+			fastAF.trafficColor();
+		}
+
 		fastAF.updateListCar();
 		if (fastAF.isCollision(character)) {
 			fastAF.saveCar();
 			exit(0);
 		}
 		count++;
-		m.unlock();
 
-		Sleep(100 * user.getLevel());
+		m.unlock();
+		Sleep(fastAF.getSleepTime());
 	}
 }
 

@@ -23,6 +23,7 @@ class Traffic
 	mutex m;
 	void carInLane(int lane);
 	void truckCarProcess(int lane);
+	void fastAFCarProcess(int lane);
 public:
 
 	Traffic(User user, int pos);

@@ -61,6 +61,12 @@
     <Filter Include="Windows\PlayGame\ListCars\Truck">
       <UniqueIdentifier>{269e8cb5-dab7-4ac8-b686-ae828a349809}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\ListFastAFCar">
+      <UniqueIdentifier>{ec3e58a2-77d7-4d19-9155-a5d1eb6cb82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\Car Structure\AFCar">
+      <UniqueIdentifier>{a3c9a243-c3d6-4932-a497-ed5f33e07954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossingGame.cpp">
@@ -107,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="ListTrucks.cpp">
       <Filter>Windows\PlayGame\ListCars\Truck</Filter>
+    </ClCompile>
+    <ClCompile Include="FastAFCar.cpp">
+      <Filter>Windows\PlayGame\Car Structure\AFCar</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFastAFCars.cpp">
+      <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,5 +167,14 @@
     <ClInclude Include="ListTrucks.h">
       <Filter>Windows\PlayGame\ListCars\Truck</Filter>
     </ClInclude>
+    <ClInclude Include="FastAFCar.h">
+      <Filter>Windows\PlayGame\Car Structure\AFCar</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFastAFCars.h">
+      <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ListFastAFCar.txt" />
   </ItemGroup>
 </Project>
