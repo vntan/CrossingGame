@@ -14,18 +14,21 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	ListFastAFCars fastAF;
-	//fastAF.setLane(lane);
-	//fastAF.setLevel(4);
-	fastAF.loadCar();
+	fastAF.setLane(lane);
+	fastAF.setLevel(5);
 	int count = 1;
 	fastAF.trafficColor();
 	while (true) {
+		if (*isStop)
+			continue;
 		m.lock();
 
-		if (count % 100 == 0)
-			fastAF.setMove(false);
+		if (count % 100 == 0) {
+			fastAF.setTraffic(!fastAF.getTraffic());
+			fastAF.trafficColor();
+		}
 
-		fastAF.trafficColor();
+
 		fastAF.updateListCar();
 		if (fastAF.isCollision(character)) {
 			fastAF.saveCar();

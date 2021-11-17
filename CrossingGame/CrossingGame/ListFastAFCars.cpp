@@ -13,6 +13,7 @@ ListFastAFCars::ListFastAFCars(){
 		numofcars = 1;
 		car = nullptr;
 		distance = 10;
+		isRed = false;
 	}
 	else {
 		lane = 1;
@@ -26,6 +27,7 @@ ListFastAFCars::ListFastAFCars(){
 		numofcars = 1;
 		car = nullptr;
 		distance = 10;
+		isRed = false;
 	}
 }
 
@@ -49,23 +51,16 @@ void ListFastAFCars::addCars(int n, int distance) {
 	resetStatus();
 }
 
-void ListFastAFCars::setTrafficRed() {
-	UIHelper::getUIHelper()->setTextColor(244); // red
-	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
-	cout << (char)219 << (char)219;
-}
-
-void ListFastAFCars::setTrafficGreen() {
-	UIHelper::getUIHelper()->setTextColor(242); // red
-	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
-	cout << (char)219 << (char)219;
+void ListFastAFCars::setTraffic(bool isRed) {
+	this->isRed = isRed;
+	this->stop = isRed;
 }
 
 bool ListFastAFCars::getTraffic() {
-	return stop;
+	return isRed;
 }
 
-void ListFastAFCars::setMove(bool stop) {
+void ListFastAFCars::setStop(bool stop) {
 	this->stop = stop;
 }
 
@@ -79,6 +74,7 @@ void ListFastAFCars::resetStatus() {
 		}
 		stop = false;
 		reverse = true;
+		isRed = false;
 	}
 	else {
 		setLane(this->lane);
@@ -89,6 +85,7 @@ void ListFastAFCars::resetStatus() {
 		}
 		stop = false;
 		reverse = false;
+		isRed = false;
 	}
 }
 
@@ -105,8 +102,10 @@ void ListFastAFCars::setLane(int lane) {
 }
 
 void ListFastAFCars::setLevel(int level) {
+	if (level > 5)
+		level = 5; // =))
 	this->level = level;
-	addCars(level, 5 * level);
+	addCars(level, 10 * level);
 }
 
 void ListFastAFCars::saveCar() {
@@ -201,11 +200,8 @@ void ListFastAFCars::updateListCar() {
 			}
 		}
 	}
-	if ((reverse == true && posX[numofcars - 1] < 3) || (reverse == false && posX[numofcars - 1] >= 95)) {
+	if ((reverse == true && posX[numofcars - 1] < 3) || (reverse == false && posX[numofcars - 1] >= 95))
 		resetStatus();
-		stop = true;
-		trafficColor();
-	}
 }
 
 void ListFastAFCars::deleteListCar(int i) {
@@ -224,7 +220,7 @@ void ListFastAFCars::deleteListCar(int i) {
 }
 
 void ListFastAFCars::trafficColor() {
-	if (stop) {
+	if (isRed) {
 		UIHelper::getUIHelper()->setTextColor(244); // red
 		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
 		cout << (char)219 << (char)219;

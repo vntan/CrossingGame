@@ -16,15 +16,15 @@ private:
 	bool stop;
 	bool reverse;
 	int distance;
+	bool isRed;
 public: 
 	~ListFastAFCars();
 	ListFastAFCars();
 	void saveCar();
 	void loadCar();
-	void setMove(bool stop);
-	void setTrafficRed();
-	void setTrafficGreen();
+	void setTraffic(bool isRed);
 	bool getTraffic();
+	void setStop(bool stop);
 	void addCars(int n, int distance);
 	void resetStatus();
 	int getSleepTime();
