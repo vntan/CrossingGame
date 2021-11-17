@@ -14,9 +14,16 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	ListFastAFCars fastAF;
+	//fastAF.setLane(lane);
+	//fastAF.setLevel(4);
 	fastAF.loadCar();
+	int count = 1;
+	fastAF.trafficColor();
 	while (true) {
 		m.lock();
+
+		if (count % 100 == 0)
+			fastAF.setMove(false);
 
 		fastAF.trafficColor();
 		fastAF.updateListCar();
@@ -24,8 +31,7 @@ void Traffic::carInLane(int lane) {
 			fastAF.saveCar();
 			exit(0);
 		}
-
-
+		count++;
 		m.unlock();
 		Sleep(fastAF.getSleepTime());
 	}

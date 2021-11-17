@@ -14,7 +14,6 @@ private:
 	int lane;
 	int level;
 	bool stop;
-	int turncount;
 	bool reverse;
 	int distance;
 public: 
@@ -22,7 +21,9 @@ public:
 	ListFastAFCars();
 	void saveCar();
 	void loadCar();
-	void setTraffic(bool stop);
+	void setMove(bool stop);
+	void setTrafficRed();
+	void setTrafficGreen();
 	bool getTraffic();
 	void addCars(int n, int distance);
 	void resetStatus();

@@ -8,7 +8,6 @@ ListFastAFCars::ListFastAFCars(){
 		posX = nullptr;
 		level = 1;
 		stop = false;
-		turncount = (rand() % 30) + 1;
 		firstdraw = nullptr;
 		countstep = nullptr;
 		numofcars = 1;
@@ -21,7 +20,6 @@ ListFastAFCars::ListFastAFCars(){
 		posX = nullptr;
 		level = 1;
 		stop = false;
-		turncount = (rand() % 30) + 1;
 		firstdraw = nullptr;
 		countstep = nullptr;
 		reverse = false;
@@ -51,15 +49,24 @@ void ListFastAFCars::addCars(int n, int distance) {
 	resetStatus();
 }
 
-void ListFastAFCars::setTraffic(bool stop) {
-	this->stop = stop;
-	trafficColor();
-	if (stop)
-		turncount = 999999;
+void ListFastAFCars::setTrafficRed() {
+	UIHelper::getUIHelper()->setTextColor(244); // red
+	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
+	cout << (char)219 << (char)219;
+}
+
+void ListFastAFCars::setTrafficGreen() {
+	UIHelper::getUIHelper()->setTextColor(242); // red
+	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
+	cout << (char)219 << (char)219;
 }
 
 bool ListFastAFCars::getTraffic() {
-	return this->stop;
+	return stop;
+}
+
+void ListFastAFCars::setMove(bool stop) {
+	this->stop = stop;
 }
 
 void ListFastAFCars::resetStatus() {
@@ -71,7 +78,6 @@ void ListFastAFCars::resetStatus() {
 			countstep[i] = 1;
 		}
 		stop = false;
-		turncount = (rand() % 30) + 1;
 		reverse = true;
 	}
 	else {
@@ -82,7 +88,6 @@ void ListFastAFCars::resetStatus() {
 			countstep[i] = 1;
 		}
 		stop = false;
-		turncount = (rand() % 30) + 1;
 		reverse = false;
 	}
 }
@@ -91,7 +96,7 @@ int ListFastAFCars::getSleepTime() {
 	if (stop)
 		return 110 - 20 * level;
 	else
-		return 11 - 2 * level;
+		return 31 - 4 * level;
 }
 
 void ListFastAFCars::setLane(int lane) {
@@ -106,7 +111,7 @@ void ListFastAFCars::setLevel(int level) {
 
 void ListFastAFCars::saveCar() {
 	fstream fout("ListFastAFCar.txt", ios::out);
-	fout << reverse << " " << distance << " " << posY << " " << numofcars << " " << level << " " << lane << " " << turncount << " " << stop << endl;
+	fout << reverse << " " << distance << " " << posY << " " << numofcars << " " << level << " " << lane << " "  << stop << endl;
 	for (int i = 0; i < numofcars; i++) {
 		fout << posX[i] << " " << countstep[i] << " " << firstdraw[i] << endl;
 	}
@@ -115,7 +120,7 @@ void ListFastAFCars::saveCar() {
 
 void ListFastAFCars::loadCar() {
 	fstream fin("ListFastAFCar.txt", ios::in);
-	fin >> reverse >> distance >> posY >> numofcars >> level >> lane >> turncount >> stop;
+	fin >> reverse >> distance >> posY >> numofcars >> level >> lane >> stop;
 	if (car == nullptr) {
 		car = new FastAFCar[numofcars];
 		posX = new int[numofcars];
@@ -140,14 +145,7 @@ void ListFastAFCars::drawListCar(int i) {
 
 void ListFastAFCars::updateListCar() {
 	for (int i = 0; i < numofcars; i++) {
-		if (stop) {
-			turncount--;
-			if (turncount < 0) {
-				stop = false;
-				trafficColor();
-				break;
-			}
-		}
+		if (stop) {}
 		else {
 			if (i == 0) {
 				if (reverse) {
