@@ -13,6 +13,7 @@ ListFastAFCars::ListFastAFCars(){
 		countstep = nullptr;
 		numofcars = 1;
 		car = nullptr;
+		distance = 10;
 	}
 	else {
 		lane = 1;
@@ -26,6 +27,7 @@ ListFastAFCars::ListFastAFCars(){
 		reverse = false;
 		numofcars = 1;
 		car = nullptr;
+		distance = 10;
 	}
 }
 
@@ -36,13 +38,28 @@ ListFastAFCars::~ListFastAFCars() {
 	delete[] firstdraw;
 }
 
-void ListFastAFCars::addCars(int n) {
+void ListFastAFCars::addCars(int n, int distance) {
 	car = new FastAFCar[n];
 	posX = new int[n];
 	countstep = new int[n];
 	firstdraw = new bool[n];
 	numofcars = n;
+	if (distance < 10)
+		this->distance = 10;
+	else
+		this->distance = distance;
 	resetStatus();
+}
+
+void ListFastAFCars::setTraffic(bool stop) {
+	this->stop = stop;
+	trafficColor();
+	if (stop)
+		turncount = 999999;
+}
+
+bool ListFastAFCars::getTraffic() {
+	return this->stop;
 }
 
 void ListFastAFCars::resetStatus() {
@@ -53,7 +70,6 @@ void ListFastAFCars::resetStatus() {
 			firstdraw[i] = true;
 			countstep[i] = 1;
 		}
-		level = 1;
 		stop = false;
 		turncount = (rand() % 30) + 1;
 		reverse = true;
@@ -65,7 +81,6 @@ void ListFastAFCars::resetStatus() {
 			firstdraw[i] = true;
 			countstep[i] = 1;
 		}
-		level = 1;
 		stop = false;
 		turncount = (rand() % 30) + 1;
 		reverse = false;
@@ -86,6 +101,32 @@ void ListFastAFCars::setLane(int lane) {
 
 void ListFastAFCars::setLevel(int level) {
 	this->level = level;
+	addCars(level, 5 * level);
+}
+
+void ListFastAFCars::saveCar() {
+	fstream fout("ListFastAFCar.txt", ios::out);
+	fout << reverse << " " << distance << " " << posY << " " << numofcars << " " << level << " " << lane << " " << turncount << " " << stop << endl;
+	for (int i = 0; i < numofcars; i++) {
+		fout << posX[i] << " " << countstep[i] << " " << firstdraw[i] << endl;
+	}
+	fout.close();
+}
+
+void ListFastAFCars::loadCar() {
+	fstream fin("ListFastAFCar.txt", ios::in);
+	fin >> reverse >> distance >> posY >> numofcars >> level >> lane >> turncount >> stop;
+	if (car == nullptr) {
+		car = new FastAFCar[numofcars];
+		posX = new int[numofcars];
+		countstep = new int[numofcars];
+		firstdraw = new bool[numofcars];
+	}
+	for (int i = 0; i < numofcars; i++) {
+		fin >> posX[i] >> countstep[i] >> firstdraw[i];
+	}
+	trafficColor();
+	fin.close();
 }
 
 void ListFastAFCars::drawListCar(int i) {
@@ -136,7 +177,7 @@ void ListFastAFCars::updateListCar() {
 			}
 			else  {
 				if (reverse) {
-					if (posX[i] >= 3 && posX[i - 1] <= 85) {
+					if (posX[i] >= 3 && posX[i - 1] <= 95 - distance) {
 						if (firstdraw[i]) {
 							drawListCarReverse(i);
 							firstdraw[i] = false;
@@ -148,7 +189,7 @@ void ListFastAFCars::updateListCar() {
 					}
 				}
 				else {
-					if (posX[i] <= 95 && posX[i - 1] >= 13) {
+					if (posX[i] <= 95 && posX[i - 1] >= 3 + distance / 2) {
 						if (firstdraw[i]) {
 							drawListCar(i);
 							firstdraw[i] = false;

@@ -87,6 +87,7 @@ void FastAFCar::drawCar(int x, int y, int count) {
 
 void FastAFCar::deleteCar(int x, int y, int count) {
 	UIHelper* p;
+	p->getUIHelper()->setTextColor(244);
 	if (count >= width) {
 		p->getUIHelper()->gotoXY(x, y);
 		cout << "         ";
@@ -240,6 +241,7 @@ void FastAFCar::drawCarReverse(int x, int y, int count) {
 
 void FastAFCar::deleteCarReverse(int x, int y, int count) {
 	UIHelper* p;
+	p->getUIHelper()->setTextColor(244);
 	if (count >= width) {
 		p->getUIHelper()->gotoXY(x, y);
 		cout << "         ";

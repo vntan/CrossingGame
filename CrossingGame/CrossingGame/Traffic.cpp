@@ -14,15 +14,16 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	ListFastAFCars fastAF;
-	fastAF.addCars(3);
-	fastAF.setLane(lane);
+	fastAF.loadCar();
 	while (true) {
 		m.lock();
 
 		fastAF.trafficColor();
 		fastAF.updateListCar();
-		if (fastAF.isCollision(character))
+		if (fastAF.isCollision(character)) {
+			fastAF.saveCar();
 			exit(0);
+		}
 
 
 		m.unlock();
@@ -40,11 +41,11 @@ void Traffic::startTraffic() {
 	(*character).resetCharater(true);
 
 	thread control(&Traffic::processCharacter, this);
-	thread l1(&Traffic::carInLane, this, 1);
+	//thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);
 
 
-	l1.join();
+	//l1.join();
 	l2.join();
 	control.join();
 }

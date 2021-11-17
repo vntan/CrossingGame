@@ -1,6 +1,7 @@
 #include "FastAFCar.h"
 #include "ListCars.h"
 #include "Character.h"
+#include <fstream>
 
 class ListFastAFCars : public ListCars {
 private:
@@ -15,10 +16,15 @@ private:
 	bool stop;
 	int turncount;
 	bool reverse;
+	int distance;
 public: 
 	~ListFastAFCars();
 	ListFastAFCars();
-	void addCars(int n);
+	void saveCar();
+	void loadCar();
+	void setTraffic(bool stop);
+	bool getTraffic();
+	void addCars(int n, int distance);
 	void resetStatus();
 	int getSleepTime();
 	void setLane(int lane);
