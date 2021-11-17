@@ -13,6 +13,22 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
+
+	ListFastAFCars fastAF;
+	fastAF.setLane(lane);
+	fastAF.setLevel(5);
+	int count = 1;
+	fastAF.trafficColor();
+	while (true) {
+		if (*isStop)
+			continue;
+    if (count % 100 == 0) {
+			fastAF.setTraffic(!fastAF.getTraffic());
+			fastAF.trafficColor();
+		}
+    Sleep(fastAF.getSleepTime());
+  }
+
 	UIHelper* helper = UIHelper::getUIHelper();
 
 	truckCarProcess(lane);
@@ -31,6 +47,7 @@ void Traffic::truckCarProcess(int lane) {
 	int count = 1;
 	while (!*isExit) {
 		if (*isStop) continue;
+
 		m.lock();
 		
 		if (!listTrucks.getRedLight()) {
@@ -54,7 +71,14 @@ void Traffic::truckCarProcess(int lane) {
 
 		listTrucks.updateListCar();
 
+		fastAF.updateListCar();
+		if (fastAF.isCollision(character)) {
+			fastAF.saveCar();
+			exit(0);
+		}
+		count++;
 		m.unlock();
+
 		Sleep(100 * user.getLevel());
 	}
 }

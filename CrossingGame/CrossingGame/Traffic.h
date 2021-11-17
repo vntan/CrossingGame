@@ -1,13 +1,15 @@
 #pragma once
 #include "Character.h"
 #include "Account.h"
+#include "ListFastAFCars.h"
+#include <thread> 
+#include <mutex>
 #include "Truck.h"
 #include <thread> 
 #include <mutex>
 #include "ListTrucks.h"
 
 #include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
 
 
 class Traffic
