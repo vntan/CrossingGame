@@ -20,6 +20,8 @@ void Traffic::carInLane(int lane) {
 	m.lock();
 	l.trafficColor();
 	m.unlock();
+
+	l.loadGame();
 	
 	int count = 0;
 	while (true) {
@@ -43,8 +45,10 @@ void Traffic::carInLane(int lane) {
 			l.updateListCar();
 		}
 		
-		if (l.isCollision(character) == true)
+		if (l.isCollision(character) == true) {
+			l.saveGame();
 			exit(0);
+		}
 		
 		m.unlock();
 		Sleep(l.getSleep());
@@ -59,11 +63,11 @@ void Traffic::startTraffic() {
 	(*character).resetCharater(true);
 
 	thread control(&Traffic::processCharacter, this);
-	thread l1(&Traffic::carInLane, this, 1);
+	//thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);
 
 
-	l1.join();
+	//l1.join();
 	l2.join();
 	control.join();
 }

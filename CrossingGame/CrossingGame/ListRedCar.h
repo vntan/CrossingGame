@@ -23,4 +23,6 @@ public:
 	void trafficColor();
 	bool isCollision(Character* character);
 	int getTimeRedLight();
+	void loadGame();
+	void saveGame();
 };

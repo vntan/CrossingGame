@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Character.h"
 #include "RedCar.h"
+#include <fstream>
 
 class ListCars
 {

@@ -119,6 +119,51 @@ int ListRedCar::getTimeRedLight() {
 	return timeRedLight;
 }
 
+void ListRedCar::loadGame() {
+	ifstream ifs("rcar.txt");
+
+	ifs >> this->numberOfCar >> this->maxCar;
+	
+	if (this->numberOfCar > 0) {
+		delete[] r;
+		r = new RedCar[maxCar];
+		for (int i = 0; i < maxCar; i++) {
+			r[i].carX = x;
+			r[i].carY = y;
+		}
+		for (int i = 0; i < numberOfCar + 1; i++) {
+			ifs >> r[i].carX >> r[i].carY;
+		}
+
+		ifs >> this->lane;
+		ifs >> this->level;
+
+		ifs >> this->x >> this->y;
+
+		ifs >> this->flag >> this->count;
+		//flag = false;
+
+		ifs >> this->redLight >> this->timeRedLight;
+	}
+
+	ifs.close();
+}
+void ListRedCar::saveGame() {
+	ofstream ofs("rcar.txt");
+
+	ofs << numberOfCar << " " << maxCar << endl;
+	for (int i = 0; i < numberOfCar + 1; i++) {
+		ofs << r[i].carX << " " << r[i].carY << endl;
+	}
+	ofs << lane << " " << level << endl;
+	ofs << x << " " << y << endl;
+	ofs << flag << " " << count << endl;
+	ofs << redLight << " " << timeRedLight << endl;
+	
+
+	ofs.close();
+}
+
 void ListRedCar::trafficColor() {
 	UIHelper* helper = UIHelper::getUIHelper();
 
@@ -126,7 +171,7 @@ void ListRedCar::trafficColor() {
 	if (redLight == 0) helper->setTextColor(250);
 	else helper->setTextColor(252);
 
-	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
+	UIHelper::getUIHelper()->gotoXY(99, y + 4);
 	cout << (char)219 << (char)219;
 
 	helper->setTextColor(244);
