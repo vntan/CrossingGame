@@ -35,13 +35,20 @@ void ListRedCar::setLane(int lane) {
 
 void ListRedCar::setLevel(int level) {
 	this->level = level;
-	if (level == 1 || level == 2 || level == 3) {
+	if (level == 1) {
+		maxCar = 4;
+		space = 10;
+		timeRedLight = 35;
+	}
+	else if (level == 2 || level == 3) {
 		maxCar = 5;
-		timeRedLight = 60;
+		space = 8;
+		timeRedLight = 45;
 	}
 	else if (level >= 4) {
 		maxCar = 6;
-		timeRedLight = 40;
+		space = 6;
+		timeRedLight = 30;
 	}
 	r = new RedCar[maxCar];
 
@@ -63,13 +70,13 @@ int ListRedCar::getSleep() {
 	else if (level == 5)
 		return 100;
 	else if (level > 5)
-		return 150 - 50 * (level - 5);
+		return 150 - 65 * (level - 5);
 }
 
 void ListRedCar::drawListCar() {
 	for (int i = 0; i < numberOfCar + 1; i++) {
 		if (numberOfCar < maxCar - 1) {
-			if (count > 6) {
+			if (count > space) {
 				numberOfCar++;
 				count = 0;
 			}
@@ -119,48 +126,45 @@ int ListRedCar::getTimeRedLight() {
 	return timeRedLight;
 }
 
-void ListRedCar::loadGame() {
+void ListRedCar::loadCar() {
 	ifstream ifs("rcar.txt");
 
-	ifs >> this->numberOfCar >> this->maxCar;
-	
-	if (this->numberOfCar > 0) {
-		delete[] r;
-		r = new RedCar[maxCar];
-		for (int i = 0; i < maxCar; i++) {
-			r[i].carX = x;
-			r[i].carY = y;
-		}
-		for (int i = 0; i < numberOfCar + 1; i++) {
-			ifs >> r[i].carX >> r[i].carY;
-		}
+	ifs >> this->numberOfCar >> this->maxCar >> this->space;
 
-		ifs >> this->lane;
-		ifs >> this->level;
-
-		ifs >> this->x >> this->y;
-
-		ifs >> this->flag >> this->count;
-		//flag = false;
-
-		ifs >> this->redLight >> this->timeRedLight;
+	delete[] r;
+	r = new RedCar[maxCar];
+	for (int i = 0; i < maxCar; i++) {
+		r[i].carX = x;
+		r[i].carY = y;
 	}
+	for (int i = 0; i < numberOfCar + 1; i++) {
+		ifs >> r[i].carX >> r[i].carY;
+	}
+
+	ifs >> this->lane;
+	ifs >> this->level;
+
+	ifs >> this->x >> this->y;
+	ifs >> this->flag >> this->count;
+	ifs >> this->redLight >> this->timeRedLight;
 
 	ifs.close();
 }
-void ListRedCar::saveGame() {
+void ListRedCar::saveCar() {
 	ofstream ofs("rcar.txt");
 
-	ofs << numberOfCar << " " << maxCar << endl;
+	ofs << numberOfCar << " " << maxCar << " " << space << endl;
+
 	for (int i = 0; i < numberOfCar + 1; i++) {
 		ofs << r[i].carX << " " << r[i].carY << endl;
 	}
+
 	ofs << lane << " " << level << endl;
+
 	ofs << x << " " << y << endl;
 	ofs << flag << " " << count << endl;
 	ofs << redLight << " " << timeRedLight << endl;
 	
-
 	ofs.close();
 }
 
@@ -171,7 +175,7 @@ void ListRedCar::trafficColor() {
 	if (redLight == 0) helper->setTextColor(250);
 	else helper->setTextColor(252);
 
-	UIHelper::getUIHelper()->gotoXY(99, y + 4);
+	UIHelper::getUIHelper()->gotoXY(99, y + 3);
 	cout << (char)219 << (char)219;
 
 	helper->setTextColor(244);
@@ -179,8 +183,8 @@ void ListRedCar::trafficColor() {
 
 bool ListRedCar::isCollision(Character* character) {
 	for (int i = 0; i < numberOfCar + 1; i++) {
-		if (((character->getX() >= r[i].carX && character->getX() <= r[i].carX + 7)
-			|| (character->getX() + 2 >= r[i].carX && character->getX() <= r[i].carX + 7))
+		if (((character->getX() >= r[i].carX - 2 && character->getX() <= r[i].carX + 7)
+			|| (character->getX() + 2 >= r[i].carX - 2 && character->getX() <= r[i].carX + 7))
 			&& ((character->getY() - 1 >= y + 2 && character->getY() - 1 <= y + 4)
 				|| (character->getY() >= y + 2 && character->getY() <= y + 4)))
 			return true;

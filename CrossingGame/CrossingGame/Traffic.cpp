@@ -14,14 +14,14 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	ListRedCar l;
-	l.setLane(lane);
-	l.setLevel(4);
+	l.setLane(2);
+	l.setLevel(1);
 
 	m.lock();
 	l.trafficColor();
 	m.unlock();
 
-	l.loadGame();
+	l.loadCar();
 	
 	int count = 0;
 	while (true) {
@@ -46,7 +46,7 @@ void Traffic::carInLane(int lane) {
 		}
 		
 		if (l.isCollision(character) == true) {
-			l.saveGame();
+			l.saveCar();
 			exit(0);
 		}
 		
