@@ -7,7 +7,7 @@ Traffic::Traffic(User user, int pos) {
 
 	*isStop = false;
 	*isExit = false;
-
+	
 	this->user = user;
 	this->accountPos = pos;
 }
@@ -17,34 +17,47 @@ void Traffic::carInLane(int lane) {
 
 	ListTrucks listCars(lane, 1);
 	listCars.setDirection(0);
+
 	m.lock();
+	listCars.loadTrucks("Test.txt", lane);
 	listCars.trafficColor();
 	m.unlock();
-	listCars.addTrucks(3,6); // Random: 4 -> 6
-	int count = 0;
+	//listCars.addTrucks(3,6); // Random: 4 -> 6
+
+
+	bool isSave = true;
 	while (!*isExit) {
-		if (*isStop) continue;
+		if (*isStop) {
+			if (isSave) {
+				listCars.setStorage();
+				listCars.saveTrucks("Test.txt");
+			}
+			isSave = false;
+			continue;
+		}
+		
 		m.lock();
 
-		if (count == 40) {
+		if (listCars.getCount() % 20 == 0) {
 			if (listCars.getRedLight()) {
 				listCars.setRedLight(0);
 				listCars.trafficColor();
-				count = 0;
+				listCars.setCount(1);
 			}
 			else {
 				listCars.setRedLight(1);
 				listCars.trafficColor();
-				count = 0;
+				listCars.setCount(1);
 
 			}
 		}
-		++count;
+		listCars.setCount(listCars.getCount() + 1);
 
 		
 		if (listCars.getRedLight() == 0) {
 			listCars.deleteListCar();
 			listCars.drawListCar();
+
 		}
 
 
@@ -54,6 +67,8 @@ void Traffic::carInLane(int lane) {
 		}
 
 		listCars.updateListCar();
+	
+		
 		
 		m.unlock();
 		Sleep(100 * lane);
@@ -70,6 +85,7 @@ void Traffic::startTraffic() {
 	(*character).deleteCharacter();
 	(*character).resetCharater(true);
 
+	
 	thread control(&Traffic::processCharacter, this);
 	thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);

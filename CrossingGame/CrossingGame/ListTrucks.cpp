@@ -1,4 +1,6 @@
 #include"ListTrucks.h"
+
+vector<InfoStorage> ListTrucks::allListTrucks;
 ListTrucks::ListTrucks() {
 	srand(time(NULL));
 	this->level = 1;
@@ -10,6 +12,7 @@ ListTrucks::ListTrucks() {
 	this->maxX = 86;
 	this->numberOfCars = 4;
 	this->direction = rand() % 2;
+	this->count = 1;
 }
 
 ListTrucks::~ListTrucks() {
@@ -25,11 +28,12 @@ ListTrucks::ListTrucks(int lane, int level) {
 	srand(time(NULL));
 	this->lane = lane;
 	this->redLight = 0;
-
 	this->level = level;
 	this->numberOfCars = 0;
 	this->speed = level * 100;
 	this->direction = rand() % 2;
+	this->count = 1;
+
 	if (direction == 0) {
 		this->x = 4;
 	}
@@ -75,6 +79,7 @@ ListTrucks::ListTrucks(int lane, int level, bool direction, int y) {
 	this->numberOfCars = 0;
 	this->level = level;
 	this->redLight = 0;
+	this->count = 1;
 
 	this->speed = level * 100;
 	this->direction = direction;
@@ -125,15 +130,42 @@ void ListTrucks::addTrucks(int numberOfCars, int start) {
 		newTruck.setDirection(direction);
 		this->listTrucks.push_back(newTruck);
 	}
+	
 }
 
 
 void ListTrucks::setLane(int lane) {
 	this->lane = lane;
+	switch (lane) {
+	case 1: {
+		y = 22;
+		break;
+	}
+	case 2: {
+		y = 18;
+		break;
+	}
+	case 3: {
+		y = 14;
+		break;
+	}
+	case 4: {
+		y = 10;
+		break;
+	}
+	case 5: {
+		y = 6;
+		break;
+	}
+	default:
+		y = 22;
+	}
 }
 
 void ListTrucks::setLevel(int level) {
 	this->level = level;
+	this->speed = level * 100;
+
 }
 
 void ListTrucks::setDirection(bool direction) {
@@ -161,6 +193,15 @@ void ListTrucks::setRedLight(bool redlight) {
 	this->redLight = redlight;
 }
 
+void ListTrucks::setCount(int count) {
+	this->count = count;
+}
+
+
+
+int ListTrucks::getCount() {
+	return count;
+}
 
 int ListTrucks::getNumberOfCars() {
 	return numberOfCars;
@@ -218,6 +259,7 @@ void ListTrucks::deleteListCar() {
 }
 
 void ListTrucks::updateListCar() {
+
 	for (int i = 0; i < listTrucks.size(); ++i) {
 		if (direction == 0) {
 			if (listTrucks[i].getX() > this->maxX || listTrucks[i].getX() < x) {
@@ -227,8 +269,10 @@ void ListTrucks::updateListCar() {
 		
 				listTrucks[i].freeMemory();
 				listTrucks.erase(listTrucks.begin() + i);
+
 				Truck newTruck(x,y,direction);
 				newTruck.setCarWidth(8);
+
 				listTrucks.push_back(newTruck);
 			}
 		}
@@ -240,6 +284,7 @@ void ListTrucks::updateListCar() {
 
 				listTrucks[i].freeMemory();
 				listTrucks.erase(listTrucks.begin() + i);
+
 				Truck newTruck(x, y, direction);
 				newTruck.setCarWidth(8);
 				newTruck.reverseShapeCar();
@@ -264,7 +309,6 @@ bool ListTrucks::isCollision(Character* character) {
 void ListTrucks::trafficColor() {
 	UIHelper* helper = UIHelper::getUIHelper();
 
-
 	if (redLight == 0) {
 		helper->setTextColor(250);
 	}
@@ -281,4 +325,93 @@ void ListTrucks::trafficColor() {
 	cout << (char)254;
 	helper->setTextColor(244);
 }
+
+//void ListTrucks::saveTrucks(string fileName) {
+//	mutex m;
+//	m.lock();
+//	fstream fout(fileName, ios::app);
+//
+//	fout << lane << " " << level << " " << numberOfCars << " " << direction << endl;
+//	for (int i = 0; i < numberOfCars; ++i) {
+//		fout << this->listTrucks[i].getX() << " ";
+//	}
+//	fout << endl;
+//	fout.close();
+//	m.unlock();
+//}
+
+void ListTrucks::loadTrucks(string fileName, int cLane) {
+	mutex m;
+	m.lock();
+	fstream fin(fileName, ios::in);
+	int n;
+	fin >> n;
+	for (int i = 0; i < n; ++i) {
+		fin >> this->lane >> this->level >> this->numberOfCars >> this->direction >> this->redLight >> this->count;
+		setLane(lane);
+		setDirection(direction);
+		setLevel(level);
+		
+		for (int i = 0; i < listTrucks.size(); ++i) {
+			this->listTrucks[i].freeMemory();
+		}
+		this->listTrucks.clear();
+
+		for (int j = 0; j < numberOfCars; ++j) {
+			Truck newTruck;
+			int fileX;
+			fin >> fileX;
+
+			if (direction == 0) {
+				newTruck.setX(fileX - 1);
+				newTruck.setY(y);
+			}
+			else {
+				newTruck.setX(fileX + 1);
+				newTruck.setY(y);
+				newTruck.reverseShapeCar();
+			}
+			newTruck.setCarWidth(8);
+			newTruck.setDirection(direction);
+			this->listTrucks.push_back(newTruck);
+		}
+		//deleteListCar();
+		drawListCar();
+		if (cLane != -1 && cLane == this->lane) break;
+	}
+	fin.close();
+	m.unlock();
+}
+
+void ListTrucks::setStorage() {
+	int allX[20];
+	for (int i = 0; i < numberOfCars; ++i) {
+		allX[i] = listTrucks[i].getX();
+	}
+	allListTrucks.push_back(InfoStorage(lane, numberOfCars, level, direction, redLight, allX, count));
+}
+
+
+void ListTrucks::saveTrucks(string fileName) {
+	fstream fout(fileName, ios::out);
+	fout << allListTrucks.size() << endl;
+	for (int i = 0; i < allListTrucks.size(); ++i) {
+		fout << allListTrucks[i].lane << " " << allListTrucks[i].level << " " << allListTrucks[i].numberOfCars << " " << allListTrucks[i].direction << " " << allListTrucks[i].redLight << " " << allListTrucks[i].count << endl;
+		for (int j = 0; j < allListTrucks[i].numberOfCars; ++j) {
+			fout << allListTrucks[i].allX[j] << " ";
+		}
+		fout << endl;
+	}
+	fout.close();
+}
+
+void ListTrucks::clearStorage() {
+	if (allListTrucks.size() == 0) return;
+	this->allListTrucks.clear();
+}
+
+
+
+
+
 
