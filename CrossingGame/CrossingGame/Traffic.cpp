@@ -13,92 +13,56 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	//UIHelper* helper = UIHelper::getUIHelper();
-
-	if (lane % 2 == 0) fastAFCarProcess(lane);
-	else truckCarProcess(lane);
-}
-
-void Traffic::truckCarProcess(int lane) {
-
-	ListTrucks listTrucks(lane, 0, 4, 5);
-
-	//Draw Traffic Color
-	m.lock();
-	listTrucks.trafficColor();
 	
+	ListChickens listChicks(lane, 1);
+	listChicks.setDirection(true);
+	m.lock();
+	listChicks.trafficColor();
 	m.unlock();
-
-	int count = 1;
+	listChicks.addChicken(4,5);
+	int count = 0;
 	while (!*isExit) {
 		if (*isStop) continue;
-
 		m.lock();
-		
-		if (!listTrucks.getRedLight()) {
-			listTrucks.deleteListCar();
-			listTrucks.drawListCar();
+		if (listChicks.getRedlight()) {
+			listChicks.deleteListCar();
+			listChicks.drawListCar();
 		}
+		if (count == 30) {
+			if (listChicks.getRedlight()) {
+				listChicks.setRedlight(false);
+				listChicks.trafficColor();
+				count = 0;
+			}
+			else {
+				listChicks.setRedlight(true);
+				listChicks.trafficColor();
+				count = 0;
 
-		if (count % 20 == 0) {
-			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
-			else listTrucks.setRedLight(1);
-		
-			listTrucks.trafficColor();
-			count = 1;
+			}
 		}
 		++count;
 
-		if (listTrucks.isCollision(character)) {
+
+		if (listChicks.isCollision(character)) {
 
 			*isStop = true;
 		}
 
-		listTrucks.updateListCar();
-
+		listChicks.updateListCar();
 		
 		m.unlock();
-
 		Sleep(100 * user.getLevel());
 	}
-}
+		
+	
 
-void Traffic::fastAFCarProcess(int lane) {
-	ListFastAFCars fastAF;
-	fastAF.setLane(lane);
-	fastAF.setLevel(4);
-	int count = 1;
-
-	m.lock();
-	fastAF.trafficColor();
-	m.unlock();
-
-	while (true) {
-		if (*isStop) continue;
-
-		m.lock();
-		if (count % 20 == 0) {
-			fastAF.setTraffic(!fastAF.getTraffic());
-			fastAF.trafficColor();
-		}
-
-		fastAF.updateListCar();
-		if (fastAF.isCollision(character)) {
-			fastAF.saveCar();
-			exit(0);
-		}
-		count++;
-
-		m.unlock();
-		Sleep(fastAF.getSleepTime());
-	}
 }
 
 void Traffic::startTraffic() {
 	*isStop = false;
 	*isExit = false;
 
-	srand(time(NULL));
 	(*character).deleteCharacter();
 	(*character).resetCharater(true);
 
