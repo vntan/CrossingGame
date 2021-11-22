@@ -15,8 +15,9 @@ Traffic::Traffic(User user, int pos) {
 void Traffic::carInLane(int lane) {
 	//UIHelper* helper = UIHelper::getUIHelper();
 
-	if (lane % 2 == 0) fastAFCarProcess(lane);
-	else truckCarProcess(lane);
+	/*if (lane % 2 == 0) fastAFCarProcess(lane);
+	else truckCarProcess(lane);*/
+	chickenProcess(lane);
 }
 
 void Traffic::truckCarProcess(int lane) {
@@ -91,6 +92,50 @@ void Traffic::fastAFCarProcess(int lane) {
 
 		m.unlock();
 		Sleep(fastAF.getSleepTime());
+	}
+}
+
+void Traffic::chickenProcess(int lane) {
+
+	ListChickens listChicks(lane, 1);
+	listChicks.setDirection(false);
+	m.lock();
+	listChicks.trafficColor();
+	m.unlock();
+	listChicks.addChicken(4, 5);
+	int count = 0;
+	while (!*isExit) {
+		if (*isStop) continue;
+		m.lock();
+		if (listChicks.getRedlight()) {
+			listChicks.deleteListCar();
+			listChicks.drawListCar();
+		}
+		if (count == 30) {
+			if (listChicks.getRedlight()) {
+				listChicks.setRedlight(false);
+				listChicks.trafficColor();
+				count = 0;
+			}
+			else {
+				listChicks.setRedlight(true);
+				listChicks.trafficColor();
+				count = 0;
+
+			}
+		}
+		++count;
+
+
+		if (listChicks.isCollision(character)) {
+
+			*isStop = true;
+		}
+
+		listChicks.updateListCar();
+
+		m.unlock();
+		Sleep(100 * user.getLevel());
 	}
 }
 

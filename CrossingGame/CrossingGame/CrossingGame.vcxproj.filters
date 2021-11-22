@@ -61,11 +61,17 @@
     <Filter Include="Windows\PlayGame\ListCars\Truck">
       <UniqueIdentifier>{269e8cb5-dab7-4ac8-b686-ae828a349809}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\PlayGame\ListCars\ListFastAFCar">
-      <UniqueIdentifier>{ec3e58a2-77d7-4d19-9155-a5d1eb6cb82b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Windows\PlayGame\Car Structure\AFCar">
       <UniqueIdentifier>{a3c9a243-c3d6-4932-a497-ed5f33e07954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\Car Structure\Chicken">
+      <UniqueIdentifier>{8f577a37-36c1-4fa2-a75e-29a327305a49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\ListChickens">
+      <UniqueIdentifier>{e9cbb550-631a-4ecb-baf3-da86dff2a639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\ListRoyalCar\ListFastAFCar">
+      <UniqueIdentifier>{ec3e58a2-77d7-4d19-9155-a5d1eb6cb82b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,7 +124,13 @@
       <Filter>Windows\PlayGame\Car Structure\AFCar</Filter>
     </ClCompile>
     <ClCompile Include="ListFastAFCars.cpp">
-      <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
+      <Filter>Windows\PlayGame\ListCars\ListRoyalCar\ListFastAFCar</Filter>
+    </ClCompile>
+    <ClCompile Include="Chicken.cpp">
+      <Filter>Windows\PlayGame\Car Structure\Chicken</Filter>
+    </ClCompile>
+    <ClCompile Include="ListChickens.cpp">
+      <Filter>Windows\PlayGame\ListCars\ListChickens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +183,13 @@
       <Filter>Windows\PlayGame\Car Structure\AFCar</Filter>
     </ClInclude>
     <ClInclude Include="ListFastAFCars.h">
-      <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
+      <Filter>Windows\PlayGame\ListCars\ListRoyalCar\ListFastAFCar</Filter>
+    </ClInclude>
+    <ClInclude Include="Chicken.h">
+      <Filter>Windows\PlayGame\Car Structure\Chicken</Filter>
+    </ClInclude>
+    <ClInclude Include="ListChickens.h">
+      <Filter>Windows\PlayGame\ListCars\ListChickens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

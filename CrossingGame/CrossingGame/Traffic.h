@@ -8,6 +8,7 @@
 #include <thread> 
 #include <mutex>
 #include "ListTrucks.h"
+#include"ListChickens.h"
 
 #include <stdlib.h>     /* srand, rand */
 
@@ -24,6 +25,7 @@ class Traffic
 	void carInLane(int lane);
 	void truckCarProcess(int lane);
 	void fastAFCarProcess(int lane);
+	void chickenProcess(int lane);
 public:
 
 	Traffic(User user, int pos);
