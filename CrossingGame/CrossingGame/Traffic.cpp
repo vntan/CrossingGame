@@ -96,13 +96,17 @@ void Traffic::fastAFCarProcess(int lane) {
 }
 
 void Traffic::chickenProcess(int lane) {
-
-	ListChickens listChicks(lane, 1);
-	listChicks.setDirection(false);
+	//Set level: set addChicken, addTimeToRed, addTimeDelay
+	//listChicks.saveTOFile(fileNme:String) -> Luu trang thai hien tai cua xe
+	//listChicks.loadFromFile(fileNme:String) -> Load trang thai hien tai cua xe
+	ListChickens listChicks(lane, 5);
+	listChicks.setDirection(true);
 	m.lock();
 	listChicks.trafficColor();
 	m.unlock();
-	listChicks.addChicken(4, 5);
+	//listChicks.addChicken(4, 5);
+
+
 	int count = 0;
 	while (!*isExit) {
 		if (*isStop) continue;
@@ -111,7 +115,7 @@ void Traffic::chickenProcess(int lane) {
 			listChicks.deleteListCar();
 			listChicks.drawListCar();
 		}
-		if (count == 30) {
+		//if (count == listChicks.getTimeRedLight()) {
 			if (listChicks.getRedlight()) {
 				listChicks.setRedlight(false);
 				listChicks.trafficColor();
@@ -123,7 +127,7 @@ void Traffic::chickenProcess(int lane) {
 				count = 0;
 
 			}
-		}
+		//}
 		++count;
 
 
@@ -135,7 +139,7 @@ void Traffic::chickenProcess(int lane) {
 		listChicks.updateListCar();
 
 		m.unlock();
-		Sleep(100 * user.getLevel());
+		//Sleep(ListChikens.getTimeDelay());
 	}
 }
 
