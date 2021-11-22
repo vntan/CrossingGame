@@ -22,15 +22,28 @@ void ListRedCar::setLane(int lane) {
 		x = 88;
 		y = 4;
 	}
-	else if (lane == 6) {
-		x = 3;
-		y = 0;
-	}
 
 	count = 0;
 	numberOfCar = 0;
 	flag = false;
 	this->redLight = 0;
+}
+
+void ListRedCar::setDirection(bool isReverse) {
+	this->isReverse = isReverse;
+	if (isReverse == 0) {
+		this->x = 3;
+	}
+	else {
+		this->x = 88;
+	}
+	r = new RedCar[maxCar];
+
+	for (int i = 0; i < maxCar; i++) {
+		r[i].carX = x;
+		r[i].carY = y;
+		r[i].isReverse = isReverse;
+	}
 }
 
 void ListRedCar::setLevel(int level) {
@@ -50,12 +63,6 @@ void ListRedCar::setLevel(int level) {
 		space = 6;
 		timeRedLight = 30;
 	}
-	r = new RedCar[maxCar];
-
-	for (int i = 0; i < maxCar; i++) {
-		r[i].carX = x;
-		r[i].carY = y;
-	}
 }
 
 int ListRedCar::getSleep() {
@@ -66,11 +73,11 @@ int ListRedCar::getSleep() {
 	else if (level == 3)
 		return 400;
 	else if (level == 4)
-		return 150;
+		return 320;
 	else if (level == 5)
-		return 100;
+		return 220;
 	else if (level > 5)
-		return 150 - 65 * (level - 5);
+		return 220 - 25 * (level - 5);
 }
 
 void ListRedCar::drawListCar() {
@@ -97,13 +104,13 @@ void ListRedCar::deleteListCar() {
 	for (int i = 0; i < numberOfCar + 1; i++) {
 		if (flag == true) {
 			r[i].deleteCar(r[i].carX, r[i].carY);
-			if (lane == 2 || lane == 4 || lane == 6) {
+			if (isReverse == 0) {
 				if (r[i].carX + 2 <= 88)
 					r[i].carX += 2;
 				else
 					r[i].carX = 3;
 			}
-			else if (lane == 1 || lane == 3 || lane == 5) {
+			else if (isReverse == 1) {
 				if (r[i].carX - 2 >= 3)
 					r[i].carX -= 2;
 				else
@@ -126,16 +133,19 @@ int ListRedCar::getTimeRedLight() {
 	return timeRedLight;
 }
 
-void ListRedCar::loadCar() {
-	ifstream ifs("rcar.txt");
+void ListRedCar::loadCar(string nameFile) {
+	nameFile += ".txt";
+	ifstream ifs(nameFile);
 
 	ifs >> this->numberOfCar >> this->maxCar >> this->space;
+	ifs >> this->isReverse;
 
 	delete[] r;
 	r = new RedCar[maxCar];
 	for (int i = 0; i < maxCar; i++) {
 		r[i].carX = x;
 		r[i].carY = y;
+		r[i].isReverse = isReverse;
 	}
 	for (int i = 0; i < numberOfCar + 1; i++) {
 		ifs >> r[i].carX >> r[i].carY;
@@ -150,10 +160,12 @@ void ListRedCar::loadCar() {
 
 	ifs.close();
 }
-void ListRedCar::saveCar() {
-	ofstream ofs("rcar.txt");
+void ListRedCar::saveCar(string nameFile) {
+	nameFile += ".txt";
+	ofstream ofs(nameFile);
 
 	ofs << numberOfCar << " " << maxCar << " " << space << endl;
+	ofs << isReverse << endl;
 
 	for (int i = 0; i < numberOfCar + 1; i++) {
 		ofs << r[i].carX << " " << r[i].carY << endl;
@@ -183,8 +195,8 @@ void ListRedCar::trafficColor() {
 
 bool ListRedCar::isCollision(Character* character) {
 	for (int i = 0; i < numberOfCar + 1; i++) {
-		if (((character->getX() >= r[i].carX - 2 && character->getX() <= r[i].carX + 7)
-			|| (character->getX() + 2 >= r[i].carX - 2 && character->getX() <= r[i].carX + 7))
+		if (((character->getX() >= r[i].carX && character->getX() <= r[i].carX + 7)
+			|| (character->getX() + 2 >= r[i].carX && character->getX() <= r[i].carX + 7))
 			&& ((character->getY() - 1 >= y + 2 && character->getY() - 1 <= y + 4)
 				|| (character->getY() >= y + 2 && character->getY() <= y + 4)))
 			return true;

@@ -7,7 +7,7 @@ void RedCar::drawCar(int x, int y) {
 	carX = x;
 	carY = y;
 	UIHelper* helper = UIHelper::getUIHelper();
-	if (y == 0 || y == 8 || y == 16) {
+	if (isReverse == 0) {
 		helper->gotoXY(x, y += 2);
 		cout << " _____ " << endl;
 		helper->gotoXY(x, ++y);
@@ -15,7 +15,7 @@ void RedCar::drawCar(int x, int y) {
 		helper->gotoXY(x, ++y);
 		cout << " 00 00 " << endl;
 	}
-	else if (y == 4 || y == 12 || y == 20) {
+	else if (isReverse == 1){
 		helper->gotoXY(x, y += 2);
 		cout << " _____ " << endl;
 		//if ()
@@ -24,7 +24,6 @@ void RedCar::drawCar(int x, int y) {
 		helper->gotoXY(x, ++y);
 		cout << " 00 00 " << endl;
 	}
-
 }
 
 void RedCar::deleteCar(int x, int y) {

@@ -14,14 +14,15 @@ Traffic::Traffic(User user, int pos) {
 
 void Traffic::carInLane(int lane) {
 	ListRedCar l;
-	l.setLane(2);
+	l.setLane(lane);
 	l.setLevel(1);
+	l.setDirection(1);
 
 	m.lock();
 	l.trafficColor();
 	m.unlock();
 
-	l.loadCar();
+	//l.loadCar("rcar");
 	
 	int count = 0;
 	while (true) {
@@ -46,7 +47,7 @@ void Traffic::carInLane(int lane) {
 		}
 		
 		if (l.isCollision(character) == true) {
-			l.saveCar();
+			//l.saveCar("rcar");
 			exit(0);
 		}
 		
@@ -65,10 +66,16 @@ void Traffic::startTraffic() {
 	thread control(&Traffic::processCharacter, this);
 	//thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);
+	thread l3(&Traffic::carInLane, this, 3);
+	//thread l4(&Traffic::carInLane, this, 4);
+	//thread l5(&Traffic::carInLane, this, 5);
 
 
 	//l1.join();
 	l2.join();
+	l3.join();
+	//l4.join();
+	//l5.join();
 	control.join();
 }
 

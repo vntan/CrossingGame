@@ -12,6 +12,7 @@ private:
 	bool redLight;
 	int timeRedLight;
 	int space;
+	bool isReverse;
 public:
 	void setLane(int lane);
 	void setLevel(int level);
@@ -24,6 +25,7 @@ public:
 	void trafficColor();
 	bool isCollision(Character* character);
 	int getTimeRedLight();
-	void loadCar();
-	void saveCar();
+	void loadCar(string nameFile);
+	void saveCar(string nameFile);
+	void setDirection(bool isReverse);
 };
