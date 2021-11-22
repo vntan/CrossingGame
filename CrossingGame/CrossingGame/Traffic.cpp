@@ -7,85 +7,103 @@ Traffic::Traffic(User user, int pos) {
 
 	*isStop = false;
 	*isExit = false;
-	
+
 	this->user = user;
 	this->accountPos = pos;
 }
 
 void Traffic::carInLane(int lane) {
-	UIHelper* helper = UIHelper::getUIHelper();
+	//UIHelper* helper = UIHelper::getUIHelper();
 
-	ListTrucks listCars(lane, 1);
-	listCars.setDirection(0);
+	if (lane % 2 == 0) fastAFCarProcess(lane);
+	else truckCarProcess(lane);
+}
 
+void Traffic::truckCarProcess(int lane) {
+
+	ListTrucks listTrucks(lane, 1, 5);
+
+	//Draw Traffic Color
 	m.lock();
-	listCars.loadTrucks("Test.txt", lane);
-	listCars.trafficColor();
+	listTrucks.trafficColor();
 	m.unlock();
-	//listCars.addTrucks(3,6); // Random: 4 -> 6
 
-
-	bool isSave = true;
+	int count = 1;
 	while (!*isExit) {
 		if (*isStop) {
-			if (isSave) {
-				listCars.setStorage();
-				listCars.saveTrucks("Test.txt");
-			}
-			isSave = false;
 			continue;
 		}
-		
+
 		m.lock();
-
-		if (listCars.getCount() % 20 == 0) {
-			if (listCars.getRedLight()) {
-				listCars.setRedLight(0);
-				listCars.trafficColor();
-				listCars.setCount(1);
-			}
-			else {
-				listCars.setRedLight(1);
-				listCars.trafficColor();
-				listCars.setCount(1);
-
-			}
-		}
-		listCars.setCount(listCars.getCount() + 1);
-
 		
-		if (listCars.getRedLight() == 0) {
-			listCars.deleteListCar();
-			listCars.drawListCar();
-
+		if (!listTrucks.getRedLight()) {
+			listTrucks.deleteListCar();
+			listTrucks.drawListCar();
 		}
 
+		if (count == listTrucks.getTimeToRed()) {
+			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
+			else listTrucks.setRedLight(1);
+		
+			listTrucks.trafficColor();
+			count = 1;
+		}
+		++count;
 
-		if (listCars.isCollision(character)) {
+		if (listTrucks.isCollision(character)) {
+			listTrucks.saveCar("ListTrucks.txt");
 
 			*isStop = true;
 		}
 
-		listCars.updateListCar();
-	
-		
+		listTrucks.updateListCar();
+
 		
 		m.unlock();
-		Sleep(100 * lane);
-	}
-		
-	
 
+		Sleep(listTrucks.getSpeed());
+	}
+}
+
+void Traffic::fastAFCarProcess(int lane) {
+	ListFastAFCars fastAF;
+	fastAF.setLane(lane);
+	fastAF.setLevel(4);
+	int count = 1;
+
+	m.lock();
+	fastAF.trafficColor();
+	m.unlock();
+
+	while (true) {
+		if (*isStop) continue;
+
+		m.lock();
+		if (count % 20 == 0) {
+			fastAF.setTraffic(!fastAF.getTraffic());
+			fastAF.trafficColor();
+		}
+
+		fastAF.updateListCar();
+		if (fastAF.isCollision(character)) {
+			fastAF.saveCar();
+			exit(0);
+		}
+		count++;
+
+		m.unlock();
+		Sleep(fastAF.getSleepTime());
+	}
 }
 
 void Traffic::startTraffic() {
 	*isStop = false;
 	*isExit = false;
 
+	srand(time(NULL));
 	(*character).deleteCharacter();
 	(*character).resetCharater(true);
 
-	
 	thread control(&Traffic::processCharacter, this);
 	thread l1(&Traffic::carInLane, this, 1);
 	thread l2(&Traffic::carInLane, this, 2);
