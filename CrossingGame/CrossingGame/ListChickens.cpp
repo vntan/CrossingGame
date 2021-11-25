@@ -55,6 +55,76 @@ void ListChickens::setLevel(int level)
 {
 	this->level = level;
 }
+void ListChickens::setAddChicken(int level) {
+	if (level < 5 && level >= 1) {
+		addChicken(2, 5);
+	}
+	else if (level < 15 && level >= 5) {
+		addChicken(3, 5);
+	}
+	else {
+		addChicken(4, 5);
+	}
+}
+int ListChickens::RedLight(int level) {
+	if (level < 5 && level >= 1) {
+		return 20;
+	}
+	else if (level < 15 && level >= 5) {
+		return 30;
+	}
+	else {
+		return 40;
+	}
+}
+void ListChickens::addTimeDelay(int level) {
+	if (level > 9) {
+		Sleep(100);
+	}
+	else {
+		Sleep(1000 - level * 100);
+	}
+	
+}
+void ListChickens::saveToFile() {
+	fstream f;
+	f.open("game.txt", ios::out);
+	f << numberOfChicks << endl;
+	f << lane << endl;
+	f << direction << endl;
+	f << level << endl;
+	f << redLight;
+	for (int i = 0; i < listChicken.size(); ++i) {
+		for (int j = 0; j < numberOfChicks; ++j) {
+			f << listChicken[j].getX() << " " << listChicken[j].getY();
+		}
+	}
+	f.close();
+}
+void ListChickens::loadFromFile(){
+	fstream f;
+	f.open("game.txt", ios::in);
+	f >> numberOfChicks ;
+	cout << endl;
+	f >> lane ;
+	cout << endl;
+	f >> direction;
+	cout << endl;
+	f >> level;
+	cout << endl;
+	f >> redLight;
+	int x, y;
+	for (int i = 0; i < listChicken.size(); ++i) {
+		for (int j = 0; j < numberOfChicks; ++j) {
+			f >> x;
+			cout << " ";
+			f >> y;
+			listChicken[j].setX(x);
+			listChicken[j].setY(y);
+		}
+	}
+	f.close();
+}
 int ListChickens::getLane() {
 	return this->lane;
 }
@@ -66,12 +136,12 @@ void ListChickens::addChicken(int numChicks, int distance) {
 	distance = 5;
 	for (int i = 0; i < numChicks; ++i) {
 		Chicken chick;
-		if (direction == true) {
-			chick.setX(x + (distance + 15) * i);
+		if (this->direction == true) {
+			chick.setX(x + (distance + 17) * i);
 			chick.setY(y);
 		}
 		else {
-			chick.setX(x - (distance + 15) * i);
+			chick.setX(x - (distance + 17) * i);
 			chick.setY(y);
 			chick.drawReverseChick();
 		}

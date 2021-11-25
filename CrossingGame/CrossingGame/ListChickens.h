@@ -1,6 +1,7 @@
 #pragma once
 #include "ListCars.h"
 #include "Chicken.h"
+#include<fstream>
 #include<vector>
 class ListChickens : public ListCars {
 	vector<Chicken> listChicken;
@@ -31,6 +32,11 @@ public:
 	void setLane(int lane);
 	void setLevel(int level);
 	int getLevel();
+	void setAddChicken(int level);
+	int RedLight(int level);
+	void addTimeDelay(int level);
+	void saveToFile();
+	void loadFromFile();
 	~ListChickens();
 };
 

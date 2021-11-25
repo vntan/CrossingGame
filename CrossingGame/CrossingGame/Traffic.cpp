@@ -104,7 +104,7 @@ void Traffic::chickenProcess(int lane) {
 	m.lock();
 	listChicks.trafficColor();
 	m.unlock();
-	//listChicks.addChicken(4, 5);
+	listChicks.setAddChicken(user.getLevel());
 
 
 	int count = 0;
@@ -116,6 +116,7 @@ void Traffic::chickenProcess(int lane) {
 			listChicks.drawListCar();
 		}
 		//if (count == listChicks.getTimeRedLight()) {
+		if(count == listChicks.RedLight(user.getLevel())) {
 			if (listChicks.getRedlight()) {
 				listChicks.setRedlight(false);
 				listChicks.trafficColor();
@@ -125,8 +126,8 @@ void Traffic::chickenProcess(int lane) {
 				listChicks.setRedlight(true);
 				listChicks.trafficColor();
 				count = 0;
-
 			}
+		}
 		//}
 		++count;
 
@@ -140,6 +141,7 @@ void Traffic::chickenProcess(int lane) {
 
 		m.unlock();
 		//Sleep(ListChikens.getTimeDelay());
+		listChicks.addTimeDelay(user.getLevel());
 	}
 }
 

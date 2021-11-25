@@ -194,5 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ListFastAFCar.txt" />
+    <Text Include="game.txt" />
   </ItemGroup>
 </Project>
