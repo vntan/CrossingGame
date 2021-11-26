@@ -95,9 +95,7 @@ void ListChickens::saveToFile() {
 	f << level << endl;
 	f << redLight;
 	for (int i = 0; i < listChicken.size(); ++i) {
-		for (int j = 0; j < numberOfChicks; ++j) {
-			f << listChicken[j].getX() << " " << listChicken[j].getY();
-		}
+			f << listChicken[i].getX() << " " << listChicken[i].getY();
 	}
 	f.close();
 }
@@ -115,13 +113,12 @@ void ListChickens::loadFromFile(){
 	f >> redLight;
 	int x, y;
 	for (int i = 0; i < listChicken.size(); ++i) {
-		for (int j = 0; j < numberOfChicks; ++j) {
-			f >> x;
-			cout << " ";
-			f >> y;
-			listChicken[j].setX(x);
-			listChicken[j].setY(y);
-		}
+		f >> x;
+		cout << " ";
+		f >> y;
+		listChicken[i].setX(x);
+		listChicken[i].setY(y);
+		addChicken(numberOfChicks, 5);
 	}
 	f.close();
 }
