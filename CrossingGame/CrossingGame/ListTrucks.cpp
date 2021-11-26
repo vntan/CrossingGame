@@ -2,11 +2,26 @@
 
 
 
+
 ListTrucks::ListTrucks(int lane, bool direction, int level) {
 	setLane(lane);
 	setRedLight(false);
 	setDirection(direction);
 	setLevel(level);
+
+ListTrucks::ListTrucks(int lane, bool direction, int numberCars) {
+	setLane(lane);
+	setRedLight(false);
+	setDirection(direction);
+	addTrucks(numberCars);
+}
+
+ListTrucks::ListTrucks(int lane, bool direction, int numberCars, int carDistance) {
+
+	setLane(lane);
+	setRedLight(false);
+	setDirection(direction);
+	addTrucks(numberCars, carDistance);
 }
 
 ListTrucks::~ListTrucks() {
@@ -47,6 +62,7 @@ void ListTrucks::addTrucks(int numberCars, int distance) {
 		newTruck.setDirection(direction);
 		this->listTrucks.push_back(newTruck);
 	}
+
 }
 
 void ListTrucks::setLane(int lane) {
@@ -121,7 +137,47 @@ void ListTrucks::setLevel(int level) {
 	}
 	else {
 		this->speed = 90 - level * 10;
+}
+
+void ListTrucks::setLane(int lane) {
+	this->lane = lane;
+	switch (lane) {
+	case 1: {
+		y = 22;
+		break;
 	}
+	case 2: {
+		y = 18;
+		break;
+	}
+	case 3: {
+		y = 14;
+		break;
+	}
+	case 4: {
+		y = 10;
+		break;
+	}
+	case 5: {
+		y = 6;
+		break;
+	}
+	default:
+		y = 22;
+	}
+}
+
+void ListTrucks::setDirection(bool direction) {
+	this->direction = direction;
+	if (direction == 0) {
+		this->x = 4;
+		this->maxX = 86;
+	}
+	else {
+		this->x = 86;
+		this->maxX = 4;
+	}
+
 
 	// Set time to red
 	if (level <= 2) {
@@ -142,6 +198,8 @@ void ListTrucks::setLevel(int level) {
 		};
 	}
 
+void ListTrucks::setRedLight(bool redlight) {
+	this->redLight = redlight;
 }
 
 int ListTrucks::getNumberOfCars() {
@@ -170,7 +228,6 @@ int ListTrucks::getLevel() {
 int ListTrucks::getSpeed() {
 	return this->speed;
 }
-
 void ListTrucks::drawListCar() {
 	UIHelper* helper = UIHelper::getUIHelper();
 
@@ -245,7 +302,9 @@ void ListTrucks::trafficColor() {
 	if (redLight == 0) helper->setTextColor(250);
 	else helper->setTextColor(252);
 
+
 	UIHelper::getUIHelper()->gotoXY(99, y + 1);
+	UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
 	cout << (char)219 << (char)219;
 
 	helper->setTextColor(244);

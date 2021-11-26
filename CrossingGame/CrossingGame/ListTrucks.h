@@ -21,7 +21,10 @@ private:
 public:
 	~ListTrucks();
 	ListTrucks() = default;
-	
+
+	void setLane(int lane);
+public:
+	~ListTrucks();
 	/// <summary>
 	/// 
 	/// </summary>
@@ -33,6 +36,11 @@ public:
 
 	void addTrucks(int numberCars, int distance = 5); // start: 4->6
 	
+	ListTrucks(int lane, bool direction, int numberCars, int carDistance);
+
+	void addTrucks(int numberCars, int distance = 5); // start: 4->6
+	
+	void setLevel(int level);
 	void setDirection(bool direction);
 	void setRedLight(bool redlight);
 	void setTimeToRed(int timeToRed);
@@ -42,9 +50,11 @@ public:
 	int getLane();
 	bool getRedLight();
 	int getNumberOfCars();
+
 	int getTimeToRed();
 	int getLevel();
 	int getSpeed();
+
 
 	void drawListCar();
 	void updateListCar();

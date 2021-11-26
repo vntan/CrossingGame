@@ -21,11 +21,12 @@ void Traffic::carInLane(int lane) {
 
 void Traffic::truckCarProcess(int lane) {
 
-	ListTrucks listTrucks(lane, 1, 5);
+	ListTrucks listTrucks(lane, 0, 4, 5);
 
 	//Draw Traffic Color
 	m.lock();
 	listTrucks.trafficColor();
+
 	m.unlock();
 
 	int count = 1;
@@ -39,7 +40,30 @@ void Traffic::truckCarProcess(int lane) {
 		if (!listTrucks.getRedLight()) {
 			listTrucks.deleteListCar();
 			listTrucks.drawListCar();
+
+	
+	m.unlock();
+
+	int count = 1;
+	while (!*isExit) {
+		if (*isStop) continue;
+
+		m.lock();
+		
+		if (!listTrucks.getRedLight()) {
+			listTrucks.deleteListCar();
+			listTrucks.drawListCar();
 		}
+
+		if (count % 20 == 0) {
+			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
+			else listTrucks.setRedLight(1);
+		
+			listTrucks.trafficColor();
+			count = 1;
+		}
+		++count;
+
 
 		if (count == listTrucks.getTimeToRed()) {
 			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
@@ -52,6 +76,7 @@ void Traffic::truckCarProcess(int lane) {
 
 		if (listTrucks.isCollision(character)) {
 			listTrucks.saveCar("ListTrucks.txt");
+		if (listTrucks.isCollision(character)) {
 
 			*isStop = true;
 		}
@@ -60,6 +85,7 @@ void Traffic::truckCarProcess(int lane) {
 
 		
 		m.unlock();
+
 
 		Sleep(listTrucks.getSpeed());
 	}
