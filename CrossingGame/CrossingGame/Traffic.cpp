@@ -51,7 +51,7 @@ void Traffic::truckCarProcess(int lane) {
 			listTrucks.trafficColor();
 			count = 1;
 		}
-		++count;
+
 
 		if (listTrucks.isCollision(character)) {
 			listTrucks.saveCar("ListTrucks.txt");
