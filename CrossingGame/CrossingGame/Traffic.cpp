@@ -13,7 +13,10 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
+
 	redCar(lane);
+  if (lane % 2 == 0) fastAFCarProcess(lane);
+	else truckCarProcess(lane);
 }
 
 void Traffic::redCar(int lane) {
@@ -30,9 +33,7 @@ void Traffic::redCar(int lane) {
 
 	int count = 0;
 	while (true) {
-		m.lock();
-
-		if (count == l.getTimeRedLight()) {
+	if (count == l.getTimeRedLight()) {
 			if (l.getRedLight()) {
 				l.setRedLight(0);
 				l.trafficColor();
@@ -57,6 +58,83 @@ void Traffic::redCar(int lane) {
 
 		m.unlock();
 		Sleep(l.getSleep());
+  }
+	//UIHelper* helper = UIHelper::getUIHelper();
+}
+
+	
+void Traffic::truckCarProcess(int lane) {
+
+	ListTrucks listTrucks(lane, 1, 5);
+
+	//Draw Traffic Color
+	m.lock();
+	listTrucks.trafficColor();
+	m.unlock();
+
+	int count = 1;
+	while (!*isExit) {
+		if (*isStop) {
+			continue;
+		}
+		m.lock();
+		
+		if (!listTrucks.getRedLight()) {
+			listTrucks.deleteListCar();
+			listTrucks.drawListCar();
+		}
+
+		if (count == listTrucks.getTimeToRed()) {
+			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
+			else listTrucks.setRedLight(1);
+		
+			listTrucks.trafficColor();
+			count = 1;
+		}
+		++count;
+
+		if (listTrucks.isCollision(character)) {
+			listTrucks.saveCar("ListTrucks.txt");
+			*isStop = true;
+		}
+
+		listTrucks.updateListCar();
+
+		
+		m.unlock();
+
+		Sleep(listTrucks.getSpeed());
+	}
+}
+
+void Traffic::fastAFCarProcess(int lane) {
+	ListFastAFCars fastAF;
+	fastAF.setLane(lane);
+	fastAF.setLevel(4);
+	int count = 1;
+
+	m.lock();
+	fastAF.trafficColor();
+	m.unlock();
+
+	while (true) {
+		if (*isStop) continue;
+
+		m.lock();
+		if (count % 20 == 0) {
+			fastAF.setTraffic(!fastAF.getTraffic());
+			fastAF.trafficColor();
+		}
+
+		fastAF.updateListCar();
+		if (fastAF.isCollision(character)) {
+			fastAF.saveCar();
+			exit(0);
+		}
+		count++;
+
+		m.unlock();
+		Sleep(fastAF.getSleepTime());
 	}
 }
 
@@ -64,6 +142,7 @@ void Traffic::startTraffic() {
 	*isStop = false;
 	*isExit = false;
 
+	srand(time(NULL));
 	(*character).deleteCharacter();
 	(*character).resetCharater(true);
 
@@ -78,8 +157,8 @@ void Traffic::startTraffic() {
 	//l1.join();
 	l2.join();
 	l3.join();
-	//l4.join();
-	//l5.join();
+	l4.join();
+	l5.join();
 	control.join();
 }
 

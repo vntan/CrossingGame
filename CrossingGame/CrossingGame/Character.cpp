@@ -69,7 +69,6 @@ void Character::drawCharacter() {
 	cout << (char)219 << (char)219 << (char)219;
 	helper->gotoXY(x + 1, y - 1);
 	cout << (char)2;
-
 }
 
 void Character::deleteCharacter() {

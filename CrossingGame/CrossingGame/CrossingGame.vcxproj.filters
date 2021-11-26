@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -52,6 +52,18 @@
     <Filter Include="Windows\PlayGame\ListCars\ListRedCar">
       <UniqueIdentifier>{3f4d2ff7-beaf-4de5-b5c5-cd98e0967be7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\PlayGame\Car Structure\Truck">
+      <UniqueIdentifier>{f828fbbe-03f3-4491-b9d6-f4a714f46c5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\Truck">
+      <UniqueIdentifier>{269e8cb5-dab7-4ac8-b686-ae828a349809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\ListFastAFCar">
+      <UniqueIdentifier>{ec3e58a2-77d7-4d19-9155-a5d1eb6cb82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\Car Structure\AFCar">
+      <UniqueIdentifier>{a3c9a243-c3d6-4932-a497-ed5f33e07954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossingGame.cpp">
@@ -99,6 +111,18 @@
     <ClCompile Include="ListRedCar.cpp">
       <Filter>Windows\PlayGame\ListCars\ListRedCar</Filter>
     </ClCompile>
+    <ClCompile Include="Truck.cpp">
+      <Filter>Windows\PlayGame\Car Structure\Truck</Filter>
+    </ClCompile>
+    <ClCompile Include="ListTrucks.cpp">
+      <Filter>Windows\PlayGame\ListCars\Truck</Filter>
+    </ClCompile>
+    <ClCompile Include="FastAFCar.cpp">
+      <Filter>Windows\PlayGame\Car Structure\AFCar</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFastAFCars.cpp">
+      <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHelper.h">
@@ -143,5 +167,20 @@
     <ClInclude Include="ListRedCar.h">
       <Filter>Windows\PlayGame\ListCars\ListRedCar</Filter>
     </ClInclude>
+    <ClInclude Include="Truck.h">
+      <Filter>Windows\PlayGame\Car Structure\Truck</Filter>
+    </ClInclude>
+    <ClInclude Include="ListTrucks.h">
+      <Filter>Windows\PlayGame\ListCars\Truck</Filter>
+    </ClInclude>
+    <ClInclude Include="FastAFCar.h">
+      <Filter>Windows\PlayGame\Car Structure\AFCar</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFastAFCars.h">
+      <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ListFastAFCar.txt" />
   </ItemGroup>
 </Project>
