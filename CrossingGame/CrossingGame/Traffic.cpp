@@ -13,13 +13,12 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-
-	redCar(lane);
-  if (lane % 2 == 0) fastAFCarProcess(lane);
-	else truckCarProcess(lane);
+	redCarProcess(lane);
+	/*if (lane % 2 == 0) fastAFCarProcess(lane);
+	else truckCarProcess(lane);*/
 }
 
-void Traffic::redCar(int lane) {
+void Traffic::redCarProcess(int lane) {
 	ListRedCar l;
 	l.setLane(lane);
 	l.setLevel(1);
@@ -33,7 +32,9 @@ void Traffic::redCar(int lane) {
 
 	int count = 0;
 	while (true) {
-	if (count == l.getTimeRedLight()) {
+		if (*isStop) continue;
+		m.lock();
+		if (count == l.getTimeRedLight()) {
 			if (l.getRedLight()) {
 				l.setRedLight(0);
 				l.trafficColor();
@@ -47,9 +48,8 @@ void Traffic::redCar(int lane) {
 		}
 		++count;
 
-		if (l.getRedLight() == 0) {
-			l.updateListCar();
-		}
+		if (l.getRedLight() == 0) l.updateListCar();
+		
 
 		if (l.isCollision(character) == true) {
 			//l.saveCar("rcar");
@@ -58,8 +58,7 @@ void Traffic::redCar(int lane) {
 
 		m.unlock();
 		Sleep(l.getSleep());
-  }
-	//UIHelper* helper = UIHelper::getUIHelper();
+	}
 }
 
 	
@@ -154,7 +153,7 @@ void Traffic::startTraffic() {
 	thread l5(&Traffic::carInLane, this, 5);
 
 
-	//l1.join();
+	l1.join();
 	l2.join();
 	l3.join();
 	l4.join();
