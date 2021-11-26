@@ -13,12 +13,55 @@ Traffic::Traffic(User user, int pos) {
 }
 
 void Traffic::carInLane(int lane) {
-	//UIHelper* helper = UIHelper::getUIHelper();
-
-	if (lane % 2 == 0) fastAFCarProcess(lane);
-	else truckCarProcess(lane);
+	redCarProcess(lane);
+	/*if (lane % 2 == 0) fastAFCarProcess(lane);
+	else truckCarProcess(lane);*/
 }
 
+void Traffic::redCarProcess(int lane) {
+	ListRedCar l;
+	l.setLane(lane);
+	l.setLevel(1);
+	l.setDirection(1);
+
+	m.lock();
+	l.trafficColor();
+	m.unlock();
+
+	//l.loadCar("rcar");
+
+	int count = 0;
+	while (true) {
+		if (*isStop) continue;
+		m.lock();
+		if (count == l.getTimeRedLight()) {
+			if (l.getRedLight()) {
+				l.setRedLight(0);
+				l.trafficColor();
+				count = 0;
+			}
+			else {
+				l.setRedLight(1);
+				l.trafficColor();
+				count = 0;
+			}
+		}
+		++count;
+
+		if (l.getRedLight() == 0) l.updateListCar();
+		
+
+		if (l.isCollision(character) == true) {
+			//l.saveCar("rcar");
+			exit(0);
+		}
+
+		m.unlock();
+		Sleep(l.getSleep());
+	}
+}
+
+	
 void Traffic::truckCarProcess(int lane) {
 
 	ListTrucks listTrucks(lane, 1, 5);
@@ -33,7 +76,6 @@ void Traffic::truckCarProcess(int lane) {
 		if (*isStop) {
 			continue;
 		}
-
 		m.lock();
 		
 		if (!listTrucks.getRedLight()) {
@@ -52,7 +94,6 @@ void Traffic::truckCarProcess(int lane) {
 
 		if (listTrucks.isCollision(character)) {
 			listTrucks.saveCar("ListTrucks.txt");
-
 			*isStop = true;
 		}
 
@@ -110,6 +151,7 @@ void Traffic::startTraffic() {
 	thread l3(&Traffic::carInLane, this, 3);
 	thread l4(&Traffic::carInLane, this, 4);
 	thread l5(&Traffic::carInLane, this, 5);
+
 
 	l1.join();
 	l2.join();

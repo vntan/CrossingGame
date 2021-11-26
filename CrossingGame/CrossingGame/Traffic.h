@@ -1,5 +1,6 @@
 #pragma once
 #include "Character.h"
+#include "ListRedCar.h"
 #include "Account.h"
 #include "ListFastAFCars.h"
 #include <thread> 
@@ -22,6 +23,7 @@ class Traffic
 
 	mutex m;
 	void carInLane(int lane);
+	void redCarProcess(int lane);
 	void truckCarProcess(int lane);
 	void fastAFCarProcess(int lane);
 public:

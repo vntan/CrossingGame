@@ -4,21 +4,34 @@ void RedCar::setCarWidth(int width) {
 }
 
 void RedCar::drawCar(int x, int y) {
-	int x2 = x + width;
-	int y2 = y + 2;
-
+	carX = x;
+	carY = y;
 	UIHelper* helper = UIHelper::getUIHelper();
-	helper->gotoXY(x, y2);
-	cout << "--" << endl;
+	if (isReverse == 0) {
+		helper->gotoXY(x, y += 2);
+		cout << " _____ " << endl;
+		helper->gotoXY(x, ++y);
+		cout << "|___|_\\" << endl;
+		helper->gotoXY(x, ++y);
+		cout << " 00 00 " << endl;
+	}
+	else if (isReverse == 1){
+		helper->gotoXY(x, y += 2);
+		cout << " _____ " << endl;
+		//if ()
+		helper->gotoXY(x, ++y);
+		cout << "/_|___|" << endl;
+		helper->gotoXY(x, ++y);
+		cout << " 00 00 " << endl;
+	}
 }
 
 void RedCar::deleteCar(int x, int y) {
-	int x2 = x + width;
-	int y2 = y + 2;
-
 	UIHelper* helper = UIHelper::getUIHelper();
-	for (int i = y; i <= y2; i++) {
-		helper->gotoXY(x, i);
-		for (int j = x; j <= x2; j++) cout << " ";
-	}
+	helper->gotoXY(x, y += 2);
+	cout << "       " << endl;
+	helper->gotoXY(x, ++y);
+	cout << "       " << endl;
+	helper->gotoXY(x, ++y);
+	cout << "       " << endl;
 }
