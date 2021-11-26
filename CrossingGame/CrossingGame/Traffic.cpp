@@ -23,6 +23,7 @@ void Traffic::truckCarProcess(int lane) {
 
 	ListTrucks listTrucks(lane, 1, 5);
 
+
 	//Draw Traffic Color
 	m.lock();
 	listTrucks.trafficColor();
@@ -40,6 +41,8 @@ void Traffic::truckCarProcess(int lane) {
 			listTrucks.deleteListCar();
 			listTrucks.drawListCar();
 		}
+		++count;
+
 
 		if (count == listTrucks.getTimeToRed()) {
 			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);

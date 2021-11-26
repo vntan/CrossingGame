@@ -1,7 +1,5 @@
 #include"ListTrucks.h"
 
-
-
 ListTrucks::ListTrucks(int lane, bool direction, int level) {
 	setLane(lane);
 	setRedLight(false);
@@ -123,6 +121,7 @@ void ListTrucks::setLevel(int level) {
 		this->speed = 90 - level * 10;
 	}
 
+
 	// Set time to red
 	if (level <= 2) {
 		this->timeToRed = -1;
@@ -141,7 +140,6 @@ void ListTrucks::setLevel(int level) {
 		}
 		};
 	}
-
 }
 
 int ListTrucks::getNumberOfCars() {
@@ -246,6 +244,7 @@ void ListTrucks::trafficColor() {
 	else helper->setTextColor(252);
 
 	UIHelper::getUIHelper()->gotoXY(99, y + 1);
+
 	cout << (char)219 << (char)219;
 
 	helper->setTextColor(244);

@@ -14,6 +14,7 @@ private:
 	int maxX;
 	int numberOfCars; // <= 4 
 	bool redLight; // 0: green, 1: red
+
 	int timeToRed;
 	int speed;
 	int level;
@@ -29,6 +30,7 @@ public:
 	/// <param name="direction">0 left->right  || 1 right->left</param>
 	/// <param name="numberCars">Number of cars <= 4 </param>
 	/// <param name="carDistance">Distance of cars:  4->6</param>
+
 	ListTrucks(int lane, bool direction, int level);
 
 	void addTrucks(int numberCars, int distance = 5); // start: 4->6
@@ -42,9 +44,11 @@ public:
 	int getLane();
 	bool getRedLight();
 	int getNumberOfCars();
+
 	int getTimeToRed();
 	int getLevel();
 	int getSpeed();
+
 
 	void drawListCar();
 	void updateListCar();
