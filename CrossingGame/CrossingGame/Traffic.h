@@ -3,6 +3,7 @@
 #include "ListRedCar.h"
 #include "Account.h"
 #include "ListFastAFCars.h"
+#include "ListChickens.h"
 #include <thread> 
 #include <mutex>
 #include "Truck.h"
@@ -26,6 +27,7 @@ class Traffic
 	void redCarProcess(int lane);
 	void truckCarProcess(int lane);
 	void fastAFCarProcess(int lane);
+	void chickenProcess(int lane);
 public:
 
 	Traffic(User user, int pos);

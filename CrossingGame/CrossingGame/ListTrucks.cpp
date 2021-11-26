@@ -1,7 +1,5 @@
 #include"ListTrucks.h"
 
-
-
 ListTrucks::ListTrucks(int lane, bool direction, int level) {
 	setLane(lane);
 	setRedLight(false);
@@ -96,7 +94,6 @@ void ListTrucks::setRedLight(bool redlight) {
 void ListTrucks::setTimeToRed(int timeToRed) {
 	this->timeToRed = timeToRed;
 }
-
 
 void ListTrucks::setLevel(int level) {
 	if (level > 5) level = 5;

@@ -64,6 +64,12 @@
     <Filter Include="Windows\PlayGame\Car Structure\AFCar">
       <UniqueIdentifier>{a3c9a243-c3d6-4932-a497-ed5f33e07954}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\PlayGame\Car Structure\Chicken">
+      <UniqueIdentifier>{7cea6084-092e-488a-beb3-f9b86dd2399f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\PlayGame\ListCars\ListChicken">
+      <UniqueIdentifier>{bf9755ab-51b6-4be5-9576-d1d8d69c3bc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrossingGame.cpp">
@@ -123,6 +129,12 @@
     <ClCompile Include="ListFastAFCars.cpp">
       <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
     </ClCompile>
+    <ClCompile Include="Chicken.cpp">
+      <Filter>Windows\PlayGame\Car Structure\Chicken</Filter>
+    </ClCompile>
+    <ClCompile Include="ListChickens.cpp">
+      <Filter>Windows\PlayGame\ListCars\ListChicken</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHelper.h">
@@ -178,6 +190,12 @@
     </ClInclude>
     <ClInclude Include="ListFastAFCars.h">
       <Filter>Windows\PlayGame\ListCars\ListFastAFCar</Filter>
+    </ClInclude>
+    <ClInclude Include="Chicken.h">
+      <Filter>Windows\PlayGame\Car Structure\Chicken</Filter>
+    </ClInclude>
+    <ClInclude Include="ListChickens.h">
+      <Filter>Windows\PlayGame\ListCars\ListChicken</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
