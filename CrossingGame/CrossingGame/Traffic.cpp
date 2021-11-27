@@ -81,9 +81,9 @@ void Traffic::showUserInfo() {
 void Traffic::carInLane(int lane) {
 	//redCarProcess(lane);
 
-	truckCarProcess(lane);
+	//truckCarProcess(lane);
 
-	//fastAFCarProcess(lane);
+	fastAFCarProcess(lane);
 
 	//chickenProcess(lane);
 	/*if (lane % 2 == 0) fastAFCarProcess(lane);
