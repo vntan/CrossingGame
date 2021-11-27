@@ -23,6 +23,10 @@ string User::getName() {
 	return name;
 }
 
+void User::setName(string name) {
+	this->name = name;
+}
+
 int User::getScore() {
 	return score;
 }
@@ -31,10 +35,18 @@ void User::setScore(int score) {
 	this->score = score;
 }
 
+void User::increaseScore(int delta) {
+	this->score = this->score + delta;
+}
+
 int User::getLevel() {
 	return level;
 }
 
 void User::setLevel(int level) {
 	this->level = level;
+}
+
+void User::increaseLevel(int delta) {
+	this->level = this->level + delta;
 }

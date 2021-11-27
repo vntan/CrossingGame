@@ -20,10 +20,11 @@ private:
 public: 
 	~ListFastAFCars();
 	ListFastAFCars();
-	void saveCar();
-	void loadCar();
+	void saveCar(string fileName);
+	void loadCar(string fileName);
 	void setTraffic(bool isRed);
 	bool getTraffic();
+	int getTimeToRed();
 	void setStop(bool stop);
 	void addCars(int n, int distance);
 	void resetStatus();
@@ -35,6 +36,7 @@ public:
 	void updateListCar();
 	void deleteListCar();
 	void deleteListCar(int i);
+	void deleteEverything();
 	void drawListCarReverse(int i);
 	void deleteListCarReverse(int i);
 	void trafficColor();

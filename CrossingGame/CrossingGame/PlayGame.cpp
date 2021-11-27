@@ -13,7 +13,7 @@ void PlayGame::drawPlayGame(int gameMode) {
 	drawInformation();
 	drawTableGame();
 
-	processGame();
+	processGame(gameMode);
 }
 
 bool PlayGame::addNewPlayer(string name, int score) {
@@ -22,6 +22,7 @@ bool PlayGame::addNewPlayer(string name, int score) {
 		account->addAccount(name, score, 1);
 		accountPos = account->getListAccount().size() - 1;
 		player = account->getInstance()->getAccount(accountPos);
+		account->saveAccountToFile();
 		return true;
 	}
 	return false;
@@ -196,11 +197,12 @@ void PlayGame::trafficColor(int lane, int color) {
 	cout << (char)219 << (char)219;
 }
 
-void PlayGame::processGame() {
-	thread traffic([](User user, int pos) {
-		Traffic traffic(user, pos);
+void PlayGame::processGame(int gameMode) {
+	thread traffic([](User user, int pos, int gameMode) {
+		Traffic traffic(user, pos, gameMode);
 		traffic.startTraffic();
-	}, player, accountPos);
+		}, player, accountPos, gameMode);
 	traffic.join();
+
 }
 

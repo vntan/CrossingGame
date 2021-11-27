@@ -17,11 +17,14 @@ public:
 	User(const User& user2);
 
 	string getName();
+	void setName(string name);
 
 	int getScore();
 	void setScore(int score);
+	void increaseScore(int delta);
 	
 	int getLevel();
 	void setLevel(int level);
+	void increaseLevel(int delta);
 };
 

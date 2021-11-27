@@ -20,12 +20,13 @@ void Account::loadAccountFromFile() {
 	fstream f(accountPath, ios::in);
 	
 	if (f.fail()) return;
+	data.clear();
 	
 	while (!f.eof()) {
-		string name; int score, level;
+		string name; int score;
 		getline(f, name);
-		f >> score >> level;
-		if (name != "") data.push_back(User(name, score, level));
+		f >> score;
+		if (name != "") data.push_back(User(name, score, 1));
 		getline(f, name);
 	}
 	f.close();
@@ -36,7 +37,7 @@ void Account::saveAccountToFile() {
 	if (f.fail()) return;
 
 	for (int i = 0; i < data.size(); i++) {
-		f << data[i].getName() << "\n" << data[i].getScore() << "\n" << data[i].getLevel() << "\n";
+		f << data[i].getName() << "\n" << data[i].getScore() << "\n";
 	}
 	f.close();
 }
@@ -55,6 +56,10 @@ void Account::updateUserScore(int index, int score) {
 
 void Account::updateUserLevel(int index, int level) {
 	data[index].setLevel(level);
+}
+
+void Account::updateUser(int index, User user) {
+	data[index] = user;
 }
 
 int Account::findUser(string name) {

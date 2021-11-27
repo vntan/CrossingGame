@@ -10,14 +10,19 @@
 #include <thread> 
 #include <mutex>
 #include "ListTrucks.h"
+#include <fstream>
 
 #include <stdlib.h>     /* srand, rand */
 
 
 class Traffic
 {
-	bool* isStop;
-	bool* isExit;
+	bool isStop;
+	bool isExit;
+	bool isWin;
+	bool isSave;
+	bool isLoad;
+
 	Character* character;
 	User user;
 	int accountPos;
@@ -28,9 +33,14 @@ class Traffic
 	void truckCarProcess(int lane);
 	void fastAFCarProcess(int lane);
 	void chickenProcess(int lane);
+	void loadUser(bool isShow);
+	void saveUser();
+	void showUserInfo();
+
 public:
 
-	Traffic(User user, int pos);
+	Traffic(User user, int pos, int gameMode);
+	~Traffic();
 
 	void startTraffic();
 	void stopTraffic();

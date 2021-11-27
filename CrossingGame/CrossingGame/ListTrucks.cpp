@@ -187,9 +187,16 @@ void ListTrucks::drawListCar() {
 void ListTrucks::deleteListCar() {
 	UIHelper* helper = UIHelper::getUIHelper();
 	for (int i = 0; i < listTrucks.size(); ++i) {
-		listTrucks[i].deleteCar(listTrucks[i].getX(), y);
+		for (int j = 0; j < 8; ++j) {
+			if (direction == 0) {
+				listTrucks[i].deleteCar(listTrucks[i].getX() + j, y);
+			}
+			else {
+				listTrucks[i].deleteCar(listTrucks[i].getX() - j, y);
+
+			}
+		}
 	}
-	
 }
 
 void ListTrucks::updateListCar() {

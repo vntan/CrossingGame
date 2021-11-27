@@ -55,7 +55,7 @@ void ListChickens::setLevel(int level)
 {
 	this->level = level;
 }
-void ListChickens::setAddChicken(int level) {
+void ListChickens::setAddChicken() {
 	if (level < 5 && level >= 1) {
 		addChicken(2, 5);
 	}
@@ -66,7 +66,7 @@ void ListChickens::setAddChicken(int level) {
 		addChicken(4, 5);
 	}
 }
-int ListChickens::RedLight(int level) {
+int ListChickens::RedLight() {
 	if (level < 5 && level >= 1) {
 		return 20;
 	}
@@ -77,7 +77,7 @@ int ListChickens::RedLight(int level) {
 		return 40;
 	}
 }
-void ListChickens::addTimeDelay(int level) {
+void ListChickens::addTimeDelay() {
 	if (level > 9) {
 		Sleep(100);
 	}
@@ -86,9 +86,9 @@ void ListChickens::addTimeDelay(int level) {
 	}
 	
 }
-void ListChickens::saveToFile() {
+void ListChickens::saveToFile(string filePath) {
 	fstream f;
-	f.open("game.txt", ios::out);
+	f.open(filePath, ios::out);
 	f << numberOfChicks << endl;
 	f << lane << endl;
 	f << direction << endl;
@@ -99,9 +99,9 @@ void ListChickens::saveToFile() {
 	}
 	f.close();
 }
-void ListChickens::loadFromFile(){
+void ListChickens::loadFromFile(string filePath){
 	fstream f;
-	f.open("game.txt", ios::in);
+	f.open(filePath, ios::in);
 	f >> numberOfChicks ;
 	cout << endl;
 	f >> lane ;
@@ -170,9 +170,11 @@ void ListChickens::setRedlight(bool redlight) {
 bool ListChickens::getRedlight() {
 	return this->redLight;
 }
+
 void ListChickens::setNumChicks(int numchicks) {
 	this->numberOfChicks = numchicks;
 }
+
 int ListChickens::getNumChicks() {
 	return this->numberOfChicks;
 }
@@ -187,11 +189,13 @@ void ListChickens::drawListCar() {
 		}
 	}
 }
+
 void ListChickens::deleteListCar() {
 	for (int i = 0; i < listChicken.size(); ++i) {
 		listChicken[i].deleteCar(listChicken[i].getX(), y);
 	}
 }
+
 void ListChickens::updateListCar() {
 	for (int i = 0; i < listChicken.size(); ++i) {
 		if (direction == true) {
@@ -217,9 +221,10 @@ void ListChickens::updateListCar() {
 		}
 	}
 }
+
 bool ListChickens::isCollision(Character* character) {
 	for (int i = 0; i < listChicken.size(); ++i) {
-		if (listChicken[i].getX() >= character->getX() && listChicken[i].getX() <= character->getX() + 5 && character->getY() >= y && character->getY() <= y + 3) {
+		if (listChicken[i].getX() <= character->getX() && listChicken[i].getX() + 5 >= character->getX() && character->getY() >= y && character->getY() <= y + 3) {
 			return true;
 		}
 	}
@@ -230,12 +235,12 @@ void ListChickens::trafficColor() {
 	UIHelper* helper = UIHelper::getUIHelper();
 
 	if (redLight) {
-		UIHelper::getUIHelper()->setTextColor(244); // red
+		UIHelper::getUIHelper()->setTextColor(242); // red
 		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
 		cout << (char)219 << (char)219;
 	}
 	else {
-		UIHelper::getUIHelper()->setTextColor(242); // red
+		UIHelper::getUIHelper()->setTextColor(244); // green
 		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
 		cout << (char)219 << (char)219;
 	}

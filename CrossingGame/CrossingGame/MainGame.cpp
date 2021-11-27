@@ -6,11 +6,24 @@ void MainGame::mainMenu() {
 	console->drawHeaderText();
 	int maxX = console->getMaxX();
 	int maxY = console->getMaxY();
-	vector<string> menuNames{ "New game", "Load game", "High Score", "About", "Quit Game" };
+	vector<string> menuNames;
+
+	Account::getInstance()->loadAccountFromFile();
+
+	if (Account::getInstance()->getListAccount().size() > 0) {
+		menuNames.clear();
+		menuNames.insert(menuNames.begin(), { "New game", "Load game", "High Score", "About", "Quit Game" });
+	}
+	else {
+		menuNames.clear();
+		menuNames.insert(menuNames.begin(), { "New game", "High Score", "About", "Quit Game" });
+	}
 
 	int choice = UIHelper::getUIHelper()->createMenu(maxX/2 - 6, maxY/2, menuNames);
 	PlayGame playGame; 
 	
+	if (menuNames.size() == 4 && choice >= 1) choice += 1;
+
 	switch (choice)
 	{
 	case 0:

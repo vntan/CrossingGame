@@ -60,6 +60,10 @@ bool ListFastAFCars::getTraffic() {
 	return isRed;
 }
 
+int ListFastAFCars::getTimeToRed() {
+	return 60 - (level * 10);
+}
+
 void ListFastAFCars::setStop(bool stop) {
 	this->stop = stop;
 }
@@ -108,18 +112,18 @@ void ListFastAFCars::setLevel(int level) {
 	addCars(level, 10 * level);
 }
 
-void ListFastAFCars::saveCar() {
-	fstream fout("ListFastAFCar.txt", ios::out);
-	fout << reverse << " " << distance << " " << posY << " " << numofcars << " " << level << " " << lane << " "  << stop << endl;
+void ListFastAFCars::saveCar(string fileName) {
+	fstream fout(fileName, ios::out);
+	fout << reverse << " " << distance << " " << posY << " " << numofcars << " " << level << " " << lane << " " << stop << " " << isRed << endl;
 	for (int i = 0; i < numofcars; i++) {
 		fout << posX[i] << " " << countstep[i] << " " << firstdraw[i] << endl;
 	}
 	fout.close();
 }
 
-void ListFastAFCars::loadCar() {
-	fstream fin("ListFastAFCar.txt", ios::in);
-	fin >> reverse >> distance >> posY >> numofcars >> level >> lane >> stop;
+void ListFastAFCars::loadCar(string fileName) {
+	fstream fin(fileName, ios::in);
+	fin >> reverse >> distance >> posY >> numofcars >> level >> lane >> stop >> isRed;
 	if (car == nullptr) {
 		car = new FastAFCar[numofcars];
 		posX = new int[numofcars];
@@ -130,6 +134,12 @@ void ListFastAFCars::loadCar() {
 		fin >> posX[i] >> countstep[i] >> firstdraw[i];
 	}
 	trafficColor();
+	for (int i = 0; i < numofcars; i++) {
+		if (reverse)
+			drawListCarReverse(i);
+		else
+			drawListCar(i);
+	}
 	fin.close();
 }
 
@@ -218,6 +228,18 @@ void ListFastAFCars::deleteListCar(int i) {
 		posX[i]++;
 	}
 }
+
+void ListFastAFCars::deleteEverything() {
+	UIHelper* p;
+	p->getUIHelper()->gotoXY(3, this->posY);
+	cout << "                                                                                            ";
+	p->getUIHelper()->gotoXY(3, this->posY + 1);
+	cout << "                                                                                            ";
+	p->getUIHelper()->gotoXY(3, this->posY + 2);
+	cout << "                                                                                            ";
+}
+
+
 
 void ListFastAFCars::trafficColor() {
 	if (isRed) {

@@ -134,7 +134,6 @@ int ListRedCar::getTimeRedLight() {
 }
 
 void ListRedCar::loadCar(string nameFile) {
-	nameFile += ".txt";
 	ifstream ifs(nameFile);
 
 	ifs >> this->numberOfCar >> this->maxCar >> this->space;
@@ -161,7 +160,6 @@ void ListRedCar::loadCar(string nameFile) {
 	ifs.close();
 }
 void ListRedCar::saveCar(string nameFile) {
-	nameFile += ".txt";
 	ofstream ofs(nameFile);
 
 	ofs << numberOfCar << " " << maxCar << " " << space << endl;

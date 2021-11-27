@@ -32,11 +32,11 @@ public:
 	void setLane(int lane);
 	void setLevel(int level);
 	int getLevel();
-	void setAddChicken(int level);
-	int RedLight(int level);
-	void addTimeDelay(int level);
-	void saveToFile();
-	void loadFromFile();
+	void setAddChicken();
+	int RedLight();
+	void addTimeDelay();
+	void saveToFile(string filePath);
+	void loadFromFile(string filePath);
 	~ListChickens();
 };
 

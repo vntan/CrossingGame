@@ -48,6 +48,8 @@ int UIHelper::createMenu(int startX, int startY, vector<string> listNameSelectio
 			int key = getKey();
 			if (key == 13) {
 				setTextColor(default_ColorCode);
+				cout << listNameSelection[choice] << "  " << endl;
+				
 				return choice;
 			}
 			

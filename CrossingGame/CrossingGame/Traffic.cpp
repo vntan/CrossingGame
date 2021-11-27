@@ -1,88 +1,290 @@
 ﻿#include "Traffic.h"
 
-Traffic::Traffic(User user, int pos) {
-	isStop = new bool;
-	isExit = new bool;
+
+Traffic::Traffic(User user, int pos, int gameMode) {
 	character = new Character();
 
-	*isStop = false;
-	*isExit = false;
+	isStop = false;
+	isExit = false;
+	isWin = false;
+	isSave = false;
+	isLoad = gameMode;
 
 	this->user = user;
 	this->accountPos = pos;
+
+	loadUser(true);
 }
 
+Traffic::~Traffic() {
+	delete character;
+}
+
+void Traffic::loadUser(bool isShow) {
+	string pathFile = UIHelper::getUIHelper()->getFilePath() + "InfoContinue" + user.getName();
+	if (isLoad) {
+		ifstream f(pathFile);
+
+		if (f.good()) {
+			string name; int a, b;
+			getline(f, name);
+			f >> a >> b;
+			user.setName(name);
+			user.setLevel(a);
+			user.setScore(b);
+
+			if (isShow) showUserInfo();
+			f.close();
+			remove(pathFile.c_str());
+			return;
+		}
+	}
+	user.setLevel(1);
+	user.setScore(0);
+	if (isShow) showUserInfo();
+}
+
+void Traffic::saveUser() {
+	string pathFile = UIHelper::getUIHelper()->getFilePath() + "InfoContinue" + user.getName();
+	ofstream g(pathFile);
+	g << user.getName() << endl << user.getLevel() << endl << user.getScore();
+	g.close();
+}
+
+void Traffic::showUserInfo() {
+	UIHelper* console = UIHelper::getUIHelper();
+	console->setTextColor(240);
+	console->gotoXY(109, 3);
+	for (int i = 0; i < 24; i++) {
+		console->gotoXY(109 + i, 3); cout << " ";
+	}
+
+	for (int i = 0; i < 8; i++) {
+		console->gotoXY(117 + i, 5); cout << " ";
+		console->gotoXY(117 + i, 7); cout << " ";
+	}
+
+	//output word
+	console->gotoXY(109, 3); // name spot
+	cout << user.getName();
+	console->gotoXY(109, 5); // score spot
+	cout << "Score:";
+	console->gotoXY(109, 7); // level spot
+	cout << "Level:";
+	console->gotoXY(117, 5); // score spot
+	if (user.getScore() >= 0) cout << user.getScore(); else cout << "?";
+	console->gotoXY(117, 7); // level spot
+	if (user.getLevel() > 0) cout << user.getLevel(); else cout << "?";
+}
+
+
 void Traffic::carInLane(int lane) {
-	chickenProcess(lane);
+	//redCarProcess(lane);
+
+	truckCarProcess(lane);
+
+	//fastAFCarProcess(lane);
+
+	//chickenProcess(lane);
 	/*if (lane % 2 == 0) fastAFCarProcess(lane);
-	else truckCarProcess(lane);*/
+	else */
+}
+
+void Traffic::truckCarProcess(int lane) {
+	ListTrucks listTrucks(lane, 1, user.getLevel());
+
+	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Truck" + user.getName() + to_string(lane);
+	//Draw Traffic Color
+	m.lock();
+	listTrucks.trafficColor();
+	if (isLoad) {
+		ifstream f(pathFile);
+		if (f.good()) {
+			listTrucks.loadCar(pathFile);
+			f.close();
+			remove(pathFile.c_str());
+		}
+	}
+	m.unlock();
+
+	int count = 1; isWin = true;
+	while (!isExit) {
+		if (isStop) continue;
+		
+		m.lock();
+
+		if (!listTrucks.getRedLight()) {
+			listTrucks.deleteListCar();
+			listTrucks.drawListCar();
+		}
+		
+		if (count == listTrucks.getTimeToRed()) {
+			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
+			else listTrucks.setRedLight(1);
+
+			listTrucks.trafficColor();
+			count = 1;
+		}
+		++count;
+		listTrucks.updateListCar();
+		
+		
+		if (listTrucks.isCollision(character)) {
+			isWin = isSave = false;
+			isExit = true;
+
+			m.unlock();
+			break;
+		}
+		m.unlock();
+		Sleep(listTrucks.getSpeed());
+	}
+
+	m.lock();
+	listTrucks.deleteListCar();
+	if (isSave) listTrucks.saveCar(pathFile);
+	
+	m.unlock();
+}
+
+void Traffic::fastAFCarProcess(int lane) {
+	ListFastAFCars fastAF;
+	string pathFile = UIHelper::getUIHelper()->getFilePath() + "FastAFCar" + user.getName() + to_string(lane);
+	fastAF.setLane(lane);
+	fastAF.setLevel(user.getLevel());
+	int count = 1;
+
+	m.lock();
+	fastAF.trafficColor();
+	if (isLoad) {
+		ifstream f(pathFile);
+		if (f.good()) {
+			fastAF.loadCar(pathFile);
+			f.close();
+			//remove(pathFile.c_str());
+		}
+	}
+	m.unlock();
+
+	while (!isExit) {
+		if (isStop) continue;
+
+		m.lock();
+		if (count == fastAF.getTimeToRed()) {
+			fastAF.setTraffic(!fastAF.getTraffic());
+			fastAF.trafficColor();
+			count = 0;
+		}
+
+		fastAF.updateListCar();
+		if (fastAF.isCollision(character)) {
+			isWin = isSave = false;
+			isExit = true;
+
+			m.unlock();
+			break;
+		}
+		count++;
+
+		m.unlock();
+		Sleep(fastAF.getSleepTime());
+	}
+	m.lock();
+	fastAF.deleteEverything();
+	if (isSave) fastAF.saveCar(pathFile);
+
+	m.unlock();
 }
 
 void Traffic::redCarProcess(int lane) {
-	ListRedCar l;
-	l.setLane(lane);
-	l.setLevel(1);
-	l.setDirection(1);
+	ListRedCar redCars;
+	string pathFile = UIHelper::getUIHelper()->getFilePath() + "RedCar" + user.getName() + to_string(lane);
+
+	redCars.setLane(lane);
+	redCars.setLevel(user.getLevel());
+	redCars.setDirection(1);
 
 	m.lock();
-	l.trafficColor();
+	redCars.trafficColor();
+	if (isLoad) {
+		ifstream f(pathFile);
+		if (f.good()) {
+			redCars.loadCar(pathFile);
+			f.close();
+			remove(pathFile.c_str());
+		}
+	}
 	m.unlock();
 
-	//l.loadCar("rcar");
-
 	int count = 0;
-	while (true) {
-		if (*isStop) continue;
+	while (!isExit) {
+		if (isStop) continue;
 		m.lock();
-		if (count == l.getTimeRedLight()) {
-			if (l.getRedLight()) {
-				l.setRedLight(0);
-				l.trafficColor();
+		if (count == redCars.getTimeRedLight()) {
+			if (redCars.getRedLight()) {
+				redCars.setRedLight(0);
+				redCars.trafficColor();
 				count = 0;
 			}
 			else {
-				l.setRedLight(1);
-				l.trafficColor();
+				redCars.setRedLight(1);
+				redCars.trafficColor();
 				count = 0;
 			}
 		}
 		++count;
 
-		if (l.getRedLight() == 0) l.updateListCar();
+		if (redCars.getRedLight() == 0) redCars.updateListCar();
+
 		
+		if (redCars.isCollision(character) == true) {
+			isWin = isSave = false;
+			isExit = true;
 
-		if (l.isCollision(character) == true) {
-			//l.saveCar("rcar");
-			exit(0);
+			m.unlock();
+			break;
 		}
-
 		m.unlock();
-		Sleep(l.getSleep());
+		
+		Sleep(redCars.getSleep());
 	}
+
+	m.lock();
+	redCars.deleteListCar();
+	if (isSave) redCars.saveCar(pathFile);
+	m.unlock();
 }
 
 void Traffic::chickenProcess(int lane) {
-	//Set level: set addChicken, addTimeToRed, addTimeDelay
-	//listChicks.saveTOFile(fileNme:String) -> Luu trang thai hien tai cua xe
-	//listChicks.loadFromFile(fileNme:String) -> Load trang thai hien tai cua xe
 	ListChickens listChicks(lane, 5);
+	listChicks.setLevel(user.getLevel());
+	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Chickens" + user.getName() + to_string(lane);
+
 	listChicks.setDirection(true);
 	m.lock();
 	listChicks.trafficColor();
+	listChicks.setAddChicken();
+	if (isLoad) {
+		ifstream f(pathFile);
+		if (f.good()) {
+			listChicks.loadFromFile(pathFile);
+			f.close();
+			remove(pathFile.c_str());
+		}
+	}
+
 	m.unlock();
-	listChicks.setAddChicken(user.getLevel());
-
-
+	
 	int count = 0;
-	while (!*isExit) {
-		if (*isStop) continue;
+	while (!isExit) {
+		if (isStop) continue;
 		m.lock();
 		if (listChicks.getRedlight()) {
 			listChicks.deleteListCar();
 			listChicks.drawListCar();
 		}
-		//if (count == listChicks.getTimeRedLight()) {
-		if (count == listChicks.RedLight(user.getLevel())) {
+		
+		if (count == listChicks.RedLight()) {
 			if (listChicks.getRedlight()) {
 				listChicks.setRedlight(false);
 				listChicks.trafficColor();
@@ -94,102 +296,36 @@ void Traffic::chickenProcess(int lane) {
 				count = 0;
 			}
 		}
-		//}
-		++count;
 
+		++count;
 
 		if (listChicks.isCollision(character)) {
 
-			*isStop = true;
+			isWin = isSave = false;
+			isExit = true;
+
+			m.unlock();
+			break;
 		}
 
 		listChicks.updateListCar();
 
 		m.unlock();
 		//Sleep(ListChikens.getTimeDelay());
-		listChicks.addTimeDelay(user.getLevel());
+		listChicks.addTimeDelay();
 	}
-}
-
-	
-void Traffic::truckCarProcess(int lane) {
-
-	ListTrucks listTrucks(lane, 1, 5);
-
-	//Draw Traffic Color
-	m.lock();
-	listTrucks.trafficColor();
-	m.unlock();
-
-	int count = 1;
-	while (!*isExit) {
-		if (*isStop) {
-			continue;
-		}
-		m.lock();
-		
-		if (!listTrucks.getRedLight()) {
-			listTrucks.deleteListCar();
-			listTrucks.drawListCar();
-		}
-
-		if (count == listTrucks.getTimeToRed()) {
-			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
-			else listTrucks.setRedLight(1);
-		
-			listTrucks.trafficColor();
-			count = 1;
-		}
-		++count;
-
-		if (listTrucks.isCollision(character)) {
-			listTrucks.saveCar("ListTrucks.txt");
-			*isStop = true;
-		}
-
-		listTrucks.updateListCar();
-
-		
-		m.unlock();
-
-		Sleep(listTrucks.getSpeed());
-	}
-}
-
-void Traffic::fastAFCarProcess(int lane) {
-	ListFastAFCars fastAF;
-	fastAF.setLane(lane);
-	fastAF.setLevel(4);
-	int count = 1;
 
 	m.lock();
-	fastAF.trafficColor();
+	listChicks.deleteListCar();
+	if (isSave) listChicks.saveToFile(pathFile);
+
 	m.unlock();
 
-	while (true) {
-		if (*isStop) continue;
-
-		m.lock();
-		if (count % 20 == 0) {
-			fastAF.setTraffic(!fastAF.getTraffic());
-			fastAF.trafficColor();
-		}
-
-		fastAF.updateListCar();
-		if (fastAF.isCollision(character)) {
-			fastAF.saveCar();
-			exit(0);
-		}
-		count++;
-
-		m.unlock();
-		Sleep(fastAF.getSleepTime());
-	}
 }
 
 void Traffic::startTraffic() {
-	*isStop = false;
-	*isExit = false;
+	isStop = false;
+	isExit = false;
 
 	srand(time(NULL));
 	(*character).deleteCharacter();
@@ -212,25 +348,30 @@ void Traffic::startTraffic() {
 }
 
 void Traffic::stopTraffic() {
-	*isStop = true;
+	isStop = true;
 }
 
 void Traffic::resetTraffic() {
-	*isStop = true;
-	*isExit = true;
+	UIHelper* console = UIHelper::getUIHelper();
+	m.lock();
+	showUserInfo();
+	m.unlock();
+
+	//Stop all traffic
+	isStop = true;
+	isExit = true;
 
 	Sleep(500);
 	startTraffic();
-
 }
 
 void Traffic::processCharacter() {
 	UIHelper* helper = UIHelper::getUIHelper();
-
-	while (true) {
+	helper->getKey();
+	while (!isExit) {
 		
 		int k = helper->getKey();
-		if (!*isStop) {
+		if (!isStop) {
 			if (k == helper->ArrowKey_UP || toupper(k) == 'W') {
 				m.lock();
 				(*character).increaseY(-1);
@@ -256,21 +397,68 @@ void Traffic::processCharacter() {
 			}
 		}
 
-		if (tolower(k) == 'p') *isStop = !*isStop;
-		if (tolower(k) == 'r') break;
-		if (k == 27) {
-			*isStop = true;
-			*isExit = true;
+		if (tolower(k) == 'p') isStop = !isStop;
+		
+		if (tolower(k) == 'r') {
+			//play again
+			user.setLevel(1);
+			user.setScore(0);
+			this->resetTraffic();
+		}
 
+		if (k == 27) {
+			isStop = true;
 			Sleep(500);
-			vector<string> menu{"Save Game", "Exit"};
+
+			
+			vector<string> menu{"Save Game and Exit", "Exit"};
 			int key = helper->createMenu(105, 23, menu);
+			
+			Sleep(500);
 			//Todo:  Save Game, exit;
+			if (key == 0) {
+				isSave = true;
+				saveUser();
+			} 
+
+			isExit = true;
+			Sleep(500);
 
 			return;
 		}
 
 		//Todo: Win update, score
+		if (character->getY() <= 4) {
+			Sleep(200);
+			user.increaseScore(10);
+			user.increaseLevel(1);
+			isWin = true;
+			break;
+		}
 	}
-	this->resetTraffic();
+
+	if (isWin) this->resetTraffic();
+	else {
+		isStop = isExit = true;
+		Sleep(500);
+
+		Account* account = Account::getInstance();
+		User userOld = account->getAccount(accountPos);
+
+		int y = 23;
+		helper->gotoXY(105, y++);
+		cout << "You are a loser";
+
+		if (userOld.getScore() < user.getScore()) {
+			account->updateUser(accountPos, user);
+			account->saveAccountToFile();
+
+			UIHelper* helper = UIHelper::getUIHelper();
+			helper->gotoXY(105, y++);
+			cout << "High Score: "<<user.getScore();
+		}
+		y++;
+		vector<string> menu{"Exit"};
+		int key = helper->createMenu(105, y++, menu);
+	}
 }

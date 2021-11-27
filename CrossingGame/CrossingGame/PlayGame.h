@@ -19,7 +19,7 @@ private:
 	void drawInformation();
 	void drawInputName(int gameMode);
 	void drawTableGame();
-	void processGame();
+	void processGame(int gameMode);
 
 public:
 	PlayGame();
