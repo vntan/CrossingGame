@@ -37,6 +37,7 @@ public:
 	void addTimeDelay();
 	void saveToFile(string filePath);
 	void loadFromFile(string filePath);
+	void deleteEverything();
 	~ListChickens();
 };
 

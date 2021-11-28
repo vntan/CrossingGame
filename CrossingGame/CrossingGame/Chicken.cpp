@@ -16,8 +16,10 @@ void Chicken::drawCar(int x, int y) {
 }
 void Chicken::deleteCar(int x, int y) {
 	UIHelper* helper = UIHelper::getUIHelper();
+	this->x = x;
+	this->y = y;  
 	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 6; j++) {
+		for (int j = 0; j < 6; ++j) {
 			if (direction == true) {
 				helper->gotoXY(x + j, y + i);
 				cout << " ";
@@ -112,5 +114,8 @@ void Chicken::drawReverseChick() {
 	}
 }
 void Chicken::deleteMemory() {
+	for (int i = 0; i < 3; ++i) {
+		delete chick[i];
+	}
 	delete[] chick;
 }

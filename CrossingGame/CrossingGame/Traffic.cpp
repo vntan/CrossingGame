@@ -81,17 +81,17 @@ void Traffic::showUserInfo() {
 void Traffic::carInLane(int lane) {
 	//redCarProcess(lane);
 
-	truckCarProcess(lane);
+	//truckCarProcess(lane);
 
 	//fastAFCarProcess(lane);
 
-	//chickenProcess(lane);
+	chickenProcess(lane);
 	/*if (lane % 2 == 0) fastAFCarProcess(lane);
 	else */
 }
 
 void Traffic::truckCarProcess(int lane) {
-	ListTrucks listTrucks(lane, 1, user.getLevel());
+	ListTrucks listTrucks(lane, 0, user.getLevel());
 
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Truck" + user.getName() + to_string(lane);
 	//Draw Traffic Color
@@ -256,7 +256,7 @@ void Traffic::redCarProcess(int lane) {
 }
 
 void Traffic::chickenProcess(int lane) {
-	ListChickens listChicks(lane, 5);
+	ListChickens listChicks(lane, user.getLevel());
 	listChicks.setLevel(user.getLevel());
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Chickens" + user.getName() + to_string(lane);
 
