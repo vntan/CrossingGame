@@ -124,6 +124,12 @@ void ListFastAFCars::saveCar(string fileName) {
 void ListFastAFCars::loadCar(string fileName) {
 	fstream fin(fileName, ios::in);
 	fin >> reverse >> distance >> posY >> numofcars >> level >> lane >> stop >> isRed;
+	delete[] car; car = nullptr;
+	delete[] posX;
+	delete[] countstep;
+	delete[] firstdraw;
+	
+
 	if (car == nullptr) {
 		car = new FastAFCar[numofcars];
 		posX = new int[numofcars];

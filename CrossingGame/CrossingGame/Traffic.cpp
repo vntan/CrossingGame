@@ -83,7 +83,7 @@ void Traffic::carInLane(int lane) {
 
 	//truckCarProcess(lane);
 
-	//fastAFCarProcess(lane);
+	fastAFCarProcess(lane);
 
 	chickenProcess(lane);
 	/*if (lane % 2 == 0) fastAFCarProcess(lane);
