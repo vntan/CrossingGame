@@ -19,14 +19,13 @@ class Traffic
 {
 	bool isStop;
 	bool isExit;
-	bool isWin;
 	bool isSave;
 	bool isLoad;
-	bool isCollision;
+
+	string result;
 
 	Character* character;
 	User user;
-	int accountPos;
 
 	mutex m;
 	void carInLane(int lane);
@@ -34,18 +33,15 @@ class Traffic
 	void truckCarProcess(int lane);
 	void fastAFCarProcess(int lane);
 	void chickenProcess(int lane);
-	void loadUser(bool isShow);
+	
 	void saveUser();
-	void showUserInfo();
-
 public:
-
-	Traffic(User user, int pos, int gameMode);
+	Traffic(User user, bool isContinue);
 	~Traffic();
 
-	void startTraffic();
+	string startTraffic();
 	void stopTraffic();
-	void resetTraffic();
+	//void resetTraffic();
 
 	void processCharacter();
 };

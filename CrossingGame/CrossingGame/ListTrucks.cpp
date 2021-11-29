@@ -8,7 +8,7 @@ ListTrucks::ListTrucks(int lane, bool direction, int level) {
 }
 
 ListTrucks::~ListTrucks() {
-	deleteListCar();
+	//deleteListCar();
 	for (int i = 0; i < listTrucks.size(); ++i) {
 		listTrucks[i].freeMemory();
 	}

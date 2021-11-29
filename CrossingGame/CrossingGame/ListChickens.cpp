@@ -39,7 +39,7 @@ ListChickens::ListChickens(int lane, int level) {
 	}
 }
 ListChickens::~ListChickens() {
-	deleteListCar();
+	//deleteListCar();
 	for (int i = 0; i < listChicken.size(); ++i) {
 		listChicken[i].deleteMemory();
 	}
