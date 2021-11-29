@@ -247,12 +247,12 @@ void ListFastAFCars::deleteEverything() {
 
 void ListFastAFCars::trafficColor() {
 	if (isRed) {
-		UIHelper::getUIHelper()->setTextColor(244); // red
+		UIHelper::getUIHelper()->setTextColor(252); // red
 		UIHelper::getUIHelper()->gotoXY(99, 23 - 4 * (lane - 1));
 		cout << (char)219 << (char)219;
 	}
 	else {
-		UIHelper::getUIHelper()->setTextColor(242); // red
+		UIHelper::getUIHelper()->setTextColor(250); // red
 		UIHelper::getUIHelper()->gotoXY(99, 23 - 4 * (lane - 1));
 		cout << (char)219 << (char)219;
 	}
