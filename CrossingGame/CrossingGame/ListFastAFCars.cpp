@@ -1,9 +1,9 @@
 #include "ListFastAFCars.h"
 
-ListFastAFCars::ListFastAFCars(){
+ListFastAFCars::ListFastAFCars() {
 	if (rand() % 2 == 0) {
 		lane = 1;
-		posY = 7;
+		posY = 22;
 		reverse = true;
 		posX = nullptr;
 		level = 1;
@@ -17,7 +17,7 @@ ListFastAFCars::ListFastAFCars(){
 	}
 	else {
 		lane = 1;
-		posY = 7;
+		posY = 22;
 		posX = nullptr;
 		level = 1;
 		stop = false;
@@ -102,7 +102,7 @@ int ListFastAFCars::getSleepTime() {
 
 void ListFastAFCars::setLane(int lane) {
 	this->lane = lane;
-	posY = 6 + 4 * (lane - 1);
+	posY = 22 - 4 * (lane - 1);
 }
 
 void ListFastAFCars::setLevel(int level) {
@@ -128,7 +128,7 @@ void ListFastAFCars::loadCar(string fileName) {
 	delete[] posX;
 	delete[] countstep;
 	delete[] firstdraw;
-	
+
 
 	if (car == nullptr) {
 		car = new FastAFCar[numofcars];
@@ -188,7 +188,7 @@ void ListFastAFCars::updateListCar() {
 					}
 				}
 			}
-			else  {
+			else {
 				if (reverse) {
 					if (posX[i] >= 3 && posX[i - 1] <= 95 - distance) {
 						if (firstdraw[i]) {
@@ -245,17 +245,15 @@ void ListFastAFCars::deleteEverything() {
 	cout << "                                                                                            ";
 }
 
-
-
 void ListFastAFCars::trafficColor() {
 	if (isRed) {
 		UIHelper::getUIHelper()->setTextColor(244); // red
-		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
+		UIHelper::getUIHelper()->gotoXY(99, 23 - 4 * (lane - 1));
 		cout << (char)219 << (char)219;
 	}
 	else {
 		UIHelper::getUIHelper()->setTextColor(242); // red
-		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
+		UIHelper::getUIHelper()->gotoXY(99, 23 - 4 * (lane - 1));
 		cout << (char)219 << (char)219;
 	}
 }

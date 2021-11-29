@@ -8,6 +8,7 @@ Traffic::Traffic(User user, int pos, int gameMode) {
 	isExit = false;
 	isWin = false;
 	isSave = false;
+	isCollision = false;
 	isLoad = gameMode;
 
 	this->user = user;
@@ -79,20 +80,22 @@ void Traffic::showUserInfo() {
 
 
 void Traffic::carInLane(int lane) {
-	//redCarProcess(lane);
+	srand(time(NULL));
 
 	//truckCarProcess(lane);
+	if (lane == 1) redCarProcess(lane);
+	if (lane == 2) truckCarProcess(lane);
+	if (lane == 3)
+		if ((rand() % 100) % 2 == 0) truckCarProcess(lane); else redCarProcess(lane);
+	if (lane == 4) chickenProcess(lane);
+	if (lane == 5) fastAFCarProcess(lane);
 
-	fastAFCarProcess(lane);
-
-	//chickenProcess(lane);
-	/*if (lane % 2 == 0) fastAFCarProcess(lane);
-	else */
 }
 
 void Traffic::truckCarProcess(int lane) {
-	ListTrucks listTrucks(lane, 0, user.getLevel());
-
+	UIHelper* helper = UIHelper::getUIHelper();
+	ListTrucks listTrucks(lane, lane%2, user.getLevel());
+	listTrucks.setDirection(lane % 2);
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Truck" + user.getName() + to_string(lane);
 	//Draw Traffic Color
 	m.lock();
@@ -114,6 +117,7 @@ void Traffic::truckCarProcess(int lane) {
 		m.lock();
 
 		if (!listTrucks.getRedLight()) {
+			helper->setTextColor(helper->default_ColorCode);
 			listTrucks.deleteListCar();
 			listTrucks.drawListCar();
 		}
@@ -131,7 +135,7 @@ void Traffic::truckCarProcess(int lane) {
 		
 		if (listTrucks.isCollision(character)) {
 			isWin = isSave = false;
-			isExit = true;
+			isExit = isCollision = true;
 
 			m.unlock();
 			break;
@@ -148,6 +152,7 @@ void Traffic::truckCarProcess(int lane) {
 }
 
 void Traffic::fastAFCarProcess(int lane) {
+	UIHelper* helper = UIHelper::getUIHelper();
 	ListFastAFCars fastAF;
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "FastAFCar" + user.getName() + to_string(lane);
 	fastAF.setLane(lane);
@@ -176,10 +181,12 @@ void Traffic::fastAFCarProcess(int lane) {
 			count = 0;
 		}
 
+		helper->setTextColor(helper->default_ColorCode);
 		fastAF.updateListCar();
+
 		if (fastAF.isCollision(character)) {
 			isWin = isSave = false;
-			isExit = true;
+			isExit = isCollision = true;
 
 			m.unlock();
 			break;
@@ -190,19 +197,19 @@ void Traffic::fastAFCarProcess(int lane) {
 		Sleep(fastAF.getSleepTime());
 	}
 	m.lock();
-	fastAF.deleteEverything();
-	if (isSave) fastAF.saveCar(pathFile);
-
+	fastAF.deleteEverything();	
 	m.unlock();
+	if (isSave) fastAF.saveCar(pathFile);
 }
 
 void Traffic::redCarProcess(int lane) {
+	UIHelper* helper = UIHelper::getUIHelper();
 	ListRedCar redCars;
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "RedCar" + user.getName() + to_string(lane);
 
 	redCars.setLane(lane);
 	redCars.setLevel(user.getLevel());
-	redCars.setDirection(1);
+	redCars.setDirection(lane % 2);
 
 	m.lock();
 	redCars.trafficColor();
@@ -234,12 +241,15 @@ void Traffic::redCarProcess(int lane) {
 		}
 		++count;
 
-		if (redCars.getRedLight() == 0) redCars.updateListCar();
+		if (redCars.getRedLight() == 0) {
+			helper->setTextColor(helper->default_ColorCode);
+			redCars.updateListCar();
+		} 
 
 		
 		if (redCars.isCollision(character) == true) {
 			isWin = isSave = false;
-			isExit = true;
+			isExit = isCollision = true;
 
 			m.unlock();
 			break;
@@ -251,16 +261,17 @@ void Traffic::redCarProcess(int lane) {
 
 	m.lock();
 	redCars.deleteListCar();
-	if (isSave) redCars.saveCar(pathFile);
 	m.unlock();
+	if (isSave) redCars.saveCar(pathFile);
 }
 
 void Traffic::chickenProcess(int lane) {
+	UIHelper* helper = UIHelper::getUIHelper();
 	ListChickens listChicks(lane, user.getLevel());
 	listChicks.setLevel(user.getLevel());
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Chickens" + user.getName() + to_string(lane);
 
-	listChicks.setDirection(true);
+	listChicks.setDirection((lane % 2));
 	m.lock();
 	listChicks.trafficColor();
 	listChicks.setAddChicken();
@@ -280,6 +291,7 @@ void Traffic::chickenProcess(int lane) {
 		if (isStop) continue;
 		m.lock();
 		if (listChicks.getRedlight()) {
+			helper->setTextColor(helper->default_ColorCode);
 			listChicks.deleteListCar();
 			listChicks.drawListCar();
 		}
@@ -302,7 +314,7 @@ void Traffic::chickenProcess(int lane) {
 		if (listChicks.isCollision(character)) {
 
 			isWin = isSave = false;
-			isExit = true;
+			isExit = isCollision = true;
 
 			m.unlock();
 			break;
@@ -317,9 +329,11 @@ void Traffic::chickenProcess(int lane) {
 
 	m.lock();
 	listChicks.deleteListCar();
+	m.unlock();
+
 	if (isSave) listChicks.saveToFile(pathFile);
 
-	m.unlock();
+	
 
 }
 
@@ -353,15 +367,15 @@ void Traffic::stopTraffic() {
 
 void Traffic::resetTraffic() {
 	UIHelper* console = UIHelper::getUIHelper();
-	m.lock();
-	showUserInfo();
-	m.unlock();
-
 	//Stop all traffic
 	isStop = true;
 	isExit = true;
 
-	Sleep(500);
+	m.lock();
+	showUserInfo();
+	m.unlock();
+
+	Sleep(1000);
 	startTraffic();
 }
 
@@ -371,7 +385,7 @@ void Traffic::processCharacter() {
 	while (!isExit) {
 		
 		int k = helper->getKey();
-		if (!isStop) {
+		if (!isStop && !isCollision) {
 			if (k == helper->ArrowKey_UP || toupper(k) == 'W') {
 				m.lock();
 				(*character).increaseY(-1);
@@ -429,37 +443,46 @@ void Traffic::processCharacter() {
 
 		//Todo: Win update, score
 		if (character->getY() <= 4) {
-			Sleep(200);
-			user.increaseScore(10);
-			user.increaseLevel(1);
 			isWin = true;
 			isLoad = false;
+			isStop = true;
+			isExit = true;
+			Sleep(1000);
+			user.increaseScore(10);
+			user.increaseLevel(1);
+			
 			break;
 		}
+
+		if (isCollision) break;
 	}
 
 	if (isWin) this->resetTraffic();
 	else {
 		isStop = isExit = true;
-		Sleep(500);
+		Sleep(1000);
 
 		Account* account = Account::getInstance();
 		User userOld = account->getAccount(accountPos);
 
+		m.lock();
 		int y = 23;
 		helper->gotoXY(105, y++);
 		cout << "You lose!";
-
+		m.unlock();
 		if (userOld.getScore() < user.getScore()) {
 			account->updateUser(accountPos, user);
 			account->saveAccountToFile();
 
-			UIHelper* helper = UIHelper::getUIHelper();
+			m.lock();
 			helper->gotoXY(105, y++);
 			cout << "High Score: "<<user.getScore();
+			m.unlock();
 		}
 		y++;
 		vector<string> menu{"Exit"};
 		int key = helper->createMenu(105, y++, menu);
+		
+		//Sleep(3000);
 	}
 }

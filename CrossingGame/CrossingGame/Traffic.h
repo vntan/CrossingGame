@@ -22,6 +22,7 @@ class Traffic
 	bool isWin;
 	bool isSave;
 	bool isLoad;
+	bool isCollision;
 
 	Character* character;
 	User user;
