@@ -229,15 +229,14 @@ bool ListChickens::isCollision(Character* character) {
 
 void ListChickens::trafficColor() {
 	UIHelper* helper = UIHelper::getUIHelper();
+	UIHelper::getUIHelper()->gotoXY(99, 4 * (7 - lane) - 1);
 
 	if (redLight) {
 		UIHelper::getUIHelper()->setTextColor(242); // red
-		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
 		cout << (char)219 << (char)219;
 	}
 	else {
 		UIHelper::getUIHelper()->setTextColor(244); // green
-		UIHelper::getUIHelper()->gotoXY(99, 3 + lane * 4);
 		cout << (char)219 << (char)219;
 	}
 }
