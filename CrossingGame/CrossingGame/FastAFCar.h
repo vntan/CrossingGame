@@ -3,10 +3,6 @@
 class FastAFCar : public CarStructure {
 private:
 	int width;
-	int minX = 3;
-	int minY = 6;
-	int maxX = 95;
-	int maxY = 30;
 public:
 	FastAFCar();
 	void setCarWidth(int width);

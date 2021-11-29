@@ -85,7 +85,7 @@ void Traffic::carInLane(int lane) {
 
 	fastAFCarProcess(lane);
 
-	chickenProcess(lane);
+	//chickenProcess(lane);
 	/*if (lane % 2 == 0) fastAFCarProcess(lane);
 	else */
 }
@@ -161,7 +161,7 @@ void Traffic::fastAFCarProcess(int lane) {
 		if (f.good()) {
 			fastAF.loadCar(pathFile);
 			f.close();
-			//remove(pathFile.c_str());
+			remove(pathFile.c_str());
 		}
 	}
 	m.unlock();
@@ -433,6 +433,7 @@ void Traffic::processCharacter() {
 			user.increaseScore(10);
 			user.increaseLevel(1);
 			isWin = true;
+			isLoad = false;
 			break;
 		}
 	}
@@ -447,7 +448,7 @@ void Traffic::processCharacter() {
 
 		int y = 23;
 		helper->gotoXY(105, y++);
-		cout << "You are a loser";
+		cout << "You lose!";
 
 		if (userOld.getScore() < user.getScore()) {
 			account->updateUser(accountPos, user);
