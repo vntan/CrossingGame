@@ -19,7 +19,7 @@ void ListTrucks::addTrucks(int numberCars, int distance) {
 	this->numberOfCars = numberCars;
 	for (int i = 0; i < numberOfCars; ++i) {
 		Truck newTruck;
-	
+
 		if (direction == 0) {
 			if (i % 2 == 0) {
 				newTruck.setX(x + ((distance + 1) * 3) * i);
@@ -96,47 +96,40 @@ void ListTrucks::setTimeToRed(int timeToRed) {
 }
 
 void ListTrucks::setLevel(int level) {
-	if (level > 5) level = 5;
 	this->level = level;
 	// Set number of cars
 	if (level <= 2) {
-		this->numberOfCars = 3;
-		addTrucks(numberOfCars,6);
+		this->numberOfCars = 2;
+		addTrucks(numberOfCars, 6);
 	}
-	else if (level == 3) {
+	else if (level <= 20) {
+		this->numberOfCars = 3;
+		addTrucks(numberOfCars, 7);
+	}
+	else {
 		this->numberOfCars = 4;
 		addTrucks(numberOfCars);
 	}
-	else {
-		this->numberOfCars = 5;
-		addTrucks(numberOfCars);
-	}
+
 
 	// Set level
-	if (level <= 2) {
-		this->speed = 100 - level * 10;
+	if (level <= 6) {
+		this->speed = 150 - level * 10;
 	}
 	else {
-		this->speed = 90 - level * 10;
+		this->speed = 90 - level * 2;
 	}
+	if (this->speed <= 40) this->speed = 40;
 
 	// Set time to red
 	if (level <= 2) {
 		this->timeToRed = -1;
 	}
+	else if (level <= 8) {
+		this->timeToRed = 80 - level * 2;
+	}
 	else {
-		switch (this->level) {
-		case 3: 
-		case 4: {
-			this->timeToRed = 80;
-			break;
-		}
-			  
-		case 5: {
-			this->timeToRed = 60;
-			break;
-		}
-		};
+		this->timeToRed = 60;
 	}
 
 }
@@ -181,7 +174,7 @@ void ListTrucks::drawListCar() {
 		}
 		listTrucks[i].drawCar(newX, y);
 	}
-	
+
 }
 
 void ListTrucks::deleteListCar() {
@@ -206,10 +199,10 @@ void ListTrucks::updateListCar() {
 				for (int h = 0; h < 8; ++h) {
 					listTrucks[i].deleteCar(listTrucks[i].getX() + h, y);
 				}
-		
+
 				listTrucks[i].freeMemory();
 				listTrucks.erase(listTrucks.begin() + i);
-				Truck newTruck(x,y,direction);
+				Truck newTruck(x, y, direction);
 				newTruck.setCarWidth(8);
 				listTrucks.push_back(newTruck);
 			}
@@ -284,7 +277,8 @@ void ListTrucks::loadCar(string fileName) {
 		fin >> newX;
 		if (_direction) {
 			listTrucks[i].setX(newX + 1);
-		} else listTrucks[i].setX(newX - 1);
+		}
+		else listTrucks[i].setX(newX - 1);
 	}
 	drawListCar();
 	fin.close();
