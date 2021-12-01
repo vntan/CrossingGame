@@ -60,7 +60,7 @@ void ListRedCar::setLevel(int level) {
 	}
 	else if (level >= 4) {
 		maxCar = 6;
-		space = 6;
+		space = 8;
 		timeRedLight = 30;
 	}
 }
