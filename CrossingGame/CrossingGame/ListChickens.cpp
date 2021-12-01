@@ -29,7 +29,8 @@ ListChickens::ListChickens(int lane, int level) {
 		setLane(lane);
 		x = 5;
 	}
-	else{
+	else {
+		this->direction = false;
 		this->lane = lane;
 		this->level = level;
 		this->redLight = true;
@@ -62,7 +63,7 @@ void ListChickens::setAddChicken() {
 		this->numberOfChicks = 3;
 		addChicken(numberOfChicks, 5);
 	}
-	else if(level >= 15) {
+	else if (level >= 15) {
 		this->numberOfChicks = 4;
 		addChicken(numberOfChicks, 5);
 	}
@@ -83,21 +84,21 @@ void ListChickens::addTimeDelay() {
 		Sleep(100);
 	}
 	else {
-		Sleep(300  - level * 5);
+		Sleep(300 - level * 5);
 	}
-	
+
 }
 void ListChickens::saveToFile(string filePath) {
 	fstream f;
 	f.open(filePath, ios::out);
 	f << numberOfChicks << " " << lane << " " << direction << " " << level << " " << redLight << endl;
-	
+
 	for (int i = 0; i < listChicken.size(); ++i) {
-			f << listChicken[i].getX() << " " << listChicken[i].getY() << " ";
+		f << listChicken[i].getX() << " " << listChicken[i].getY() << " ";
 	}
 	f.close();
 }
-void ListChickens::loadFromFile(string filePath){
+void ListChickens::loadFromFile(string filePath) {
 	fstream f;
 	f.open(filePath, ios::in);
 	int num, la, le;
@@ -108,14 +109,16 @@ void ListChickens::loadFromFile(string filePath){
 	setDirection(di);
 	setLevel(le);
 	setRedlight(red);
-	int x, y;
+
 	for (int i = 0; i < listChicken.size(); ++i) {
-		f >> x; 
+		int x, y;
+		f >> x;
 		f >> y;
 		listChicken[i].setX(x);
 		listChicken[i].setY(y);
 	}
 	drawListCar();
+	updateListCar();
 	f.close();
 }
 int ListChickens::getLane() {
@@ -195,8 +198,8 @@ void ListChickens::deleteListCar() {
 void ListChickens::updateListCar() {
 	for (int i = 0; i < listChicken.size(); ++i) {
 		if (direction == true) {
-			if (listChicken[i].getX() > this->maxX  || listChicken[i].getX() < this->x) {
-				listChicken[i].deleteCar(listChicken[i].getX(),y);
+			if (listChicken[i].getX() > this->maxX || listChicken[i].getX() < this->x) {
+				listChicken[i].deleteCar(listChicken[i].getX(), y);
 				listChicken[i].deleteMemory();
 				listChicken.erase(listChicken.begin() + i);
 				Chicken chick(x, y, direction);
@@ -205,13 +208,13 @@ void ListChickens::updateListCar() {
 			}
 		}
 		else {
-			if (listChicken[i].getX() < this->maxX ) {
+			if (listChicken[i].getX() < this->maxX) {
 				listChicken[i].deleteCar(listChicken[i].getX(), y);
 				listChicken[i].deleteMemory();
 				listChicken.erase(listChicken.begin() + i);
-				Chicken chick(listChicken[i].getX(), y, direction);
-				chick.drawReverseChick();
+				Chicken chick(x, y, direction);
 				chick.setCarWidth(6);
+				chick.drawReverseChick();
 				listChicken.push_back(chick);
 			}
 		}
@@ -220,8 +223,15 @@ void ListChickens::updateListCar() {
 
 bool ListChickens::isCollision(Character* character) {
 	for (int i = 0; i < listChicken.size(); ++i) {
-		if (listChicken[i].getX() <= character->getX() && listChicken[i].getX() + 5 >= character->getX() && character->getY() >= y && character->getY() <= y + 3) {
-			return true;
+		if (direction == true) {
+			if (listChicken[i].getX() <= character->getX() && listChicken[i].getX() + 5 >= character->getX() && character->getY() >= y && character->getY() <= y + 3) {
+				return true;
+			}
+		}
+		else {
+			if (listChicken[i].getX() >= character->getX() && listChicken[i].getX() - 5 <= character->getX() && character->getY() >= y && character->getY() <= y + 3) {
+				return true;
+			}
 		}
 	}
 	return false;
@@ -232,11 +242,11 @@ void ListChickens::trafficColor() {
 	UIHelper::getUIHelper()->gotoXY(99, 4 * (7 - lane) - 1);
 
 	if (redLight) {
-		UIHelper::getUIHelper()->setTextColor(242); // red
+		UIHelper::getUIHelper()->setTextColor(250); // red
 		cout << (char)219 << (char)219;
 	}
 	else {
-		UIHelper::getUIHelper()->setTextColor(244); // green
+		UIHelper::getUIHelper()->setTextColor(252); // green
 		cout << (char)219 << (char)219;
 	}
 }

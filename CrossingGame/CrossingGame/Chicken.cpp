@@ -17,7 +17,7 @@ void Chicken::drawCar(int x, int y) {
 void Chicken::deleteCar(int x, int y) {
 	UIHelper* helper = UIHelper::getUIHelper();
 	this->x = x;
-	this->y = y;  
+	this->y = y;
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 6; ++j) {
 			if (direction == true) {
@@ -109,9 +109,27 @@ Chicken::Chicken(int x, int y, bool direct) {
 	}
 }
 void Chicken::drawReverseChick() {
-	for (int i = 0; i < 3; ++i) {
-		reverse(chick[i] + 1, chick[i] + 6);
+	//Row1
+	chick[0][5] = ' ';
+	for (int i = 0; i < 5; i++)
+	{
+		if (i == 1 || i == 3) chick[0][i] = '.';
+		else chick[0][i] = '~';
+		if (i == 2) chick[0][i] = ' ';
 	}
+	//Row2
+	chick[1][0] = '|';
+	chick[1][1] = ' ';
+	chick[1][2] = '<';
+	chick[1][3] = ' ';
+	chick[1][4] = '[';
+	chick[1][5] = '|';
+	//Row3
+	for (int i = 0; i < 6; ++i) {
+		if (i == 1 || i == 4) chick[2][i] = (char)94;
+		else chick[2][i] = ' ';
+	}
+
 }
 void Chicken::deleteMemory() {
 	for (int i = 0; i < 3; ++i) {
