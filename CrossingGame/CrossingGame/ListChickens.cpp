@@ -117,6 +117,7 @@ void ListChickens::loadFromFile(string filePath) {
 		listChicken[i].setX(x);
 		listChicken[i].setY(y);
 	}
+	
 	drawListCar();
 	updateListCar();
 	f.close();
@@ -223,14 +224,16 @@ void ListChickens::updateListCar() {
 
 bool ListChickens::isCollision(Character* character) {
 	for (int i = 0; i < listChicken.size(); ++i) {
-		if (direction == true) {
-			if (listChicken[i].getX() <= character->getX() && listChicken[i].getX() + 5 >= character->getX() && character->getY() >= y && character->getY() <= y + 3) {
-				return true;
+		for (int j = 0; j < 3; ++j) {
+			if (direction == true) {
+				if (character->getX() + j >= listChicken[i].getX() && character->getX() + j <= listChicken[i].getX() + 5 && character->getY() + j >= y && character->getY() + j <= y + 3) {
+					return true;
+				}
 			}
-		}
-		else {
-			if (listChicken[i].getX() >= character->getX() && listChicken[i].getX() - 5 <= character->getX() && character->getY() >= y && character->getY() <= y + 3) {
-				return true;
+			else {
+				if (listChicken[i].getX() >= character->getX() + j && listChicken[i].getX() - 5 <= character->getX() + j && character->getY() + j >= y && character->getY() + j <= y + 3) {
+					return true;
+				}
 			}
 		}
 	}
@@ -249,6 +252,8 @@ void ListChickens::trafficColor() {
 		UIHelper::getUIHelper()->setTextColor(252); // green
 		cout << (char)219 << (char)219;
 	}
+
+	helper->setTextColor(244);
 }
 void ListChickens::deleteEverything() {
 	UIHelper* p;

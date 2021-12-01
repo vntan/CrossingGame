@@ -4,6 +4,7 @@ void Chicken::setCarWidth(int width) {
 }
 void Chicken::drawCar(int x, int y) {
 	UIHelper* helper = UIHelper::getUIHelper();
+	helper->setTextColor(helper->default_ColorCode);
 	this->x = x;
 	this->y = y;
 	for (int i = 0; i < 3; ++i) {
