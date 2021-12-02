@@ -61,7 +61,10 @@ bool ListFastAFCars::getTraffic() {
 }
 
 int ListFastAFCars::getTimeToRed() {
-	return 60 - (level * 10);
+	if (stop)
+		return (level * 100) / 2;
+	else
+		return (level * 100);
 }
 
 void ListFastAFCars::setStop(bool stop) {
@@ -109,7 +112,7 @@ void ListFastAFCars::setLevel(int level) {
 	if (level > 5)
 		level = 5; // =))
 	this->level = level;
-	addCars(level, 10 * level);
+	addCars(level, 10 + 5 * level);
 }
 
 void ListFastAFCars::saveCar(string fileName) {
