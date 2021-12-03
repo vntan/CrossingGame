@@ -1,6 +1,6 @@
 #include "ListChickens.h"
 ListChickens::ListChickens() {
-	srand(time(NULL));
+	//srand(time(NULL));
 	if (rand() % 2 == 1) {
 		this->direction = true;
 		this->lane = 1;

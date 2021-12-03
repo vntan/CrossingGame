@@ -22,20 +22,39 @@ void Traffic::saveUser() {
 }
 
 void Traffic::carInLane(int lane) {
-	srand(time(NULL));
-
-	//truckCarProcess(lane);
-	if (lane == 1) redCarProcess(lane);
-	else
-		if (lane == 2) truckCarProcess(lane);
-		else
-			if (lane == 3)
-				if ((rand() % 100) % 2 == 0) truckCarProcess(lane); else redCarProcess(lane);
-			else
-				if (lane == 4) chickenProcess(lane); 
-				else
-					if (lane == 5) fastAFCarProcess(lane);
-
+	switch (lane)
+	{
+	case 1:
+		truckCarProcess(lane);
+		break;
+	case 2:
+		chickenProcess(lane);
+		break;
+	case 3:
+		fastAFCarProcess(lane);
+		break;
+	case 4:
+		redCarProcess(lane);
+		break;
+	case 5:
+		int choice = (rand() % 100) % 4;
+		switch (choice)
+		{
+		case 0:
+			truckCarProcess(lane);
+			break;
+		case 1:
+			chickenProcess(lane);
+			break;
+		case 2:
+			fastAFCarProcess(lane);
+			break;
+		case 3:
+			redCarProcess(lane);
+			break;
+		}
+		break;
+	}
 }
 
 void Traffic::truckCarProcess(int lane) {
