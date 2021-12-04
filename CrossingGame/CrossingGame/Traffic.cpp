@@ -3,7 +3,7 @@
 Traffic::Traffic(User user, bool isContinue) {
 	character = new Character();
 
-	isSave = false;	
+	isSave = false;
 	isLoad = isContinue;
 	result = "LOSE";
 
@@ -59,9 +59,9 @@ void Traffic::carInLane(int lane) {
 
 void Traffic::truckCarProcess(int lane) {
 	UIHelper* helper = UIHelper::getUIHelper();
-	ListTrucks listTrucks(lane, lane%2, user.getLevel());
+	ListTrucks listTrucks(lane, lane % 2, user.getLevel());
 	listTrucks.setDirection(lane % 2);
-	
+
 	string pathFile = UIHelper::getUIHelper()->getFilePath() + "Truck" + user.getName() + to_string(lane);
 	//Draw Traffic Color
 	m.lock();
@@ -79,7 +79,7 @@ void Traffic::truckCarProcess(int lane) {
 	int count = 1;
 	while (!isExit) {
 		if (isStop) continue;
-		
+
 		m.lock();
 
 		if (!listTrucks.getRedLight()) {
@@ -87,7 +87,7 @@ void Traffic::truckCarProcess(int lane) {
 			listTrucks.deleteListCar();
 			listTrucks.drawListCar();
 		}
-		
+
 		if (count == listTrucks.getTimeToRed()) {
 			if (listTrucks.getRedLight()) listTrucks.setRedLight(0);
 			else listTrucks.setRedLight(1);
@@ -97,8 +97,8 @@ void Traffic::truckCarProcess(int lane) {
 		}
 		++count;
 		listTrucks.updateListCar();
-		
-		
+
+
 		if (listTrucks.isCollision(character)) {
 			isSave = false; isExit = true;
 			result = "LOSE";
@@ -116,7 +116,7 @@ void Traffic::truckCarProcess(int lane) {
 		listTrucks.deleteListCar();
 		m.unlock();
 	}
-	
+
 	if (isSave) listTrucks.saveCar(pathFile);
 }
 
@@ -164,13 +164,13 @@ void Traffic::fastAFCarProcess(int lane) {
 		m.unlock();
 		Sleep(fastAF.getSleepTime());
 	}
-	
+
 	if (!fastAF.isCollision(character)) {
 		m.lock();
 		character->drawCharacter();
 		fastAF.deleteEverything();
 		m.unlock();
-	} 
+	}
 	if (isSave) fastAF.saveCar(pathFile);
 }
 
@@ -216,26 +216,26 @@ void Traffic::redCarProcess(int lane) {
 		if (redCars.getRedLight() == 0) {
 			helper->setTextColor(helper->default_ColorCode);
 			redCars.updateListCar();
-		} 
+		}
 
-		
+
 		if (redCars.isCollision(character)) {
-			isSave = false; isExit =  true;
+			isSave = false; isExit = true;
 			result = "LOSE";
 			m.unlock();
 			break;
 		}
 		m.unlock();
-		
+
 		Sleep(redCars.getSleep());
 	}
-	
+
 	if (!redCars.isCollision(character)) {
 		m.lock();
 		character->drawCharacter();
 		redCars.deleteListCar();
 		m.unlock();
-	}	
+	}
 
 	if (isSave) redCars.saveCar(pathFile);
 }
@@ -260,7 +260,7 @@ void Traffic::chickenProcess(int lane) {
 	}
 
 	m.unlock();
-	
+
 	int count = 0;
 	while (!isExit) {
 		if (isStop) continue;
@@ -270,7 +270,7 @@ void Traffic::chickenProcess(int lane) {
 			listChicks.deleteListCar();
 			listChicks.drawListCar();
 		}
-		
+
 		if (count == listChicks.RedLight()) {
 			if (listChicks.getRedlight()) {
 				listChicks.setRedlight(false);
@@ -293,13 +293,13 @@ void Traffic::chickenProcess(int lane) {
 			break;
 		}
 
-		listChicks.updateListCar();
+		//listChicks.updateListCar();
 
 		m.unlock();
 		listChicks.addTimeDelay();
 	}
 
-	
+
 	if (!listChicks.isCollision(character)) {
 		m.lock();
 		character->drawCharacter();
@@ -307,11 +307,11 @@ void Traffic::chickenProcess(int lane) {
 		m.unlock();
 	}
 
-	if (isSave) listChicks.saveToFile(pathFile);	
+	if (isSave) listChicks.saveToFile(pathFile);
 }
 
 string Traffic::startTraffic() {
-	
+
 	isExit = isStop = false;
 
 	(*character).deleteCharacter();
@@ -343,7 +343,7 @@ void Traffic::processCharacter() {
 	UIHelper* helper = UIHelper::getUIHelper();
 	helper->getKey();
 	while (!isExit) {
-		
+
 		int k = helper->getKey();
 		if (!isStop) {
 			if (k == helper->ArrowKey_UP || toupper(k) == 'W') {
@@ -372,7 +372,7 @@ void Traffic::processCharacter() {
 		}
 
 		if (tolower(k) == 'p') isStop = !isStop;
-		
+
 		if (tolower(k) == 'r') {
 			isStop = isExit = true;
 			if (!result.empty() && result != "LOSE") result = "RESTART";
@@ -384,15 +384,15 @@ void Traffic::processCharacter() {
 			isStop = true;
 			Sleep(1000);
 
-			
-			vector<string> menu{"Save Game and Exit", "Exit"};
+
+			vector<string> menu{ "Save Game and Exit", "Exit" };
 			int key = helper->createMenu(105, 23, menu);
 
 			//Todo:  Save Game, exit;
 			if (key == 0) {
 				isSave = true;
 				saveUser();
-			} 
+			}
 
 			result = "EXIT";
 			isExit = true;
