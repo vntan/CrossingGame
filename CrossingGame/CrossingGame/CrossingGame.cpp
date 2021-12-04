@@ -9,9 +9,7 @@ int main(int argc, char* argv[]) {
 	MainGame main;
 	main.mainMenu();
 
-
-	/*PlayGame playgame;
-	playgame.drawPlayGame(0);*/
-
+	delete UIHelper::getUIHelper();
+	delete Account::getInstance();
 	return 0;
 }

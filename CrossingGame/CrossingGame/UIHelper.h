@@ -22,7 +22,7 @@ private:
 	};
 	
 	UIHelper();
-	~UIHelper();
+	
 public:
 	static UIHelper* getUIHelper();
 
@@ -49,5 +49,7 @@ public:
 	void drawRectangleWithAnimate(int startX, int startY, int width, int height, int optionStyleRec = 0);
 
 	void drawHeaderText();
+
+	~UIHelper();
 };
 

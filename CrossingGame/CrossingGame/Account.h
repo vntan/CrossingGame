@@ -9,9 +9,7 @@ private:
 	const string accountPath = UIHelper::getUIHelper()->getFilePath() + "Account.txt";
 	vector<User> data;
 	Account();
-	~Account();
 
-	
 	
 public:
 	static Account* getInstance(); 
@@ -24,5 +22,7 @@ public:
 	void updateUser(int index, User user);
 	int findUser(string name);
 	vector<User> getListAccount();
+
+	~Account();
 };
 
