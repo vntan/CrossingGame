@@ -135,28 +135,33 @@ bool PlayGame::drawInputName(int gameMode) {
 	console->setTextColor(240); // set white-black
 	char c = ' '; string name = "";
 
+	int xPrint = 33;
 	do {
 		console->showConsoleCursor(false);
 		for (int i = 0; i <= 26; i++) {
-			console->gotoXY(35 + i, 10);
+			console->gotoXY(xPrint + i, 10);
 			cout << " ";
 		}
-		console->gotoXY(35, 9);
+		console->gotoXY(xPrint, 9);
 
 
-		if (!name.empty()) cout << "Input your name again: ";
+		if (!name.empty()) {
+			if (gameMode == 0) cout << "Existed. Please input your name again:";
+			else cout << "Not found. Please input your name again:";
+		} 
 		else cout << "Input your name: ";
-		console->gotoXY(35, 10);
+	
+		console->gotoXY(xPrint, 10);
 		for (int i = 0; i < name.length(); i++) cout << " ";
 		name = ""; c = ' ';
-		console->gotoXY(35, 10);
+		console->gotoXY(xPrint, 10);
 		console->showConsoleCursor(true);
 		while (c != '\n') {
 			c = _getch();
 			if (c == 27) return false;
 			else
 				if (c == 8) {
-					if (console->getCursorX() < 36) continue;
+					if (console->getCursorX() <= xPrint) continue;
 					if (name.length() >= 25) cout << " " << c; else cout << c << " " << c;
 					name.erase(name.end() - 1);
 				}
