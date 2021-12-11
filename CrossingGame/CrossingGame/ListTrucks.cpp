@@ -228,8 +228,15 @@ void ListTrucks::updateListCar() {
 
 bool ListTrucks::isCollision(Character* character) {
 	for (int i = 0; i < listTrucks.size(); ++i) {
-		if (listTrucks[i].getX() <= character->getX() && character->getX() <= listTrucks[i].getX() + 7 && character->getY() >= y && character->getY() <= y + 3) {
-			return true;
+		if (direction == 0) {
+			if (listTrucks[i].getX() <= character->getX() && character->getX() <= listTrucks[i].getX() + 7 && character->getY() >= y && character->getY() <= y + 3) {
+				return true;
+			}
+		}
+		else {
+			if (listTrucks[i].getX() <= character->getX() + 2 && character->getX() <= listTrucks[i].getX() + 7 && character->getY() >= y && character->getY() <= y + 3) {
+				return true;
+			}
 		}
 	}
 	return false;
