@@ -23,7 +23,7 @@ void MainGame::mainMenu() {
 	PlayGame playGame; 
 	
 	if (menuNames.size() == 4 && choice >= 1) choice += 1;
-
+	system("color F0");
 	switch (choice)
 	{
 	case 0:

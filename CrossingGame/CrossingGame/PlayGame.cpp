@@ -6,13 +6,23 @@ PlayGame::PlayGame() {
 }
 
 void PlayGame::drawPlayGame(int gameMode) {
+	UIHelper* console = UIHelper::getUIHelper();
 	drawInformation();
+
+	console->gotoXY(105, 23);
+	console->setTextColor(console->ColorCode_DarkRed);
+	if (gameMode == 0) cout << "**New Game";
+	else cout << "**Load Game";
+	console->setTextColor(console->default_ColorCode);
+
 	if (!drawInputName(gameMode)) return;
 
 	UIHelper::getUIHelper()->clrscr();
 	drawInformation();
 	drawTableGame();
 
+	console->gotoXY(105, 23);
+	cout << "            ";
 	processGame(gameMode);
 }
 

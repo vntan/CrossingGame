@@ -371,11 +371,20 @@ void Traffic::processCharacter() {
 			}
 		}
 
-		if (tolower(k) == 'p') isStop = !isStop;
+		if (tolower(k) == 'p') {
+			isStop = !isStop;
+			m.lock();
+			helper->gotoXY(105, 23);
+			helper->setTextColor(helper->ColorCode_DarkRed);
+			if (isStop) cout << "Game paused";
+			else cout << "           ";
+			helper->setTextColor(helper->default_ColorCode);
+			m.unlock();
+		}
 
 		if (tolower(k) == 'r') {
 			isStop = isExit = true;
-			if (!result.empty() && result != "LOSE") result = "RESTART";
+			result = "RESTART";
 			return;
 		}
 
