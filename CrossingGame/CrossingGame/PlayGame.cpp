@@ -309,10 +309,10 @@ void PlayGame::processGame(int gameMode) {
 			player.increaseLevel(1);
 			player.increaseScore(10);
 		}
-		else {
-			player.setLevel(1);
-			player.setScore(0);
-		}
+		//else {
+		//	player.setLevel(1);
+		//	player.setScore(0);
+		//}
 
 		drawInformation();
 		drawTableGame();
